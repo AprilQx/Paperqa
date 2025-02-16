@@ -1,0 +1,145 @@
+interactions:
+  - request:
+      body:
+        '{"input": ["test text"], "model": "text-embedding-3-large", "dimensions":
+        512, "encoding_format": "float"}'
+      headers:
+        accept:
+          - application/json
+        accept-encoding:
+          - gzip, deflate
+        connection:
+          - keep-alive
+        content-length:
+          - "106"
+        content-type:
+          - application/json
+        host:
+          - api.openai.com
+        user-agent:
+          - AsyncOpenAI/Python 1.54.3
+        x-stainless-arch:
+          - arm64
+        x-stainless-async:
+          - async:asyncio
+        x-stainless-lang:
+          - python
+        x-stainless-os:
+          - MacOS
+        x-stainless-package-version:
+          - 1.54.3
+        x-stainless-raw-response:
+          - "true"
+        x-stainless-retry-count:
+          - "1"
+        x-stainless-runtime:
+          - CPython
+        x-stainless-runtime-version:
+          - 3.12.7
+      method: POST
+      uri: https://api.openai.com/v1/embeddings
+    response:
+      body:
+        string: !!binary |
+          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
+          AA==
+      headers:
+        CF-Cache-Status:
+          - DYNAMIC
+        CF-RAY:
+          - 8df951208a5317d2-SJC
+        Connection:
+          - keep-alive
+        Content-Encoding:
+          - gzip
+        Content-Type:
+          - application/json
+        Date:
+          - Fri, 08 Nov 2024 23:24:30 GMT
+        Server:
+          - cloudflare
+        Transfer-Encoding:
+          - chunked
+        X-Content-Type-Options:
+          - nosniff
+        access-control-allow-origin:
+          - "*"
+        access-control-expose-headers:
+          - X-Request-ID
+        alt-svc:
+          - h3=":443"; ma=86400
+        openai-model:
+          - text-embedding-3-large
+        openai-organization:
+          - future-house-xr4tdh
+        openai-processing-ms:
+          - "198"
+        openai-version:
+          - "2020-10-01"
+        strict-transport-security:
+          - max-age=31536000; includeSubDomains; preload
+        x-ratelimit-limit-requests:
+          - "10000"
+        x-ratelimit-limit-tokens:
+          - "10000000"
+        x-ratelimit-remaining-requests:
+          - "9999"
+        x-ratelimit-remaining-tokens:
+          - "9999998"
+        x-ratelimit-reset-requests:
+          - 6ms
+        x-ratelimit-reset-tokens:
+          - 0s
+        x-request-id:
+          - req_bef57dcb247ec8fa19a67bd2bc7c20b0
+      status:
+        code: 200
+        message: OK
+version: 1

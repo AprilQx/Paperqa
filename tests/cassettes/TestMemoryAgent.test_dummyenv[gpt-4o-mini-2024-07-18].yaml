@@ -1,0 +1,124 @@
+interactions:
+  - request:
+      body:
+        '{"messages": [{"role": "user", "content": "Write a 5 word story via print_story"},
+        {"role": "user", "content": "<episode-memories>\n<description>\nThese are relevant
+        memories from previous attempts at similar tasks, along with the action taken
+        and the discounted cumulative reward from that action. A negative reward is
+        failure, a positive reward is success.\n</description><memory>\n  <obs>\n    Write
+        a 5 word story and call print\n  </obs>\n  <action>\n    Tool request message
+        \"Stories that start with ''Once there was'' are always interesting.\" for tool
+        calls: print_story(story=''Once there were was nothing.'') [id=a11b2ad52]\n  </action>\n  <reward>\n    1000.0\n  </reward>\n</memory></episode-memories>\n\nConsidering
+        the memories, choose the next action."}], "model": "gpt-4o-mini-2024-07-18",
+        "temperature": 0.1, "tool_choice": "required", "tools": [{"type": "function",
+        "function": {"name": "print_story", "description": "Print a story.", "parameters":
+        {"type": "object", "properties": {"story": {"description": "Story to print.",
+        "title": "Story", "type": "string"}}, "required": ["story"]}}}, {"type": "function",
+        "function": {"name": "cast_float", "description": "Cast the input argument x
+        to a float.", "parameters": {"type": "object", "properties": {"x": {"title":
+        "X", "type": "string"}}, "required": ["x"]}}}, {"type": "function", "function":
+        {"name": "cast_int", "description": "Cast the input argument x to an integer.",
+        "parameters": {"type": "object", "properties": {"x": {"title": "X", "type":
+        "number"}}, "required": ["x"]}}}]}'
+      headers:
+        accept:
+          - application/json
+        accept-encoding:
+          - gzip, deflate
+        connection:
+          - keep-alive
+        content-length:
+          - "1551"
+        content-type:
+          - application/json
+        host:
+          - api.openai.com
+        user-agent:
+          - AsyncOpenAI/Python 1.54.3
+        x-stainless-arch:
+          - arm64
+        x-stainless-async:
+          - async:asyncio
+        x-stainless-lang:
+          - python
+        x-stainless-os:
+          - MacOS
+        x-stainless-package-version:
+          - 1.54.3
+        x-stainless-raw-response:
+          - "true"
+        x-stainless-retry-count:
+          - "0"
+        x-stainless-runtime:
+          - CPython
+        x-stainless-runtime-version:
+          - 3.12.7
+      method: POST
+      uri: https://api.openai.com/v1/chat/completions
+    response:
+      body:
+        string: !!binary |
+          H4sIAAAAAAAAA4xTXY/TMBB8z6+w9rk5NaXXj7whaJEAUcEBEqIo8jmbxD3HtuxNuV7V/46Stkla
+          ikQeLGtnZ3Z3vNkHjIFMIWYgCk6itCp8/eVB7KJZyu33h9XnJ159LN++zLe41M/bBQxqhnncoKAz
+          606Y0iokafQRFg45Ya0aTV9F0XA2mowboDQpqpqWWwrHJiylluFoOBqHw2kYzU7swkiBHmL2M2CM
+          sX1z1n3qFJ8hZsPBOVKi9zxHiNskxsAZVUeAey89cU0w6EBhNKGuW9eVUj2AjFGJ4Ep1hY/fvnfv
+          zOJKJavN+29ft5Nl9mEzXvxYiujTm8W7uUp79Y7SO9s0lFVatCb18DYeXxVjDDQvG651UlPiybjd
+          FZ0x4C6vStRUtw77NTRpa4jXsNICGRXokP3mnmlDhdQ5U5jR3RoOcKF0CG7df/VMcphVnquTe6f4
+          oX0OZXLrzKO/chcyqaUvEofcN1P2zQ7O1Zo6UF28J1hnSksJmSfUtexoMjmqQrdzHRrNTyAZ4qrH
+          mt0PbuglKRKXzYO3Oya4KDDtqN2u8SqVpgcEvdn/7uaW9nF+qfP/ke8AIdASpol1mEpxOXGX5rD+
+          Jf+V1rrcNAx+5wnLJJM6R9esVrOfNsnu53wWjUfTDIJD8AcAAP//AwB9J2p+HgQAAA==
+      headers:
+        CF-Cache-Status:
+          - DYNAMIC
+        CF-RAY:
+          - 8df950f96e85944a-SJC
+        Connection:
+          - keep-alive
+        Content-Encoding:
+          - gzip
+        Content-Type:
+          - application/json
+        Date:
+          - Fri, 08 Nov 2024 23:24:24 GMT
+        Server:
+          - cloudflare
+        Set-Cookie:
+          - __cf_bm=G9tWVfaqNrUXysuawzMIlvAAnpeVFMR_COrPSgnUyjA-1731108264-1.0.1.1-E6qT3tyWndnDIjm.znGG0o3h6z2B8gxB.8jvi_NDoCjwJuAqonxkXa81dkr.kHudwi2VjVIZivSVpl0IiKsHAA;
+            path=/; expires=Fri, 08-Nov-24 23:54:24 GMT; domain=.api.openai.com; HttpOnly;
+            Secure; SameSite=None
+          - _cfuvid=vb1vlkziTDoeWXkRPHxih.Hc7kK.E7tAcgS9625fOXg-1731108264569-0.0.1.1-604800000;
+            path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+        Transfer-Encoding:
+          - chunked
+        X-Content-Type-Options:
+          - nosniff
+        access-control-expose-headers:
+          - X-Request-ID
+        alt-svc:
+          - h3=":443"; ma=86400
+        openai-organization:
+          - future-house-xr4tdh
+        openai-processing-ms:
+          - "560"
+        openai-version:
+          - "2020-10-01"
+        strict-transport-security:
+          - max-age=31536000; includeSubDomains; preload
+        x-ratelimit-limit-requests:
+          - "30000"
+        x-ratelimit-limit-tokens:
+          - "150000000"
+        x-ratelimit-remaining-requests:
+          - "29999"
+        x-ratelimit-remaining-tokens:
+          - "149999813"
+        x-ratelimit-reset-requests:
+          - 2ms
+        x-ratelimit-reset-tokens:
+          - 0s
+        x-request-id:
+          - req_f9128b71e642b10f4ef02f60f77432e5
+      status:
+        code: 200
+        message: OK
+version: 1
