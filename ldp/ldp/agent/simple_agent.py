@@ -3,6 +3,7 @@ from __future__ import annotations
 from collections.abc import Awaitable, Callable
 from typing import Any, Self, cast
 
+import tiktoken
 from aviary.core import Message, Tool, ToolRequestMessage, ToolResponseMessage
 from aviary.message import EnvStateMessage
 from llmclient import CommonLLMNames
@@ -17,6 +18,40 @@ from .agent import Agent
 
 class HiddenEnvStateMessage(EnvStateMessage):
     content: str = "[Previous environment state - hidden]"
+
+class CostCalculator:
+    """Class to calculate the cost of a message."""
+
+    MODEL_COSTS = {
+        "gpt-4": {"input": 0.03, "output": 0.06},  # Cost per 1K tokens
+        "gpt-4-turbo": {"input": 0.01, "output": 0.03},
+        "gpt-3.5-turbo": {"input": 0.0005, "output": 0.0015}
+    }
+    
+    @staticmethod
+    def num_tokens_from_messages(messages: list[Message], model: str) -> int:
+        """Calculate number of tokens in the messages."""
+        encoding = tiktoken.encoding_for_model(model)
+        num_tokens = 0
+        for message in messages:
+            # Add tokens for message content
+            if hasattr(message, 'content') and message.content:
+                num_tokens += len(encoding.encode(str(message.content)))
+            # Add tokens for message role (3 tokens for role)
+            if hasattr(message, 'role'):
+                num_tokens += 3
+        return num_tokens
+    
+    @staticmethod
+    def calculate_cost(input_tokens: int, output_tokens: int, model: str) -> float:
+        """Calculate cost based on token usage and model."""
+        if model not in CostCalculator.MODEL_COSTS:
+            raise ValueError(f"Unknown model: {model}")
+            
+        costs = CostCalculator.MODEL_COSTS[model]
+        input_cost = (input_tokens / 1000) * costs["input"]
+        output_cost = (output_tokens / 1000) * costs["output"]
+        return input_cost + output_cost
 
 
 def hide_action_content(msg: ToolRequestMessage) -> ToolRequestMessage:
@@ -39,6 +74,16 @@ class SimpleAgentState(BaseModel):
     hide_old_action_content: bool = Field(
         default=False,
         description="If True, will hide the content of old ToolRequestMessages.",
+    )
+
+    total_cost: float = Field(
+        default=0.0,
+        description="Total cost of API calls made by this agent.",
+    )
+
+    total_tokens: dict = Field(
+        default_factory=lambda: {"input": 0, "output": 0},
+        description="Total tokens used by this agent.",
     )
 
     def get_next_state(
@@ -129,6 +174,7 @@ class SimpleAgent(BaseModel, Agent[SimpleAgentState]):
         super().__init__(**kwargs)
         self._config_op = ConfigOp[dict](config=self.llm_model)
         self._llm_call_op = LLMCallOp()
+        self._cost_calculator = CostCalculator()
 
     async def init_state(self, tools: list[Tool]) -> SimpleAgentState:
         return SimpleAgentState(
@@ -148,14 +194,37 @@ class SimpleAgent(BaseModel, Agent[SimpleAgentState]):
             if self.sys_prompt is not None
             else next_state.messages
         )
+
+        # Calculate input tokens
+        input_tokens = self._cost_calculator.num_tokens_from_messages(
+            messages, 
+            self.llm_model["model"]
+        )
+        next_state.total_tokens["input"] += input_tokens
+
         result = cast(
             OpResult[ToolRequestMessage],
             await self._llm_call_op(
                 await self._config_op(), msgs=messages, tools=next_state.tools
             ),
         )
+
+        # Calculate output tokens
+        output_tokens = self._cost_calculator.num_tokens_from_messages(
+            [result.value], 
+            self.llm_model["model"]
+        )
+        next_state.total_tokens["output"] += output_tokens
+
+         #Calculate cost
+        call_cost = self._cost_calculator.calculate_cost(
+            input_tokens,
+            output_tokens,
+            self.llm_model["model"]
+        )
+        next_state.total_cost += call_cost
         next_state.messages = [*next_state.messages, result.value]
-        return result, next_state, 0.0
+        return result, next_state, call_cost
 
 
 class NoToolsSimpleAgent(SimpleAgent):
@@ -178,6 +247,7 @@ class NoToolsSimpleAgent(SimpleAgent):
         """
         super().__init__(**kwargs)
         self._cast_tool_request_op = FxnOp[ToolRequestMessage](cast_tool_request)
+        self._cost_calculator = CostCalculator()
 
     @compute_graph()
     async def get_asv(
@@ -190,9 +260,30 @@ class NoToolsSimpleAgent(SimpleAgent):
             if self.sys_prompt is not None
             else next_state.messages
         )
-        result = await self._cast_tool_request_op(
-            # NOTE: this call has no tools specified to the LLM
-            await self._llm_call_op(await self._config_op(), msgs=messages)
+         # Calculate input tokens
+        input_tokens = self._cost_calculator.num_tokens_from_messages(
+            messages, 
+            self.llm_model["model"]
         )
+        next_state.total_tokens["input"] += input_tokens
+
+        llm_result = await self._llm_call_op(await self._config_op(), msgs=messages)
+        result = await self._cast_tool_request_op(llm_result)
+
+        # Calculate output tokens
+        output_tokens = self._cost_calculator.num_tokens_from_messages(
+            [result.value], 
+            self.llm_model["model"]
+        )
+        next_state.total_tokens["output"] += output_tokens
+        
+        # Calculate cost
+        call_cost = self._cost_calculator.calculate_cost(
+            input_tokens,
+            output_tokens,
+            self.llm_model["model"]
+        )
+        next_state.total_cost += call_cost
+
         next_state.messages = [*next_state.messages, result.value]
-        return result, next_state, 0.0
+        return result, next_state, call_cost
