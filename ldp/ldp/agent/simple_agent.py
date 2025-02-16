@@ -25,8 +25,8 @@ class CostCalculator:
     MODEL_COSTS = {
         "gpt-4": {"input": 0.03, "output": 0.06},  # Cost per 1K tokens
         "gpt-4-turbo": {"input": 0.01, "output": 0.03},
-        "gpt-3.5-turbo": {"input": 0.0005, "output": 0.0015}
-    }
+        "gpt-3.5-turbo": {"input": 0.0005, "output": 0.0015},
+        "gpt-4o-mini": {"input": 0.0005, "output": 0.0015}}
     
     @staticmethod
     def num_tokens_from_messages(messages: list[Message], model: str) -> int:
