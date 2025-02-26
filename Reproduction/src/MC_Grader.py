@@ -10,6 +10,8 @@ import argparse
 
 from autogen import AssistantAgent, UserProxyAgent
 
+import re
+
 
 
 # Set up logging
@@ -27,13 +29,13 @@ logger = logging.getLogger(__name__)
 class MultipleChoiceGrader:
     """
     Grader for multiple-choice questions using AutoGen agents.
-    Uses GPT-4o to grade PaperQA2 responses.
+    Uses GPT-3.5 to grade PaperQA2 responses.
     """
     
     def __init__(
         self,
         openai_api_key: Optional[str] = None,
-        gpt4_model: str = "gpt-4o",
+        gpt3_5_model: str = "gpt-4o-mini",
         temperature: float = 0.0,
         results_dir: str = "graded_results"
     ):
@@ -42,7 +44,7 @@ class MultipleChoiceGrader:
         
         Args:
             openai_api_key: OpenAI API key (if None, will use from environment)
-            gpt4_model: GPT-4 model to use (default: gpt-4o)
+            gpt3.5_model: GPT-3.5 model to use (default: gpt-3.5)
             temperature: Temperature for generation
             results_dir: Directory to save results
         """
@@ -51,7 +53,7 @@ class MultipleChoiceGrader:
             os.environ["OPENAI_API_KEY"] = openai_api_key
         
         # Configure agents
-        self.configure_agents(gpt4_model, temperature)
+        self.configure_agents(gpt3_5_model, temperature)
         
         # Set results directory
         self.results_dir = Path(results_dir)
@@ -65,18 +67,18 @@ class MultipleChoiceGrader:
             "unsure": 0
         }
     
-    def configure_agents(self, gpt4_model: str, temperature: float):
+    def configure_agents(self, gpt3_5_model: str, temperature: float):
         """
         Configure AutoGen agents.
         
         Args:
-            gpt4_model: GPT-4 model to use
+            gpt3.5_model: GPT-3.5 model to use
             temperature: Temperature for generation
         """
         # Configure LLM
         config_list = [
             {
-                "model": gpt4_model,
+                "model": gpt3_5_model,
                 "api_key": os.environ.get("OPENAI_API_KEY"),
                 "temperature": temperature
             }
@@ -124,7 +126,8 @@ You must:
             name="HumanProxy",
             human_input_mode="NEVER",
             max_consecutive_auto_reply=10,
-            is_termination_msg=lambda x: True if "TERMINATE" in x.get("content", "") else False
+            is_termination_msg=lambda x: True if "TERMINATE" in x.get("content", "") else False,
+            code_execution_config={"use_docker": False}
         )
     
     def grade_response(
@@ -149,7 +152,8 @@ You must:
             Dictionary with grading results
         """
         logger.info(f"Grading question: {question[:50]}...")
-        
+    
+            
         # Format the input for the grader
         grader_input = f"""
 Question:
@@ -175,14 +179,27 @@ What option did PaperQA2 select? Return ONLY the letter.
         
         # Clean up graded answer (in case it returned extra text)
         if len(graded_answer) > 1:
-            # Try to extract just the letter
-            letter_matches = [c for c in graded_answer if c.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ"]
-            if letter_matches:
-                graded_answer = letter_matches[0].upper()
-            else:
-                # If no letter found, use the first character
+            # First check if it's just the letter plus some punctuation
+            if graded_answer[0].upper() in "ABCD" and graded_answer[0].upper() == correct_answer:
                 graded_answer = graded_answer[0].upper()
-        
+            else:
+                # Extract valid option letters only
+                valid_options = []
+                for choice in choices:
+                    match = re.search(r'\(([A-Z])\)', choice)
+                    if match:
+                        valid_options.append(match.group(1))
+                    elif choice.startswith("(") and len(choice) >= 2:
+                        valid_options.append(choice[1].upper())
+                
+                # Look for valid options
+                for valid_option in valid_options:
+                    if valid_option in graded_answer.upper():
+                        graded_answer = valid_option
+                        break
+                else:
+                    # Default to the first letter if no valid option found
+                    graded_answer = graded_answer[0].upper()
         # Compare with ground truth
         judge_input = f"""
 Graded answer: {graded_answer}
@@ -290,49 +307,6 @@ Is this "correct", "incorrect", or "unsure"?
         
         return metrics
     
-    def save_results(self, results: List[Dict[str, Any]], filename_prefix: str = "graded"):
-        """
-        Save the grading results to files.
-        
-        Args:
-            results: List of grading results
-            filename_prefix: Prefix for output filenames
-        """
-        # Create results directory if it doesn't exist
-        self.results_dir.mkdir(exist_ok=True, parents=True)
-        
-        # Save detailed results to CSV
-        df = pd.DataFrame([
-            {
-                "question": r["question"][:100] + "..." if len(r["question"]) > 100 else r["question"],
-                "correct_answer": r["correct_answer"],
-                "graded_answer": r["graded_answer"],
-                "grade": r["grade"]
-            }
-            for r in results
-        ])
-        
-        df.to_csv(self.results_dir / f"{filename_prefix}_results.csv", index=False)
-        
-        # Calculate and save metrics
-        metrics = self.calculate_metrics(results)
-        metrics_df = pd.DataFrame([metrics])
-        metrics_df.to_csv(self.results_dir / f"{filename_prefix}_metrics.csv", index=False)
-        
-        # Save full results (including responses) to JSON
-        with open(self.results_dir / f"{filename_prefix}_full.json", "w") as f:
-            json.dump(
-                {
-                    "results": results,
-                    "metrics": metrics
-                },
-                f, 
-                indent=2
-            )
-        
-        logger.info(f"Results saved to {self.results_dir}")
-        
-        return metrics
 
 def load_response_data(file_path: str) -> List[Dict[str, Any]]:
     """
@@ -361,11 +335,82 @@ def process_results(grader, response_data, save_prefix="paperqa2"):
     Returns:
         The calculated metrics
     """
+    # First, we need to make the input data serializable
+    serializable_input = []
+    for item in response_data:
+        # Make a copy of the item
+        input_item = dict(item)
+        
+        # Check what type of response object we have
+        response_obj = item["response"]
+        
+        # Extract the answer text based on the object type
+        if hasattr(response_obj, "answer") and isinstance(response_obj.answer, str):
+            # If it has a direct 'answer' attribute, use that
+            response_text = response_obj.answer
+        elif hasattr(response_obj, "model_dump"):
+            # If it's a Pydantic model, dump it and extract the answer
+            dump = response_obj.model_dump()
+            response_text = dump.get("answer", str(dump))
+        elif hasattr(response_obj, "dict") and callable(response_obj.dict):
+            # For older Pydantic versions
+            dump = response_obj.dict()
+            response_text = dump.get("answer", str(dump))
+        else:
+            # Fallback to string conversion
+            response_text = str(response_obj)
+
     # Grade the responses
     results = grader.grade_questions(response_data)
     
     # Save the results
-    metrics = grader.save_results(results, filename_prefix=save_prefix)
+    metrics = grader.calculate_metrics(results)
+
+
+    # Save the results manually to ensure serializability
+    results_dir = grader.results_dir
+    results_dir.mkdir(exist_ok=True, parents=True)
+    
+    # Save detailed results to CSV
+    df = pd.DataFrame([
+        {
+            "question": r["question"][:100] + "..." if len(r["question"]) > 100 else r["question"],
+            "correct_answer": r["correct_answer"],
+            "graded_answer": r["graded_answer"],
+            "grade": r["grade"]
+        }
+        for r in results
+    ])
+    
+    df.to_csv(results_dir / f"{save_prefix}_results.csv", index=False)
+    
+    # Save metrics to CSV
+    metrics_df = pd.DataFrame([metrics])
+    metrics_df.to_csv(results_dir / f"{save_prefix}_metrics.csv", index=False)
+    
+    # Prepare for JSON serialization
+    serializable_results = []
+    for r in results:
+        # Create a serializable version of each result
+        serializable_r = {}
+        for key, value in r.items():
+            # Skip the response to keep file size manageable
+            if key == "response":
+                serializable_r[key] = str(value)[:1000] + "..." if len(str(value)) > 1000 else str(value)
+            else:
+                serializable_r[key] = value
+        serializable_results.append(serializable_r)
+    
+    # Save to JSON
+    with open(results_dir / f"{save_prefix}_full.json", "w") as f:
+        json.dump(
+            {
+                "results": serializable_results,
+                "metrics": metrics
+            },
+            f, 
+            indent=2
+        )
     
     # Print the metrics
     print("\nGrading Results:")
