@@ -6,8 +6,9 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 import logging
 import argparse
+from autogen import AssistantAgent, UserProxyAgent
 
-import pyautogen as autogen
+
 
 # Set up logging
 logging.basicConfig(
@@ -80,7 +81,7 @@ class MultipleChoiceGrader:
         ]
         
         # Create the grader agent
-        self.grader_agent = autogen.AssistantAgent(
+        self.grader_agent = AssistantAgent(
             name="GraderAgent",
             system_message="""You are an expert grader for multiple-choice questions. 
 Your task is to analyze PaperQA2 responses to multiple-choice questions and determine which answer option 
@@ -101,7 +102,7 @@ Your output must be just the letter, nothing else.""",
         )
         
         # Create the judge agent that will compare with ground truth
-        self.judge_agent = autogen.AssistantAgent(
+        self.judge_agent = AssistantAgent(
             name="JudgeAgent",
             system_message="""You are a judge who determines if a graded answer matches the ground truth.
 You will be given:
@@ -117,7 +118,7 @@ You must:
         )
         
         # Create a human proxy agent
-        self.human_proxy = autogen.UserProxyAgent(
+        self.human_proxy = UserProxyAgent(
             name="HumanProxy",
             human_input_mode="NEVER",
             max_consecutive_auto_reply=10,
