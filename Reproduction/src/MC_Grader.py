@@ -84,40 +84,43 @@ class MultipleChoiceGrader:
             }
         ]
         
-        # Create the grader agent
+        # Create the grader agent with a modified prompt to ensure proper formatting
         self.grader_agent = AssistantAgent(
             name="GraderAgent",
             system_message="""You are an expert grader for multiple-choice questions. 
-Your task is to analyze PaperQA2 responses to multiple-choice questions and determine which answer option 
-is being selected by the model. Be precise and objective.
+    Your task is to analyze PaperQA2 responses to multiple-choice questions and determine which answer option 
+    is being selected by the model. Be precise and objective.
 
-You will receive:
-1. A question with multiple-choice options
-2. The model's response
+    You will receive:
+    1. A question with multiple-choice options
+    2. The model's response
 
-For each response, you must:
-1. Analyze the content carefully
-2. Determine which option the response is selecting
-3. Return ONLY the letter of the selected option (A, B, C, D, etc.)
-4. If the model is indicating it doesn't have enough information, select the "Insufficient information" option
+    For each response, you must:
+    1. Analyze the content carefully
+    2. Determine which option the response is selecting
+    3. Return ONLY the single letter of the selected option (A, B, C, D, etc.)
+    4. If the model is indicating it doesn't have enough information, select the "Insufficient information" option
 
-Your output must be just the letter, nothing else.""",
+    IMPORTANT: Your response must contain EXACTLY ONE LETTER, nothing else. 
+    Do not include explanations, punctuation, or any other text.""",
             llm_config={"config_list": config_list}
         )
         
-        # Create the judge agent that will compare with ground truth
+        # Create the judge agent with a modified prompt to directly accept the grader's output
         self.judge_agent = AssistantAgent(
             name="JudgeAgent",
             system_message="""You are a judge who determines if a graded answer matches the ground truth.
-You will be given:
-1. The grader's selected option (a letter)
-2. The ground truth answer (a letter)
-3. The "unsure" option (a letter)
+    You will be given:
+    1. The grader's selected option (a letter)
+    2. The ground truth answer (a letter)
+    3. The "unsure" option (a letter)
 
-You must:
-1. Compare the graded answer with the ground truth
-2. Classify the result as one of: "correct", "incorrect", or "unsure"
-3. Return ONLY the classification, nothing else.""",
+    You must:
+    1. Compare the graded answer with the ground truth
+    2. Classify the result as one of: "correct", "incorrect", or "unsure"
+    3. Return ONLY one of these three words: "correct", "incorrect", or "unsure"
+
+    IMPORTANT: Your response must contain EXACTLY ONE WORD, either "correct", "incorrect", or "unsure".""",
             llm_config={"config_list": config_list}
         )
         
@@ -129,15 +132,15 @@ You must:
             is_termination_msg=lambda x: True if "TERMINATE" in x.get("content", "") else False,
             code_execution_config={"use_docker": False}
         )
-    
+        
     def grade_response(
-        self, 
-        question: str, 
-        choices: List[str], 
-        response: str, 
-        correct_answer: str,
-        unsure_option: str
-    ) -> Dict[str, Any]:
+    self, 
+    question: str, 
+    choices: List[str], 
+    response: str, 
+    correct_answer: str,
+    unsure_option: str
+) -> Dict[str, Any]:
         """
         Grade a single response using the grader agent.
         
@@ -152,79 +155,70 @@ You must:
             Dictionary with grading results
         """
         logger.info(f"Grading question: {question[:50]}...")
-    
-            
+
         # Format the input for the grader
         grader_input = f"""
-Question:
-{question}
+    Question:
+    {question}
 
-Options:
-{' '.join(choices)}
+    Options:
+    {' '.join(choices)}
 
-PaperQA2 Response:
-{response}
+    PaperQA2 Response:
+    {response}
 
-What option did PaperQA2 select? Return ONLY the letter.
-"""
+    What option did PaperQA2 select? Remember to return ONLY the letter.
+    """
+         # Clear previous chat history to avoid confusion
+        self.human_proxy.reset()
+        self.grader_agent.reset()
+        self.judge_agent.reset()
         
         # Get grader's response
         self.human_proxy.initiate_chat(
             self.grader_agent,
-            message=grader_input
+            message=grader_input,
+            max_turns=1
         )
         
-        # Extract graded answer
+        # Extract graded answer - should be a single letter now
         graded_answer = self.grader_agent.last_message()["content"].strip()
         
-        # Clean up graded answer (in case it returned extra text)
-        if len(graded_answer) > 1:
-            # First check if it's just the letter plus some punctuation
-            if graded_answer[0].upper() in "ABCD" and graded_answer[0].upper() == correct_answer:
-                graded_answer = graded_answer[0].upper()
-            else:
-                # Extract valid option letters only
-                valid_options = []
-                for choice in choices:
-                    match = re.search(r'\(([A-Z])\)', choice)
-                    if match:
-                        valid_options.append(match.group(1))
-                    elif choice.startswith("(") and len(choice) >= 2:
-                        valid_options.append(choice[1].upper())
-                
-                # Look for valid options
-                for valid_option in valid_options:
-                    if valid_option in graded_answer.upper():
-                        graded_answer = valid_option
-                        break
-                else:
-                    # Default to the first letter if no valid option found
-                    graded_answer = graded_answer[0].upper()
         # Compare with ground truth
         judge_input = f"""
-Graded answer: {graded_answer}
-Correct answer: {correct_answer}
-Unsure option: {unsure_option}
+    Graded answer: {graded_answer}
+    Correct answer: {correct_answer}
+    Unsure option: {unsure_option}
 
-Is this "correct", "incorrect", or "unsure"?
-"""
+    Is this "correct", "incorrect", or "unsure"? Return ONLY one word.
+    """
         
         self.human_proxy.initiate_chat(
             self.judge_agent,
-            message=judge_input
+            message=judge_input,
+            max_turns=1
         )
         
-        # Get judge's verdict
+        # Get judge's verdict - should be just one word now
         verdict = self.judge_agent.last_message()["content"].strip().lower()
-        
-        # Clean up verdict
-        if "correct" in verdict:
-            grade = "correct"
-        elif "unsure" in verdict:
-            grade = "unsure"
+
+         
+    # Make sure we have one of the expected verdicts
+        if verdict not in ["correct", "incorrect", "unsure"]:
+            logger.warning(f"Unexpected verdict: {verdict}, defaulting to 'incorrect'")
+            if "correct" in verdict:
+                grade = "correct"
+            elif "unsure" in verdict:
+                grade = "unsure"
+            else:
+                grade = "incorrect"
         else:
-            grade = "incorrect"
-        
+            grade = verdict
+    
+    # Update metrics
+        self.metrics["total"] += 1
+        self.metrics[grade] += 1
+            
         # Update metrics
         self.metrics["total"] += 1
         self.metrics[grade] += 1
@@ -238,7 +232,6 @@ Is this "correct", "incorrect", or "unsure"?
             "graded_answer": graded_answer,
             "grade": grade
         }
-    
     def grade_questions(self, questions_data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
         Grade a list of questions.
@@ -359,6 +352,9 @@ def process_results(grader, response_data, save_prefix="paperqa2"):
         else:
             # Fallback to string conversion
             response_text = str(response_obj)
+            # Replace the response object with the extracted text
+        input_item["response"] = response_text
+        serializable_input.append(input_item)
 
     # Grade the responses
     results = grader.grade_questions(response_data)
