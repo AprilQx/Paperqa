@@ -206,7 +206,6 @@ token.json
 
 # Large files and datasets
 *.csv
-*.json
 *.xlsx
 *.xls
 *.pdf

@@ -94,6 +94,14 @@ class MultipleChoiceGrader:
     4. If the model is indicating it doesn't have enough information, select the "Insufficient information" option
 
     IMPORTANT: Your response must contain EXACTLY ONE LETTER, nothing else. 
+
+    IMPORTANT RULES FOR NUMERICAL QUESTIONS:
+- When the question involves numerical values, pay attention to significant figures
+- If PaperQA2's response contains a numeric value with higher precision than the options (e.g., 45.67% vs 46%), 
+  round to the same number of significant figures as in the options
+- Match to the closest option after appropriate rounding
+- If two options are equally close after rounding, choose the one that appears in the response
+- If the response is significantly different from all options, select the "Insufficient information" option
     Do not include explanations, punctuation, or any other text.""",
             llm_config={"config_list": config_list}
         )

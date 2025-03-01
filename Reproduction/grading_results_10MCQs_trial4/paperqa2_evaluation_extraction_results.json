@@ -1,0 +1,151 @@
+[
+  {
+    "question": "Approximately what percentage of topologically associated domains in the GM12878 blood cell line does DiffDomain classify as reorganized in the K562 cell line?",
+    "choices": [
+      "(A) 41%",
+      "(B) 51%",
+      "(C) 31%",
+      "(D) Insufficient information to answer the question",
+      "(E) 11%",
+      "(F) 21%"
+    ],
+    "response": "DiffDomain classifies approximately 30.771% of topologically associated domains (TADs) in the GM12878 blood cell line as reorganized in the K562 cell line. This percentage is significantly higher compared to other methods such as TADCompare, HiCcompare, and HiC-DC+, which identify reorganized TADs at rates of \u22648.256% (hua2024diffdomainenablesidentification pages 4-4). Additionally, DiffDomain demonstrates a higher true positive rate (TPR) and stronger statistical evidence in identifying reorganized TADs compared to alternative approaches (hua2024diffdomainenablesidentification pages 4-5). \n\nWhile other excerpts mention that DiffDomain identifies 51.534% of TADs as reorganized between GM12878 and K562, this figure likely refers to a broader analysis of TAD reorganization rather than the specific classification of GM12878 TADs in K562 (hua2024diffdomainenablesidentification pages 3-4). Therefore, the most accurate percentage for GM12878 TADs classified as reorganized in K562 is 30.771%.",
+    "correct_answer": "C",
+    "unsure_option": "D",
+    "selected_answer": "C"
+  },
+  {
+    "question": "At least how long do SynNotch-MCF10DCIS cells express BFP after contact with GFP+BMSC3 cells?",
+    "choices": [
+      "(A) 0 h",
+      "(B) 6 h",
+      "(C) 24",
+      "(D) 12 h",
+      "(E) 48 h",
+      "(F) 96 h",
+      "(G) Insufficient information to answer the question",
+      "(H) 72 h"
+    ],
+    "response": "SynNotch-MCF10DCIS cells express BFP (blue fluorescent protein) after contact with GFP+BMSC3 cells for at least 72 hours. In a study investigating cancer\u2013stromal cell interactions, BFP expression was assessed at 6, 24, 48, and 72 hours post-contact in 3D culture. The results demonstrated that BFP expression gradually declined after 24 hours but remained above baseline levels even at 72 hours, indicating sustained expression during this period (goyette2024cancer\u2013stromalcellinteractions pages 1-2). \n\nWhile other sections of the study discuss the transient nature of the reporter system and its ability to detect contact within a 72-hour timeframe, they do not provide additional details about the specific duration of BFP expression in SynNotch-MCF10DCIS cells (goyette2024cancer\u2013stromalcellinteractions pages 3-5, goyette2024cancer\u2013stromalcellinteractions pages 8-9, goyette2024cancer\u2013stromalcellinteractions pages 9-10). Therefore, the data supports that BFP expression persists for at least 72...",
+    "correct_answer": "H",
+    "unsure_option": "G",
+    "selected_answer": "H"
+  },
+  {
+    "question": "DK015 and DK038 strains of Verticillium dahliae have in common approximately what percentage orthologous genes?",
+    "choices": [
+      "(A) 97%",
+      "(B) Insufficient information to answer the question",
+      "(C) 95%",
+      "(D) 98%",
+      "(E) 96%",
+      "(F) 94%"
+    ],
+    "response": "The DK015 and DK038 strains of *Verticillium dahliae* share approximately 94.6% orthologous genes, corresponding to 9,739 orthologs. These strains were identified through the Verticilli-Omics project and were isolated from spinach seeds. Both strains exhibit a similar karyotype with minimal chromosome rearrangement. Additionally, they contain opposite mating type loci, MAT1-1 and MAT1-2, respectively, with high conservation in their MAT idiomorphs (zhang2024functionalanalysisof pages 3-4).",
+    "correct_answer": "C",
+    "unsure_option": "B",
+    "selected_answer": "F"
+  },
+  {
+    "question": "Expression of which of the following genes was significantly reduced in the cortical plate of olig2-/- mice compared to WT mice at E18.5?",
+    "choices": [
+      "(A) none of the above",
+      "(B) Insufficient information to answer the question",
+      "(C) Aldh1l1",
+      "(D) Actin",
+      "(E) MAPK"
+    ],
+    "response": "The expression of *Aldh1l1* was significantly reduced in the cortical plate of *Olig2\u2212/\u2212* mice compared to wild-type (WT) mice at E18.5. *Aldh1l1* is a marker for radial glial cells (RGCs), intermediate progenitors (IMPs), astrocyte precursors, and astrocytes, and its reduction highlights the role of *Olig2* in maintaining these cell populations during cortical development (liang2024aconservedmolecular pages 2-3; liang2024aconservedmolecular pages 3-4). \n\nAdditionally, phosphorylated MAPK (p-MAPK) expression was also significantly reduced in *Olig2\u2212/\u2212* cortices, as indicated by immunostaining and quantification (liang2024aconservedmolecular pages 3-4). However, the context does not mention any changes in the expression of *Actin*, and no evidence suggests its reduction in *Olig2\u2212/\u2212* mice. \n\nThese findings collectively demonstrate that *Olig2* is critical for the proper expression of lineage-specific markers, including *Aldh1l1* and p-MAPK, during cortical development. There is no evide...",
+    "correct_answer": "C",
+    "unsure_option": "B",
+    "selected_answer": "C"
+  },
+  {
+    "question": "For which of the following Trub1 substrates did positional occupancy increase upon differentiation?",
+    "choices": [
+      "(A) NKAIN1",
+      "(B) CCDC22",
+      "(C) HECTD1",
+      "(D) Insufficient information to answer the question",
+      "(E) FBXO5",
+      "(F) SCP2",
+      "(G) IDI1"
+    ],
+    "response": "The positional occupancy of the Trub1 substrate THY1 increased upon differentiation, with U-to-C error rates rising from 34% in the untreated sample to 61% in the differentiated sample. This site is located in the 3\u2019UTR and is associated with a cell surface glycoprotein involved in cell adhesion and neurite outgrowth (fanari2024probingenzymedependentpseudouridylation pages 4-5). Another substrate, ZNF317, also exhibited increased positional occupancy, with U-to-C error rates increasing from 15% to 52%, though its explicit link to Trub1 is not confirmed in the provided context (fanari2024probingenzymedependentpseudouridylation pages 4-5). \n\nIDI1 is mentioned as a Trub1 substrate with significant mRNA expression changes, but the context does not explicitly state whether its positional occupancy increased upon differentiation (fanari2024probingenzymedependentpseudouridylation pages 4-5). For other substrates, such as NKAIN1, CCDC22, HECTD1, FBXO5, and SCP2, the context does not provide su...",
+    "correct_answer": "F",
+    "unsure_option": "D",
+    "selected_answer": "D"
+  },
+  {
+    "question": "For which of the following genes did the level of an alternative isoform exceed the original main isoform during NGN3m differentiation?",
+    "choices": [
+      "(A) NOTCH",
+      "(B) PFN2",
+      "(C) PFN1",
+      "(D) Insufficient information to answer the question",
+      "(E) DLL3"
+    ],
+    "response": "During NGN3m differentiation, the level of an alternative isoform exceeded the original main isoform for the genes *DLL3* and *PFN2*. *DLL3* encodes a Notch ligand involved in neurogenesis, and its isoform switching was specifically observed during the differentiation process (ulicevic2024uncoveringthedynamics pages 5-5). Similarly, *PFN2* exhibited isoform switching, with multiple isoforms detected and differential transcript usage noted throughout the differentiation course (ulicevic2024uncoveringthedynamics pages 5-6). \n\nThe study utilized RNA-seq data collected over a 5-day period following doxycycline-induced NGN3 expression, with transcript quantification performed using the GRCh38 reference genome and GENCODE annotation. The Expectation-Maximization algorithm was employed to resolve uncertainties in read mapping, enabling the identification of isoform-level changes (ulicevic2024uncoveringthedynamics pages 15-15). \n\nNo evidence was provided in the context to suggest that *NOTCH* ...",
+    "correct_answer": "B",
+    "unsure_option": "D",
+    "selected_answer": "D"
+  },
+  {
+    "question": "Fourteen days post-cryo-injury of a zebrafish heart, what percentage of genomic regulatory regions switch from a more active to a more repressed chromatin state?",
+    "choices": [
+      "(A) 50%",
+      "(B) 10%",
+      "(C) 40%",
+      "(D) 30%",
+      "(E) 20%",
+      "(F) 60%",
+      "(G) Insufficient information to answer the question"
+    ],
+    "response": "I cannot answer. The context does not provide the specific percentage of genomic regulatory regions that switch from a more active to a more repressed chromatin state 14 days post-cryo-injury in zebrafish hearts (cordero2024leveragingchromatinstate pages 1-1; cordero2024leveragingchromatinstate pages 16-16; cordero2024leveragingchromatinstate pages 5-5).",
+    "correct_answer": "F",
+    "unsure_option": "G",
+    "selected_answer": "G"
+  },
+  {
+    "question": "How did light affect the level of alternative polyadenylation of FAD6 in 3-(3,4-dichlophenyl)-1,1-dimethylurea treated arabidopsis thaliana?",
+    "choices": [
+      "(A) Decreased",
+      "(B) Arabidopsis thaliana do not have the gene FAD6",
+      "(C) Insufficient information to answer the question",
+      "(D) No change",
+      "(E) Increased"
+    ],
+    "response": "Light did not affect the level of alternative polyadenylation (APA) of the FAD6 gene in Arabidopsis thaliana treated with 3-(3,4-dichlorophenyl)-1,1-dimethylurea (DCMU), a photosynthetic electron transport chain inhibitor. FAD6 was used as a negative control in experiments investigating light-regulated APA. Across various conditions, including DCMU treatment, no significant changes in APA were observed for FAD6, as confirmed by RT-qPCR experiments (kubaczka2024lightregulateswidespread pages 20-23, kubaczka2024lightregulateswidespread pages 7-9). \n\nThis lack of response indicates that the APA of FAD6 is independent of light and photosynthetic activity. Unlike other genes such as HTA9 and RKH, where DCMU inhibited light-induced APA changes, FAD6's APA remained unaffected, suggesting a distinct regulatory mechanism (kubaczka2024lightregulateswidespread pages 6-7). Furthermore, FAD6 was unresponsive to light in both shoots and roots under various experimental conditions, reinforcing its ro...",
+    "correct_answer": "D",
+    "unsure_option": "C",
+    "selected_answer": "D"
+  },
+  {
+    "question": "How does the expression level of Swi4 change two hours after budding yeast enter meiosis?",
+    "choices": [
+      "(A) 60% decrease in expression",
+      "(B) Insufficient information to answer the question",
+      "(C) 60% increase in expression",
+      "(D) 30% increase in expression",
+      "(E) 30% decrease in expression"
+    ],
+    "response": "Two hours after budding yeast enter meiosis, the expression level of Swi4 decreases by approximately 30% in wild-type cells. This reduction is critical for proper meiotic progression, as it ensures the downregulation of SBF-specific target genes, such as *CLN1* and *CLN2*, which are necessary for the transition from mitotic to meiotic cell fate (su2023combinedtranscranialmagnetic pages 4-4; su2023combinedtranscranialmagnetic pages 2-4). The decrease in Swi4 levels is mediated by the induction of *SWI4LUTI* expression by the Ime1-Ume6 complex, which causes transcriptional and translational interference, leading to reduced Swi4 protein production. This has been confirmed through smFISH data, RNA blot analyses, and statistical tests showing significant differences in transcript levels between premeiotic and meiotic cells (su2023combinedtranscranialmagnetic pages 12-13).\n\nIn contrast, in the pATG8-SWI4 strain, Swi4 levels are elevated compared to wild type at the same time point. This incr...",
+    "correct_answer": "E",
+    "unsure_option": "B",
+    "selected_answer": "E"
+  },
+  {
+    "question": "How does the presence of m6A differ between x-linked genes and autosomal genes during mouse development?",
+    "choices": [
+      "(A) There is equivalent m6A enrichment between x-linked and autosomal genes during embryonic development",
+      "(B) m6A enrichment is lower in x-linked genes compared to autosomal genes in the midbrain and hippocampus",
+      "(C) Autosomes tend to have greater m6A enrichment during embryonic development",
+      "(D) Insufficient information to answer the question",
+      "(E) m6A tends to be less abundant within autosomal genes than x-linked genes during embryonic development"
+    ],
+    "response": "m6A RNA methylation is consistently less enriched on X-linked transcripts compared to autosomal transcripts during mouse development. This trend is observed across various embryonic and somatic cell types, including embryonic stem cells, neural progenitor cells (NPCs), mesenchymal stem cells (MSCs), and liver tissue. However, in specific brain regions such as the midbrain and hippocampus, no significant difference in m6A enrichment between X-linked and autosomal transcripts is noted. The reduced m6A levels on X-linked transcripts are attributed to their evolution to harbor fewer m6A motifs, which may contribute to their higher stability compared to autosomal transcripts. This differential m6A enrichment is thought to play a role in balancing X-to-autosome gene expression dosage during development, particularly through transcript stabilization (naik2024roleofm6a pages 3-4; naik2024roleofm6a pages 6-7; naik2024roleofm6a pages 2-3).\n\nThe study also highlights that m6A RNA methylation has ...",
+    "correct_answer": "C",
+    "unsure_option": "D",
+    "selected_answer": "B"
+  }
+]
