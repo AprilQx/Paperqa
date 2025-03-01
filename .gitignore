@@ -205,7 +205,7 @@ credentials.json
 token.json
 
 # Large files and datasets
-*.csv
+
 *.xlsx
 *.xls
 *.pdf
