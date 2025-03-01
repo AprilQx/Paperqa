@@ -1,0 +1,11 @@
+{
+  "total_questions": 49,
+  "correct_answers": 8,
+  "incorrect_answers": 24,
+  "unsure_answers": 17,
+  "manual_review_required": 0,
+  "answered_questions": 32,
+  "accuracy": 0.16326530612244897,
+  "precision": 0.25,
+  "unsure_rate": 0.3469387755102041
+}
