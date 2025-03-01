@@ -6,7 +6,6 @@ import pandas as pd
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 import logging
-import argparse
 
 from autogen import AssistantAgent, UserProxyAgent
 
@@ -58,14 +57,7 @@ class MultipleChoiceGrader:
         # Set results directory
         self.results_dir = Path(results_dir)
         self.results_dir.mkdir(exist_ok=True, parents=True)
-        
-        # Initialize metrics
-        self.metrics = {
-            "total": 0,
-            "correct": 0,
-            "incorrect": 0,
-            "unsure": 0
-        }
+    
     
     def configure_agents(self, gpt3_5_model: str, temperature: float):
         """
@@ -106,23 +98,6 @@ class MultipleChoiceGrader:
             llm_config={"config_list": config_list}
         )
         
-        # Create the judge agent with a modified prompt to directly accept the grader's output
-        self.judge_agent = AssistantAgent(
-            name="JudgeAgent",
-            system_message="""You are a judge who determines if a graded answer matches the ground truth.
-    You will be given:
-    1. The grader's selected option (a letter)
-    2. The ground truth answer (a letter)
-    3. The "unsure" option (a letter)
-
-    You must:
-    1. Compare the graded answer with the ground truth
-    2. Classify the result as one of: "correct", "incorrect", or "unsure"
-    3. Return ONLY one of these three words: "correct", "incorrect", or "unsure"
-
-    IMPORTANT: Your response must contain EXACTLY ONE WORD, either "correct", "incorrect", or "unsure".""",
-            llm_config={"config_list": config_list}
-        )
         
         # Create a human proxy agent
         self.human_proxy = UserProxyAgent(
@@ -133,16 +108,16 @@ class MultipleChoiceGrader:
             code_execution_config={"use_docker": False}
         )
         
-    def grade_response(
-    self, 
-    question: str, 
-    choices: List[str], 
-    response: str, 
-    correct_answer: str,
-    unsure_option: str
-) -> Dict[str, Any]:
+    def extract_answer(
+        self, 
+        question: str, 
+        choices: List[str], 
+        response: str, 
+        correct_answer: str,
+        unsure_option: str
+    ) -> Dict[str, Any]:
         """
-        Grade a single response using the grader agent.
+        Extract the selected answer from PaperQA2's response.
         
         Args:
             question: The question text
@@ -152,9 +127,9 @@ class MultipleChoiceGrader:
             unsure_option: The "insufficient information" option letter
             
         Returns:
-            Dictionary with grading results
+            Dictionary with extraction results
         """
-        logger.info(f"Grading question: {question[:50]}...")
+        logger.info(f"Processing question: {question[:50]}...")
 
         # Format the input for the grader
         grader_input = f"""
@@ -169,11 +144,10 @@ class MultipleChoiceGrader:
 
     What option did PaperQA2 select? Remember to return ONLY the letter.
     """
-         # Clear previous chat history to avoid confusion
+        # Clear previous chat history
         self.human_proxy.reset()
         self.grader_agent.reset()
-        self.judge_agent.reset()
-        
+
         # Get grader's response
         self.human_proxy.initiate_chat(
             self.grader_agent,
@@ -181,47 +155,8 @@ class MultipleChoiceGrader:
             max_turns=1
         )
         
-        # Extract graded answer - should be a single letter now
-        graded_answer = self.grader_agent.last_message()["content"].strip()
-        
-        # Compare with ground truth
-        judge_input = f"""
-    Graded answer: {graded_answer}
-    Correct answer: {correct_answer}
-    Unsure option: {unsure_option}
-
-    Is this "correct", "incorrect", or "unsure"? Return ONLY one word.
-    """
-        
-        self.human_proxy.initiate_chat(
-            self.judge_agent,
-            message=judge_input,
-            max_turns=1
-        )
-        
-        # Get judge's verdict - should be just one word now
-        verdict = self.judge_agent.last_message()["content"].strip().lower()
-
-         
-    # Make sure we have one of the expected verdicts
-        if verdict not in ["correct", "incorrect", "unsure"]:
-            logger.warning(f"Unexpected verdict: {verdict}, defaulting to 'incorrect'")
-            if "correct" in verdict:
-                grade = "correct"
-            elif "unsure" in verdict:
-                grade = "unsure"
-            else:
-                grade = "incorrect"
-        else:
-            grade = verdict
-    
-    # Update metrics
-        self.metrics["total"] += 1
-        self.metrics[grade] += 1
-            
-        # Update metrics
-        self.metrics["total"] += 1
-        self.metrics[grade] += 1
+        # Extract selected answer - should be a single letter
+        selected_answer = self.grader_agent.last_message()["content"].strip()
         
         return {
             "question": question,
@@ -229,33 +164,33 @@ class MultipleChoiceGrader:
             "response": response,
             "correct_answer": correct_answer,
             "unsure_option": unsure_option,
-            "graded_answer": graded_answer,
-            "grade": grade
+            "selected_answer": selected_answer
         }
-    def grade_questions(self, questions_data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    
+    def process_questions(self, questions_data: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         """
-        Grade a list of questions.
+        Process a list of questions and extract selected answers.
         
         Args:
             questions_data: List of question dictionaries with responses
             
         Returns:
-            List of grading results
+            List of extraction results
         """
         results = []
         
         for i, q in enumerate(questions_data):
             logger.info(f"Processing question {i+1}/{len(questions_data)}")
             
-            # Extract the data needed for grading
+            # Extract the data needed
             question = q["question"]
             choices = q["choices"]
             response = q["response"]
             correct_answer = q["correct_answer"]
             unsure_option = q["unsure_option"]
             
-            # Grade the response
-            result = self.grade_response(
+            # Extract the selected answer
+            result = self.extract_answer(
                 question=question,
                 choices=choices,
                 response=response,
@@ -271,34 +206,52 @@ class MultipleChoiceGrader:
         
         return results
     
-    def calculate_metrics(self, results: List[Dict[str, Any]]) -> Dict[str, float]:
+    def save_results(self, results: List[Dict[str, Any]], save_prefix: str = "paperqa2"):
         """
-        Calculate metrics from grading results.
+        Save the extraction results to files for manual verification.
         
         Args:
-            results: List of grading results
-            
-        Returns:
-            Dictionary with metrics
+            results: List of extraction results
+            save_prefix: Prefix for saved files
         """
-        total = len(results)
-        correct = sum(1 for r in results if r["grade"] == "correct")
-        unsure = sum(1 for r in results if r["grade"] == "unsure")
-        incorrect = sum(1 for r in results if r["grade"] == "incorrect")
-        answered = total - unsure
+        # Save the results
+        results_dir = self.results_dir
         
-        metrics = {
-            "total_questions": total,
-            "correct_answers": correct,
-            "incorrect_answers": incorrect,
-            "unsure_answers": unsure,
-            "answered_questions": answered,
-            "accuracy": correct / total if total > 0 else 0,
-            "precision": correct / answered if answered > 0 else 0,
-            "unsure_rate": unsure / total if total > 0 else 0
-        }
+        # Save detailed results to CSV for easy viewing
+        df = pd.DataFrame([
+            {
+                "question": r["question"][:100] + "..." if len(r["question"]) > 100 else r["question"],
+                "correct_answer": r["correct_answer"],
+                "selected_answer": r["selected_answer"],
+                "unsure_option": r["unsure_option"]
+            }
+            for r in results
+        ])
         
-        return metrics
+        df.to_csv(results_dir / f"{save_prefix}_extracted_answers.csv", index=False)
+        
+        # Prepare for JSON serialization (complete data)
+        serializable_results = []
+        for r in results:
+            # Create a serializable version of each result
+            serializable_r = {}
+            for key, value in r.items():
+                # Truncate response to keep file size manageable
+                if key == "response":
+                    serializable_r[key] = str(value)[:1000] + "..." if len(str(value)) > 1000 else str(value)
+                else:
+                    serializable_r[key] = value
+            serializable_results.append(serializable_r)
+        
+        # Save to JSON for manual verification and metrics calculation
+        with open(results_dir / f"{save_prefix}_extraction_results.json", "w") as f:
+            json.dump(serializable_results, f, indent=2)
+        
+        logger.info(f"Results saved to {results_dir}")
+        print(f"\nResults saved to {results_dir}")
+        print(f"- CSV: {save_prefix}_extracted_answers.csv")
+        print(f"- JSON: {save_prefix}_extraction_results.json")
+        print("\nYou can now manually verify the results and calculate metrics.")
     
 
 def load_response_data(file_path: str) -> List[Dict[str, Any]]:
@@ -357,63 +310,61 @@ def process_results(grader, response_data, save_prefix="paperqa2"):
         serializable_input.append(input_item)
 
     # Grade the responses
-    results = grader.grade_questions(response_data)
+    results = grader.process_questions(response_data)
     
-    # Save the results
-    metrics = grader.calculate_metrics(results)
+     # Save the results
+    json_path = grader.results_dir / f"{save_prefix}_extraction_results.json"
+    grader.save_results(results, save_prefix)
+    
+    return str(json_path)
 
 
-    # Save the results manually to ensure serializability
-    results_dir = grader.results_dir
-    results_dir.mkdir(exist_ok=True, parents=True)
+def calculate_metrics_from_file(file_path: str, save_to_csv: bool = True) -> Dict[str, float]:
+    """
+    Calculate metrics from the extraction results file.
+    This can be run separately after manual verification.
     
-    # Save detailed results to CSV
-    df = pd.DataFrame([
-        {
-            "question": r["question"][:100] + "..." if len(r["question"]) > 100 else r["question"],
-            "correct_answer": r["correct_answer"],
-            "graded_answer": r["graded_answer"],
-            "grade": r["grade"]
-        }
-        for r in results
-    ])
+    Args:
+        file_path: Path to the JSON file with extraction results
+        save_to_csv: Whether to save metrics to a CSV file
+        
+    Returns:
+        Dictionary with metrics
+    """
+    with open(file_path, 'r') as f:
+        results = json.load(f)
     
-    df.to_csv(results_dir / f"{save_prefix}_results.csv", index=False)
+    total = len(results)
+    correct = sum(1 for r in results if r["selected_answer"] == r["correct_answer"])
+    unsure = sum(1 for r in results if r["selected_answer"] == r["unsure_option"])
+    incorrect = total - correct - unsure
+    answered = total - unsure
     
-    # Save metrics to CSV
-    metrics_df = pd.DataFrame([metrics])
-    metrics_df.to_csv(results_dir / f"{save_prefix}_metrics.csv", index=False)
-    
-    # Prepare for JSON serialization
-    serializable_results = []
-    for r in results:
-        # Create a serializable version of each result
-        serializable_r = {}
-        for key, value in r.items():
-            # Skip the response to keep file size manageable
-            if key == "response":
-                serializable_r[key] = str(value)[:1000] + "..." if len(str(value)) > 1000 else str(value)
-            else:
-                serializable_r[key] = value
-        serializable_results.append(serializable_r)
-    
-    # Save to JSON
-    with open(results_dir / f"{save_prefix}_full.json", "w") as f:
-        json.dump(
-            {
-                "results": serializable_results,
-                "metrics": metrics
-            },
-            f, 
-            indent=2
-        )
+    metrics = {
+        "total_questions": total,
+        "correct_answers": correct,
+        "incorrect_answers": incorrect,
+        "unsure_answers": unsure,
+        "answered_questions": answered,
+        "accuracy": correct / total if total > 0 else 0,
+        "precision": correct / answered if answered > 0 else 0,
+        "unsure_rate": unsure / total if total > 0 else 0
+    }
     
     # Print the metrics
-    print("\nGrading Results:")
+    print("\nMetrics:")
     print(f"Total questions: {metrics['total_questions']}")
     print(f"Correct answers: {metrics['correct_answers']} ({metrics['accuracy']:.2%})")
     print(f"Incorrect answers: {metrics['incorrect_answers']} ({metrics['incorrect_answers']/metrics['total_questions']:.2%})")
     print(f"Unsure answers: {metrics['unsure_answers']} ({metrics['unsure_rate']:.2%})")
     print(f"Precision: {metrics['precision']:.2%}")
+    print(f"Accuracy: {metrics['accuracy']:.2%}")
+    
+    # Save metrics to CSV if requested
+    if save_to_csv:
+        metrics_df = pd.DataFrame([metrics])
+        csv_path = Path(file_path).parent / "metrics.csv"
+        metrics_df.to_csv(csv_path, index=False)
+        print(f"Metrics saved to {csv_path}")
     
     return metrics
