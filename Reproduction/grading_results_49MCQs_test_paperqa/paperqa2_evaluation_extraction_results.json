@@ -1,0 +1,718 @@
+[
+  {
+    "question": "Approximately what percentage of topologically associated domains in the GM12878 blood cell line does DiffDomain classify as reorganized in the K562 cell line?",
+    "choices": [
+      "(A) 41%",
+      "(B) 51%",
+      "(C) 31%",
+      "(D) Insufficient information to answer the question",
+      "(E) 11%",
+      "(F) 21%"
+    ],
+    "response": "DiffDomain classifies approximately 30.771% of topologically associated domains (TADs) in the GM12878 blood cell line as reorganized in the K562 cell line. This percentage is significantly higher than those identified by other methods, such as TADCompare, HiCcompare, and HiC-DC+, which detect reorganized TADs at rates of \u22648.256% (hua2024diffdomainenablesidentification pages 4-4). Additionally, DiffDomain demonstrates substantial improvements in identifying reorganized TADs, with a minimum of 43.137%, median of 81.357%, and maximum of 98.022% of reorganized GM12878 TADs being identified in the K562 cell line, depending on specific thresholds and conditions (hua2024diffdomainenablesidentification pages 4-5). These findings highlight the superior sensitivity of DiffDomain compared to other available tools for detecting structural changes in TADs.",
+    "correct_answer": "C",
+    "unsure_option": "D",
+    "selected_answer": "C"
+  },
+  {
+    "question": "At least how long do SynNotch-MCF10DCIS cells express BFP after contact with GFP+BMSC3 cells?",
+    "choices": [
+      "(A) 0 h",
+      "(B) 6 h",
+      "(C) 24",
+      "(D) 12 h",
+      "(E) 48 h",
+      "(F) 96 h",
+      "(G) Insufficient information to answer the question",
+      "(H) 72 h"
+    ],
+    "response": "SynNotch-MCF10DCIS cells express BFP for at least 72 hours after contact with GFP+BMSC3 cells. Experimental observations showed that BFP expression was detectable at 6, 24, 48, and 72 hours post-contact, with a gradual decline after 24 hours but remaining above baseline even at 72 hours (goyette2024cancer\u2013stromalcellinteractions pages 1-2). The SynNotch reporter system used in this study is specifically designed to monitor cell-cell interactions within a 72-hour timeframe, further supporting this duration (goyette2024cancer\u2013stromalcellinteractions pages 3-5). \n\nWhile other sections of the context discuss related experimental setups and methodologies, they do not provide additional or contradictory information regarding the duration of BFP expression in SynNotch-MCF10DCIS cells (goyette2024cancer\u2013stromalcellinteractions pages 2-2, goyette2024cancer\u2013stromalcellinteractions pages 8-9, goyette2024cancer\u2013stromalcellinteractions pages 9-10). Therefore, the minimum duration of BFP expression ...",
+    "correct_answer": "H",
+    "unsure_option": "G",
+    "selected_answer": "H"
+  },
+  {
+    "question": "DK015 and DK038 strains of Verticillium dahliae have in common approximately what percentage orthologous genes?",
+    "choices": [
+      "(A) 97%",
+      "(B) Insufficient information to answer the question",
+      "(C) 95%",
+      "(D) 98%",
+      "(E) 96%",
+      "(F) 94%"
+    ],
+    "response": "The DK015 and DK038 strains of *Verticillium dahliae* share approximately 94.6% orthologous genes, corresponding to 9,739 orthologs. These strains, which have opposite mating type (MAT) loci, were identified through the Verticilli-Omics project. Genomic analysis revealed that they exhibit a similar karyotype with minimal chromosome rearrangement. Additionally, the coding genes flanking the MAT idiomorphs are highly conserved, indicating significant genetic similarity between the two strains (zhang2024functionalanalysisof pages 3-4).",
+    "correct_answer": "C",
+    "unsure_option": "B",
+    "selected_answer": "F"
+  },
+  {
+    "question": "Expression of which of the following genes was significantly reduced in the cortical plate of olig2-/- mice compared to WT mice at E18.5?",
+    "choices": [
+      "(A) none of the above",
+      "(B) Insufficient information to answer the question",
+      "(C) Aldh1l1",
+      "(D) Actin",
+      "(E) MAPK"
+    ],
+    "response": "The expression of *Aldh1l1* was significantly reduced in the cortical plate of Olig2\u2212/\u2212 mice compared to wild-type (WT) mice at E18.5. This reduction was observed alongside decreased expression of other glial and astrocyte-associated genes, such as *Olig1*, *Sox9*, and *Id1*, indicating a critical role for Olig2 in regulating these genes during cortical development (liang2024aconservedmolecular pages 2-3; liang2024aconservedmolecular pages 3-4). \n\nAdditionally, the study reported reduced numbers of cells expressing markers such as phosphorylated MAPK (*pMAPK*), Sox10, and Sp8 in Olig2\u2212/\u2212 mice, further supporting the role of Olig2 in the development of glial and neuronal lineages (liang2024aconservedmolecular pages 3-4). However, *MAPK* itself was not explicitly mentioned as being significantly reduced in expression in the cortical plate of Olig2\u2212/\u2212 mice (liang2024aconservedmolecular pages 3-4). \n\nNo evidence was provided in the context regarding the expression of *Actin* in Olig2\u2212/\u2212 mi...",
+    "correct_answer": "C",
+    "unsure_option": "B",
+    "selected_answer": "C"
+  },
+  {
+    "question": "For which of the following Trub1 substrates did positional occupancy increase upon differentiation?",
+    "choices": [
+      "(A) NKAIN1",
+      "(B) CCDC22",
+      "(C) HECTD1",
+      "(D) Insufficient information to answer the question",
+      "(E) FBXO5",
+      "(F) SCP2",
+      "(G) IDI1"
+    ],
+    "response": "The positional occupancy of the Trub1 substrate IDI1 increased significantly upon differentiation. Specifically, IDI1 exhibited a notable rise in mRNA expression between untreated and differentiated conditions, with statistical significance (p < 0.001) (fanari2024probingenzymedependentpseudouridylation pages 4-5). \n\nFor other substrates listed in the options (NKAIN1, CCDC22, HECTD1, FBXO5, and SCP2), the context does not provide specific information regarding changes in positional occupancy upon differentiation. Additionally, while THY1 and ZNF317 were mentioned as Trub1 substrates with increased positional occupancy, these are not among the listed options (fanari2024probingenzymedependentpseudouridylation pages 4-5; fanari2024probingenzymedependentpseudouridylation pages 8-9). \n\nGiven the lack of explicit data for the other substrates, the answer for these options is \"Insufficient information to answer the question\" (fanari2024probingenzymedependentpseudouridylation pages 7-8; fanari2...",
+    "correct_answer": "F",
+    "unsure_option": "D",
+    "selected_answer": "G"
+  },
+  {
+    "question": "For which of the following genes did the level of an alternative isoform exceed the original main isoform during NGN3m differentiation?",
+    "choices": [
+      "(A) NOTCH",
+      "(B) PFN2",
+      "(C) PFN1",
+      "(D) Insufficient information to answer the question",
+      "(E) DLL3"
+    ],
+    "response": "During NGN3m differentiation, the level of an alternative isoform exceeded the original main isoform for two genes: *PFN2* and *DLL3*. Isoform switching was observed for *DLL3*, a gene encoding a Notch ligand involved in neurogenesis, where the relative abundance of one isoform increased and surpassed the previously dominant isoform (ulicevic2024uncoveringthedynamics pages 5-5). Similarly, isoform switching occurred for *PFN2*, with changes in differential transcript usage and expression levels during neuronal differentiation (ulicevic2024uncoveringthedynamics pages 5-5, ulicevic2024uncoveringthedynamics pages 5-6). \n\nFor other genes, such as *PFN1* and *NOTCH*, the context does not provide evidence of isoform changes where an alternative isoform exceeded the main isoform. Additionally, while RNA-seq data and quantification methods were described, no explicit mention of such isoform dynamics was found for these genes (ulicevic2024uncoveringthedynamics pages 6-7, ulicevic2024uncoveringt...",
+    "correct_answer": "B",
+    "unsure_option": "D",
+    "selected_answer": "D"
+  },
+  {
+    "question": "Fourteen days post-cryo-injury of a zebrafish heart, what percentage of genomic regulatory regions switch from a more active to a more repressed chromatin state?",
+    "choices": [
+      "(A) 50%",
+      "(B) 10%",
+      "(C) 40%",
+      "(D) 30%",
+      "(E) 20%",
+      "(F) 60%",
+      "(G) Insufficient information to answer the question"
+    ],
+    "response": "I cannot answer. The context does not provide the specific percentage of genomic regulatory regions that switch from a more active to a more repressed chromatin state 14 days post-cryo-injury in zebrafish hearts (cordero2024leveragingchromatinstate pages 16-16; cordero2024leveragingchromatinstate pages 5-5).",
+    "correct_answer": "F",
+    "unsure_option": "G",
+    "selected_answer": "G"
+  },
+  {
+    "question": "How did light affect the level of alternative polyadenylation of FAD6 in 3-(3,4-dichlophenyl)-1,1-dimethylurea treated arabidopsis thaliana?",
+    "choices": [
+      "(A) Decreased",
+      "(B) Arabidopsis thaliana do not have the gene FAD6",
+      "(C) Insufficient information to answer the question",
+      "(D) No change",
+      "(E) Increased"
+    ],
+    "response": "Light had no effect on the level of alternative polyadenylation (APA) of the FAD6 gene in Arabidopsis thaliana treated with 3-(3,4-dichlorophenyl)-1,1-dimethylurea (DCMU), a photosynthetic electron transport chain inhibitor. FAD6 was used as a negative control in the study, as its APA events were not influenced by light or dark conditions, even under DCMU treatment. Experiments demonstrated that while DCMU disrupted light-induced APA changes in other genes, such as HTA9 and RKH, it did not affect the APA of FAD6, indicating that FAD6 is not regulated by light via the chloroplast-dependent mechanisms studied (kubaczka2024lightregulateswidespread pages 6-7, pages 20-23). \n\nQuantitative PCR (RT-qPCR) analysis confirmed no significant changes in FAD6 APA under light/dark conditions with DCMU treatment (p > 0.05) (kubaczka2024lightregulateswidespread pages 20-23). Furthermore, FAD6 APA was not impacted by light/dark treatments or other regulatory pathways, such as those involving TSA or the...",
+    "correct_answer": "D",
+    "unsure_option": "C",
+    "selected_answer": "D"
+  },
+  {
+    "question": "How does the expression level of Swi4 change two hours after budding yeast enter meiosis?",
+    "choices": [
+      "(A) 60% decrease in expression",
+      "(B) Insufficient information to answer the question",
+      "(C) 60% increase in expression",
+      "(D) 30% increase in expression",
+      "(E) 30% decrease in expression"
+    ],
+    "response": "Two hours after budding yeast enter meiosis, the expression level of Swi4 exhibits a complex regulatory pattern. While some sources indicate a 30% decrease in Swi4 levels during this period to ensure repression of SBF targets such as *CLN1* and *CLN2* (su2023combinedtranscranialmagnetic pages 4-4, su2023combinedtranscranialmagnetic pages 2-4), other findings suggest an increase in Swi4 expression under specific genetic conditions. For example, in *pATG8-SWI4* cells, Swi4 levels are elevated, coinciding with a 50% reduction in Ime1 protein levels and increased nuclear localization of Swi4 (su2023combinedtranscranialmagnetic pages 4-5). \n\nFurther analysis highlights the role of SWI4LUTI, a meiosis-specific transcript that downregulates Swi4 protein levels through transcriptional and translational interference. This mechanism results in a significant reduction in Swi4 protein abundance in wild-type meiotic cells compared to premeiotic conditions, as confirmed by smFISH, RNA blotting, and ...",
+    "correct_answer": "E",
+    "unsure_option": "B",
+    "selected_answer": "E"
+  },
+  {
+    "question": "How does the presence of m6A differ between x-linked genes and autosomal genes during mouse development?",
+    "choices": [
+      "(A) There is equivalent m6A enrichment between x-linked and autosomal genes during embryonic development",
+      "(B) m6A enrichment is lower in x-linked genes compared to autosomal genes in the midbrain and hippocampus",
+      "(C) Autosomes tend to have greater m6A enrichment during embryonic development",
+      "(D) Insufficient information to answer the question",
+      "(E) m6A tends to be less abundant within autosomal genes than x-linked genes during embryonic development"
+    ],
+    "response": "m6A RNA methylation is less enriched in X-linked genes compared to autosomal genes during mouse development. This trend is observed across various embryonic and somatic cell types, including embryonic stem cells, embryoid bodies, mesenchymal stem cells, neural progenitor cells, and liver tissue. However, exceptions exist in specific brain regions, such as the midbrain and hippocampus, where no significant reduction in m6A enrichment on X-linked transcripts is noted. The reduced m6A levels on X-linked transcripts may contribute to their increased stability and play a role in X-to-autosome dosage compensation during early embryogenesis and somatic development (naik2024roleofm6a pages 3-4; naik2024roleofm6a pages 6-7).\n\nThis differential m6A enrichment is consistent across most developmental stages, including early embryonic stages (zygote, 2-cell, 8-cell, and blastocyst) and somatic development. While m6A plays a role in regulating RNA stability and gene expression, its specific contribu...",
+    "correct_answer": "C",
+    "unsure_option": "D",
+    "selected_answer": "C"
+  },
+  {
+    "question": "How many CpG loci make up stemTOC?",
+    "choices": [
+      "(A) 629",
+      "(B) 371",
+      "(C) 471",
+      "(D) 257",
+      "(E) Insufficient information to answer the question",
+      "(F) 30",
+      "(G) 450"
+    ],
+    "response": "The stemTOC (Stochastic Epigenetic Mitotic Timer of Cancer) is composed of 371 CpG loci. These loci were identified through a rigorous selection process, ensuring they exhibit significant DNA hypermethylation with chronological age in vivo and are not cell-type specific. The loci were validated using neonatal samples, sorted cells, and multi-tissue DNA methylation (DNAm) atlases to confirm their robustness and relevance to tracking mitotic age (zhu2024animprovedepigenetic pages 1-2; zhu2024animprovedepigenetic pages 2-3). \n\nFurther validation was performed using two independent EPIC DNAm datasets, confirming the stability and reliability of these 371 CpG loci (zhu2024animprovedepigenetic pages 11-12). The loci were also analyzed for enrichment in DNase Hypersensitive Sites (DHSs) and specific chromatin states, supporting their functional relevance (zhu2024animprovedepigenetic pages 1-2). Additionally, these CpG loci, referred to as 'vivo-mitCpGs,' were identified as significant in a St...",
+    "correct_answer": "B",
+    "unsure_option": "E",
+    "selected_answer": "B"
+  },
+  {
+    "question": "How many droplets does the continuous droplet interface crossing encapsulation method produce if the chamber rotation speed is set to 2700rpm?",
+    "choices": [
+      "(A) approximately 273 droplets per second",
+      "(B) Insufficient information to answer the question",
+      "(C) approximately 28.5 droplets per second",
+      "(D) approximately 1900 droplets per second",
+      "(E) approximately 34,500 droplets per second"
+    ],
+    "response": "The continuous droplet interface crossing encapsulation (cDICE) method produces approximately 34,500 droplets per second when the chamber rotation speed is set to 2700 rpm. This is attributed to the increased flow velocity and stronger viscous forces at this speed, which also result in smaller droplets with an average size of 28.5 \u00b1 8.7 \u03bcm (cauter2024highspeedimagingof pages 7-8). \n\nAlthough the exact number of droplets produced is not explicitly stated in some sections, the frequency of 34,500 droplets per second is consistent with the described high-speed dynamics of droplet formation under these conditions (cauter2024highspeedimagingof pages 5-7). Additionally, at this rotation speed, the droplet formation process is influenced by factors such as capillary number and wake instabilities, which contribute to variations in droplet size but do not appear to significantly affect the production rate (cauter2024highspeedimagingof pages 5-7).\n\nThe dataset for this condition includes 157 dro...",
+    "correct_answer": "E",
+    "unsure_option": "B",
+    "selected_answer": "E"
+  },
+  {
+    "question": "How much greater is lipid droplet dry mass in I148M hepatoma cells relative to WT cells under basal conditions?",
+    "choices": [
+      "(A) 1.4 times greater",
+      "(B) 3.0 times greater",
+      "(C) 1.1 times greater",
+      "(D) 1.8 times greater",
+      "(E) 2.0 times greater",
+      "(F) 2.5 times greater",
+      "(G) Insufficient information to answer the question"
+    ],
+    "response": "Under basal conditions, the lipid droplet (LD) dry mass in I148M hepatoma cells is approximately 1.4 times greater than that in wild-type (WT) cells. This finding was determined using live-cell, label-free imaging with the Nanolive 3D holotomographic microscopic platform, which identifies lipid droplets based on their high refractive index values (Sherman2024 pages 2-2).\n\nOther sections of the study discuss the increased LD content and altered LD-Golgi dynamics in I148M-expressing cells compared to WT cells but do not provide specific quantitative data on lipid droplet dry mass. For example, transmission electron microscopy (TEM) imaging confirmed greater LD content in I148M-expressing Hep3B cells, along with increased LD-Golgi interactions and a more dispersed Golgi signal. These observations are consistent with the effects of the PNPLA3-I148M variant under basal conditions (Sherman2024 pages 5-5). However, these sections lack precise measurements of LD dry mass (Sherman2024 pages 6-8...",
+    "correct_answer": "A",
+    "unsure_option": "G",
+    "selected_answer": "A"
+  },
+  {
+    "question": "Immediately after birth in mice, removing the whiskers results in neuronal redistribution of which of the following?",
+    "choices": [
+      "(A) VGLUT1+ corticospinal axonal boutons in L5",
+      "(B) ChAT+ basal forebrain axonal boutons in L6",
+      "(C) VGLUT2+ thalamocortical axonal boutons in L4",
+      "(D) GAD65+ interneuronal axonal boutons in L2/3",
+      "(E) Insufficient information to answer the question"
+    ],
+    "response": "Immediately after birth in mice, removing the whiskers results in the neuronal redistribution of VGLUT2+ thalamocortical axonal boutons in layer 4 (L4) of the somatosensory cortex. Whisker removal leads to smaller cortical rows and indistinct barrel separation in the deprived regions, while the overall density of thalamocortical synapses remains preserved. This redistribution occurs during a period of active microglial proliferation and migration, which contributes to cortical remodeling without causing local injury (escoubas2024typeiinterferonresponsivemicrogliashape pages 4-4). \n\nThe study further highlights that microglial activity, influenced by Type-I interferon (IFN-I) signaling, plays a critical role in shaping these changes. IFN-I signaling promotes the elimination of DNA-damaged neurons and affects the distribution of excitatory and inhibitory neuronal populations in deeper cortical layers, including layers 4 and 5 (escoubas2024typeiinterferonresponsivemicrogliashape pages 10-...",
+    "correct_answer": "C",
+    "unsure_option": "E",
+    "selected_answer": "C"
+  },
+  {
+    "question": "In a Drosophila organism 96 hr after laying eggs, in which quadrant of the drosophila wing are apoptotic cells most strongly enriched?",
+    "choices": [
+      "(A) Insufficient information to answer the question",
+      "(B) posterior-ventral",
+      "(C) posterior-dorsal",
+      "(D) anterior-ventral",
+      "(E) anterior-dorsal"
+    ],
+    "response": "In Drosophila wing discs 96 hours after egg laying (AEL), apoptotic cells are most strongly enriched in the anterior-dorsal quadrant. This spatial bias in apoptosis has been demonstrated using GC3Ai markers and cleaved caspase-3 staining, with the anterior-dorsal quadrant consistently showing the highest levels of apoptotic activity. The wing disc is divided into four quadrants\u2014anterior-dorsal, anterior-ventral, posterior-dorsal, and posterior-ventral\u2014using anti-Wingless and anti-Patched immunostainings as spatial landmarks. Heatmaps of GC3Ai-positive areas and spatial analyses confirm this enrichment, which correlates with the expression of the pro-apoptotic gene hid (matamorovidal2024patternedapoptosishas pages 6-6; matamorovidal2024patternedapoptosishas pages 4-6). \n\nThis patterned apoptosis plays a critical role in regulating local growth and shaping the tissue, particularly influencing wing morphogenesis by reducing cell numbers in specific regions. The anterior-dorsal quadrant ne...",
+    "correct_answer": "E",
+    "unsure_option": "A",
+    "selected_answer": "E"
+  },
+  {
+    "question": "RNA expression of which gene was higher in mice whose hair follicle stem cells had CD80 knocked out vs. WT mice 4 days after wounding?",
+    "choices": [
+      "(A) Sox9",
+      "(B) Cxcl5",
+      "(C) Insufficient information to answer the question",
+      "(D) FoxP3"
+    ],
+    "response": "The RNA expression of the gene *Cxcl5* was higher in mice whose hair follicle stem cells (HFSCs) had CD80 knocked out compared to wild-type (WT) mice 4 days after wounding. This was demonstrated through qPCR analysis and RNAScope, which revealed increased levels of *Cxcl5* in CD80-deficient migratory HFSCs. The elevated *Cxcl5* expression was associated with a reduction in regulatory T cells (pTreg) in the wound bed, suggesting a role for *Cxcl5* in modulating immune cell dynamics during wound repair (luan2024cd80onskin pages 12-12). \n\nAdditional findings from the study indicated that CD80 expression in HFSCs plays a key role in promoting regulatory T cell expansion and modulating inflammatory responses. Loss of CD80 in HFSCs resulted in altered immune responses, including increased neutrophil infiltration mediated by epithelial CXCL5 production (luan2024cd80onskin pages 10-12). However, the specific role of *Cxcl5* in these processes appears to be linked to its function as a chemoattr...",
+    "correct_answer": "B",
+    "unsure_option": "C",
+    "selected_answer": "B"
+  },
+  {
+    "question": "What effect does ZBTB16 have on PAX6 promoters?",
+    "choices": [
+      "(A) Activation of P0 promoter",
+      "(B) Inhibition of Pa promoter",
+      "(C) Activation of Pa promoter",
+      "(D) Insufficient information to answer the question",
+      "(E) Inhibition of P1 promoter",
+      "(F) Inhibition of P0 promoter",
+      "(G) Activation of P1 promoter"
+    ],
+    "response": "ZBTB16 activates the P1 promoter of PAX6, a key regulator during neocortical development. This activation was demonstrated using luciferase reporter assays, which showed that ZBTB16 specifically enhances the activity of the P1 promoter, while it does not activate the P0 or Pa promoters. This suggests that ZBTB16 mediates PAX6 expression through the P1 promoter, which is particularly relevant in maintaining Pax6 expression in Eomes+ cells during neurogenesis (krontira2024humancorticalneurogenesis pages 11-13). \n\nThe study further confirmed ZBTB16's role as a transcriptional regulator of PAX6 by showing that ZBTB16 binding sites are enriched in progenitor-specific differentially expressed genes, including PAX6, and that ZBTB16 overexpression significantly influences PAX6 expression (krontira2024humancorticalneurogenesis pages 4-5). These findings highlight ZBTB16 as a critical factor in modulating PAX6 expression, which is essential for neural progenitor function and cortical neurogenesi...",
+    "correct_answer": "G",
+    "unsure_option": "D",
+    "selected_answer": "G"
+  },
+  {
+    "question": "What is the average energetic effect of a mutation on the binding affinity between two monomers a heterodimer, where the two separate monomers resulted from a gene duplication event?",
+    "choices": [
+      "(A) 0.4 kcal/mol",
+      "(B) Insufficient information to answer the question",
+      "(C) 1 kcal/mol",
+      "(D) 0.2 kcal/mol",
+      "(E) 0.5 kcal/mol"
+    ],
+    "response": "The average energetic effect of a mutation on the binding affinity (\u0394Gbind) between two monomers in a heterodimer, where the monomers resulted from a gene duplication event, is 0.2 kcal/mol. This value was modeled in simulations using a multivariate normal distribution with a mean of 0.2 and a standard deviation of 1.2. These parameters were chosen based on distributions simulated with FoldX, a computational tool for estimating protein stability and binding energies. Additionally, a correlation of 0.3 was set between the effects on folding energy (\u0394Gfold) and binding energy (\u0394Gbind) for heterodimers (cisneros2024mutationalbiasesfavor pages 15-16). \n\nThe study further explored how mutations influence binding affinities and the equilibrium concentrations of dimers and monomers, emphasizing the role of mutational biases in driving the enrichment of heterodimers or homodimers in protein interaction networks after gene duplication (cisneros2024mutationalbiasesfavor pages 4-5). However, no o...",
+    "correct_answer": "D",
+    "unsure_option": "B",
+    "selected_answer": "D"
+  },
+  {
+    "question": "What is the effect of STX17 and SNAP29 expression depletion in LN229 cells?",
+    "choices": [
+      "(A) Increased vesicle production",
+      "(B) Increased autophagosome production",
+      "(C) Retraction fibers and migrasomes are decreased.",
+      "(D) Retraction fibers and migrasomes are increased.",
+      "(E) Insufficient information to answer the question"
+    ],
+    "response": "Depletion of STX17 and SNAP29 expression in LN229 cells, a glioblastoma cell line, leads to an increase in the formation of retraction fibers and migrasomes. This effect is attributed to the inhibition of autophagosome/lysosome fusion caused by the absence of these SNARE proteins. Experimental observations demonstrated that knockdown of STX17 and SNAP29 using siRNA disrupted the autophagic flux, resulting in elevated migrasome production. Additionally, autophagosomes were observed within migrasomes under these conditions, further supporting the role of these proteins in maintaining normal autophagic processes (lee2024migrasomalautophagosomesrelieve pages 5-6; lee2024migrasomalautophagosomesrelieve pages 6-7).\n\nThese findings suggest that the depletion of STX17 and SNAP29 promotes the generation of retraction fibers and migrasomes by impairing the fusion of autophagosomes with lysosomes. This disruption appears to facilitate the accumulation of autophagosomes within migrasomes, which ma...",
+    "correct_answer": "D",
+    "unsure_option": "E",
+    "selected_answer": "D"
+  },
+  {
+    "question": "What is the effect on fibroblast LOX protein regulation when HIF-1 nuclear translocation is induced?",
+    "choices": [
+      "(A) LOX secretion increases",
+      "(B) LOX intracellular protein abundance decreases",
+      "(C) Insufficient information to answer the question",
+      "(D) LOX intracellular protein abundance increases",
+      "(E) LOX secretion decreases"
+    ],
+    "response": "When HIF-1 nuclear translocation is induced in fibroblasts, lysyl oxidase (LOX) secretion increases. This effect has been demonstrated using Cobalt(II)-chloride (CoCl2), which stabilizes HIF-1 by preventing its degradation. CoCl2 treatment leads to elevated nuclear HIF-1 levels and a subsequent rise in both intracellular and secreted LOX, with a predominant increase in LOX secretion into the extracellular environment. Notably, intracellular LOX levels remain relatively stable, suggesting that the protein is rapidly secreted rather than accumulating within the cells. This regulatory mechanism is dependent on HIF-1, as silencing HIF-1 via siRNA prevents the CoCl2-induced upregulation of LOX secretion (balsini2024stiffnessdependentloxregulation pages 10-12; balsini2024stiffnessdependentloxregulation pages 8-10).\n\nAdditionally, substrate stiffness, which induces HIF-1 nuclear translocation, also enhances LOX secretion and enzymatic activity. This mechanical regulation is independent of hyp...",
+    "correct_answer": "A",
+    "unsure_option": "C",
+    "selected_answer": "A"
+  },
+  {
+    "question": "What is the highest number of SARS-CoV-2 nucleocapsid proteins observed to form an oligomer with stem\u2013loop RNA SL7?",
+    "choices": [
+      "(A) 4",
+      "(B) 6",
+      "(C) Insufficient information to answer the question",
+      "(D) 7",
+      "(E) 2"
+    ],
+    "response": "The highest number of SARS-CoV-2 nucleocapsid (N) proteins observed to form an oligomer with stem\u2013loop RNA SL7 is six, organized as a hexamer of dimers. This hexameric assembly is facilitated by protein\u2013protein interactions mediated by the leucine-rich sequence (LRS) and weak cross-linking interactions between the C-terminal domain (CTD) dimers and SL7. Each N-protein dimer binds two SL7 molecules, stabilizing the hexameric structure. Experimental conditions using low ionic strength promoted the formation of these hexameric complexes, which represent the highest oligomerization state observed in the presence of SL7 (zhao2024assemblyofsarscov2 pages 2-3; zhao2024assemblyofsarscov2 pages 9-10; zhao2024assemblyofsarscov2 pages 12-12).\n\nThe hexameric complex is described as consisting of six N-protein dimers (6x{2N/2SL7}), with theoretical calculations suggesting that, on average, each N-protein binds 60\u201365 nucleotides of RNA. This structural organization aligns with the ribonucleoprotein ...",
+    "correct_answer": "B",
+    "unsure_option": "C",
+    "selected_answer": "B"
+  },
+  {
+    "question": "What is the relationship between LATS2 activity and ALKBH5 ubiquitination?",
+    "choices": [
+      "(A) LATS2 does not influence ALKBH5 ubiquitination",
+      "(B) LATS2 phorphorylates ALKBH5",
+      "(C) LATS2 dephorphorylates ALKBH5",
+      "(D) Insufficient information to answer the question",
+      "(E) which in turn enhances polyubiquitination of ALKBH5",
+      "(F) LATS2 phorphorylates ALKBH5, which in turn inhibits ubiquitination of ALKBH5",
+      "(G) which in turn inhibits ubiquitination of ALKBH5"
+    ],
+    "response": "LATS2 activity regulates ALKBH5 ubiquitination by phosphorylating ALKBH5 at the S361 residue, which inhibits its ubiquitination and subsequent proteasomal degradation. This phosphorylation event stabilizes ALKBH5 by preventing its polyubiquitination, a process that would otherwise lead to its degradation via the ubiquitin-proteasome system (cao2024alats2and pages 10-10; cao2024alats2and pages 8-8). \n\nExperimental evidence demonstrates that the loss of LATS2 activity or mutation of the S361 site (e.g., the ALKBH5S361A mutant) results in increased ALKBH5 ubiquitination and reduced protein stability. In contrast, the phosphomimetic S361D mutant exhibits greater stability, underscoring the importance of phosphorylation at this site (cao2024alats2and pages 8-8; cao2024alats2and pages 10-11). Additionally, LATS2 phosphorylation of ALKBH5 prevents its nuclear export via CRM1, further protecting it from cytoplasmic degradation (cao2024alats2and pages 16-16; cao2024alats2and pages 6-8).\n\nThis r...",
+    "correct_answer": "F",
+    "unsure_option": "D",
+    "selected_answer": "F"
+  },
+  {
+    "question": "What putative physiological response does the T6SS effector T6EC3 elicit in E. coli?",
+    "choices": [
+      "(A) Chromatin unraveling.",
+      "(B) Insufficient information to answer the question",
+      "(C) Separation of the inner and outer membranes.",
+      "(D) Autolysis.",
+      "(E) Apoptosis.",
+      "(F) Cell rounding."
+    ],
+    "response": "The T6SS effector T6EC3 elicits cell rounding in *Escherichia coli* as a physiological response. This is associated with its hypothesized role as a lytic transglycosylase that targets the bacterial cell wall. Structural homology between the C-terminal domain of T6EC3 and SleB, a peptidoglycan hydrolase, supports its cell wall-targeting activity. Experimental evidence indicates that expression of T6EC3 in *E. coli* results in cell rounding, accompanied by the formation of double-membrane structures and the presence of DNA signals within the inner membrane, suggesting a disruption of cell wall integrity (geller2024identificationoftype pages 6-6, geller2024identificationoftype pages 6-7).\n\nThe activity of T6EC3 depends on a catalytic glutamate residue, as mutating this residue abolishes its toxicity, further implicating its role in cell wall degradation. The observed cell rounding and bursting are consistent with loss of structural integrity due to cell wall damage (geller2024identificati...",
+    "correct_answer": "C",
+    "unsure_option": "B",
+    "selected_answer": "F"
+  },
+  {
+    "question": "When ZNF598 is only able to act on ribosome subunit uS10 using ubiquitin with a K63R mutation, what ubiquitination pattern is MOST observed on uS10?",
+    "choices": [
+      "(A) Di-ubiquitination",
+      "(B) Insufficient information to answer the question",
+      "(C) Tetra-ubiquitination",
+      "(D) Mono-ubiquitination",
+      "(E) Tri-ubiquitination"
+    ],
+    "response": "When ZNF598 acts on the ribosomal subunit uS10 using ubiquitin with a K63R mutation, the most observed ubiquitination pattern is di-ubiquitination. This di-ubiquitination is characterized by mono-ubiquitination at two closely situated lysine residues, K4 and K8, on uS10. The K63R mutation prevents the formation of K63-linked polyubiquitin chains, leading ZNF598 to promote the assembly of di-ubiquitin chains with non-K63 linkages instead (miscicka2024ribosomalcollisionis pages 4-4; miscicka2024ribosomalcollisionis pages 4-5). \n\nFurther analysis revealed that in the presence of K63R ubiquitin, some tri-ubiquitination of uS10 was also observed, but di-ubiquitination remained the predominant pattern (miscicka2024ribosomalcollisionis pages 6-7). This shift in ubiquitination specificity underscores the impact of the K63R mutation on ZNF598's activity, as the enzyme typically synthesizes K63-linked polyubiquitin chains in the absence of this mutation (miscicka2024ribosomalcollisionis pages 4-...",
+    "correct_answer": "A",
+    "unsure_option": "B",
+    "selected_answer": "A"
+  },
+  {
+    "question": "When comparing which of the following between S. aureus-positive versus healthy bovines is there a significant difference in methylation levels at CHG sites?",
+    "choices": [
+      "(A) Entire genome",
+      "(B) CpG Island shores",
+      "(C) Insufficient information to answer the question",
+      "(D) CpG Islands",
+      "(E) CpG Island shelves"
+    ],
+    "response": "There is a significant difference in methylation levels at CHG sites between S. aureus-positive (SAP) and healthy control (HC) bovines specifically in CpG Islands (CGIs). The study observed higher methylation levels at CHG sites in CGIs within the SAP group compared to the HC group, with a false discovery rate (FDR) of 0.025, indicating statistical significance (wang2024dnamethylationhaplotype pages 5-7). \n\nIn contrast, genome-wide methylation levels at CHG sites did not show significant differences between the two groups (wang2024dnamethylationhaplotype pages 4-5). Additionally, the context does not provide information about methylation differences at CHG sites in CpG Island shores or CpG Island shelves, nor does it explicitly discuss these regions in the context of CHG methylation (wang2024dnamethylationhaplotype pages 19-20). \n\nTherefore, the significant difference in CHG site methylation levels is specifically associated with CpG Islands, while other genomic regions either lack suf...",
+    "correct_answer": "D",
+    "unsure_option": "C",
+    "selected_answer": "D"
+  },
+  {
+    "question": "When do blastema become apparent in amputated pak1(RNAi) planarians?",
+    "choices": [
+      "(A) Insufficient information to answer the question",
+      "(B) Frequently after 5 days post amputation",
+      "(C) Almost always 3 days post amputation",
+      "(D) Never after 9 days post amputation",
+      "(E) Sometimes after 9 days post amputation"
+    ],
+    "response": "Blastema formation in amputated *pak1(RNAi)* planarians is delayed compared to controls. Under normal conditions, blastema become apparent by 3 days post-amputation (dpa). However, in *pak1(RNAi)* planarians, blastema formation is not detectable by 5 dpa, despite normal or elevated levels of neoblast accumulation and cell proliferation at the wound site (Doddihala2024 pages 2-2). Blastema become visible by 9 dpa, although they are small, irregularly shaped, and often exhibit structural abnormalities, such as supernumerary photoreceptors. Some of these blastemas are capable of differentiation, including photoreceptor formation, but their morphology is frequently aberrant (Doddihala2024 pages 2-3). \n\nThe delay in blastema formation is attributed to disruptions in body axis patterning and mechanotransduction processes, with Pak1 acting as a functional integrator of \u03b2-catenin-dependent and -independent pathways, as well as interacting with the Hippo/Yorkie pathway. Inhibition of integrin s...",
+    "correct_answer": "E",
+    "unsure_option": "A",
+    "selected_answer": "E"
+  },
+  {
+    "question": "Which base editor has been shown to be the most efficient for inducing the mutation K352E in CD45 in human T-cells?",
+    "choices": [
+      "(A) ABE8e-NG",
+      "(B) ABE8e\u2013SpRY",
+      "(C) SPACE-NG",
+      "(D) Insufficient information to answer the question",
+      "(E) ABE8e-SpG"
+    ],
+    "response": "The most efficient base editor for inducing the K352E mutation in CD45 in human T-cells is ABE8e in combination with SpRY Cas9. This combination was identified as the most effective for catalyzing the desired nucleotide conversion to induce the K352E mutation. The study optimized this approach by using sgRNA-49 and its variants to target the CD45K352 codon. The efficiency of this editing strategy was validated through thermal stability and antibody binding assays, which confirmed the functional effects of the mutation (garaude2024selectivehaematologicalcancer pages 3-3). \n\nWhile other base editors, including cytosine base editors (CBEs) and adenine base editors (ABEs), were tested for their ability to induce specific mutations in CD45, the ABE8e\u2013SpRY combination demonstrated superior efficiency for this specific mutation (garaude2024selectivehaematologicalcancer pages 2-2). Additional details regarding the experimental setup, such as electroporation conditions and editing efficiencies,...",
+    "correct_answer": "B",
+    "unsure_option": "D",
+    "selected_answer": "B"
+  },
+  {
+    "question": "Which codon is underrepresented in transcripts from cortical neuron cells in humans?",
+    "choices": [
+      "(A) Asp-GAC",
+      "(B) Gln-TTG",
+      "(C) Ser-GCT",
+      "(D) Insufficient information to answer the question",
+      "(E) Ser-TGA"
+    ],
+    "response": "The codon Asp-GAC is underrepresented in transcripts from cortical neuron cells in humans. This was identified as the only significantly underrepresented codon in cortical neuron-specific transcripts relative to the global translatome. Additionally, the cognate tRNA isoacceptor family for Asp-GAC, Asp-GTC, is downregulated in neurons compared to non-neuronal cells, suggesting a specific regulation of codon usage and tRNA abundance in these cells (kapur2024celltypespecificexpressionof pages 10-12). \n\nThis underrepresentation is part of a broader pattern of differential tRNA expression and codon usage in the brain. Cortical neurons, categorized as group 1 neurons, exhibit a distinct tRNA expression profile compared to other neuronal and non-neuronal cells. While certain tRNA genes are upregulated in cortical neurons, these contribute minimally to the overall tRNA pool, potentially leading to the underrepresentation of specific codons, including Asp-GAC, in their transcripts (kapur2024cel...",
+    "correct_answer": "A",
+    "unsure_option": "D",
+    "selected_answer": "A"
+  },
+  {
+    "question": "Which compound downregulates cis-regulatory-elements with the H3K27ac chromatin mark peaking two to four hours after activation of a macrophage?",
+    "choices": [
+      "(A) BGT-226",
+      "(B) Mubritinib",
+      "(C) Insufficient information to answer the question",
+      "(D) TG-100572",
+      "(E) BGT-135"
+    ],
+    "response": "The compound BGT-226 downregulates cis-regulatory elements (CREs) marked by H3K27ac, with chromatin marks peaking two to four hours after macrophage activation. This was demonstrated in a study analyzing CREs following LPS stimulation, where BGT-226 was shown to induce downregulation of H3K27ac at specific loci such as Susd6 and Hk3. The study used ChIP-seq data to quantify changes in H3K27ac and calculated perturbation likelihood scores for various clinical kinase inhibitors (CKIs), including BGT-226, to assess their impact on macrophage activation pathways (gualdrini2024anintegrativeepigenomebased pages 3-4; gualdrini2024anintegrativeepigenomebased pages 3-4).\n\nAdditionally, the study highlighted the temporal dynamics of H3K27ac changes, noting that approximately 16,500 regions exhibited dynamic H3K27ac modifications following LPS stimulation. The effects of BGT-226 were specifically analyzed in this context, revealing its ability to alter the epigenomic landscape of macrophages by t...",
+    "correct_answer": "D",
+    "unsure_option": "C",
+    "selected_answer": "A"
+  },
+  {
+    "question": "Which defect of vab-1; glo-4 double mutant PLM mechanosensory neurons is rescued by the transgenic expression of VAB-1?",
+    "choices": [
+      "(A) Insufficient information to answer the question",
+      "(B) vab-1 transgenic expression does not rescue any defects",
+      "(C) axon termination defects",
+      "(D) overtextension defects",
+      "(E) hook defects"
+    ],
+    "response": "The defect of *vab-1; glo-4* double mutant PLM mechanosensory neurons that is rescued by the transgenic expression of VAB-1 is the overextension defect. Studies show that *vab-1; glo-4* double mutants exhibit a high frequency of PLM axon overextension defects, including cases where axons extend past the ALM cell body and more severe cases where axons \"hook\" ventrally. Transgenic expression of VAB-1 significantly reduces the occurrence of these overextension defects, indicating a rescue effect specific to this phenotype (chang2024ubiquitinligaseand pages 13-15; chang2024ubiquitinligaseand pages 16-16; chang2024ubiquitinligaseand pages 16-17). \n\nThis rescue effect highlights the role of VAB-1 in mitigating axon overextension termination defects in *vab-1; glo-4* double mutants. However, there is no evidence in the provided context to suggest that VAB-1 transgenic expression rescues the hook defect, suggesting that the rescue effect is limited to overextension defects (chang2024ubiquitinl...",
+    "correct_answer": "D",
+    "unsure_option": "A",
+    "selected_answer": "D"
+  },
+  {
+    "question": "Which gastrulation lineage in mice has the largest number of differentially accessible chromatin regions \u2013 chromatin regions that are exclusively accessible for that particular lineage?",
+    "choices": [
+      "(A) All three lineages have approximately the same quantity of differentially accessible regions",
+      "(B) Insufficient information to answer the question",
+      "(C) Mesoderm",
+      "(D) Ectoderm",
+      "(E) Endoderm"
+    ],
+    "response": "The gastrulation lineage in mice with the largest number of differentially accessible chromatin regions (DARs), which are exclusively accessible for that particular lineage, is the endoderm. The study identified 73,442 regions highly accessible in the endoderm, compared to 33,005 regions in the ectoderm and 31,543 regions in the mesoderm. This reflects the larger number of endoderm-specific differentially expressed genes (DEGs) and highlights the distinct regulatory landscape of this lineage (abnizova2024integrativeanalysisof pages 3-5).\n\nAdditionally, a separate analysis within the study identified 3,756 DARs in the endoderm, followed by 1,352 in the mesoderm, and 960 in the ectoderm. These DARs were described as putative enhancers linked to lineage-specific genes, further supporting the endoderm\u2019s prominence in terms of chromatin accessibility during mouse gastrulation (abnizova2024integrativeanalysisof pages 6-8).\n\nThese findings collectively indicate that the endoderm exhibits the ...",
+    "correct_answer": "E",
+    "unsure_option": "B",
+    "selected_answer": "E"
+  },
+  {
+    "question": "Which morphological defect would we expect to be more prevalent in a small group (n=100) of Xenopus laevis embryos compared to a large group (n=300) of embryos at NF stage 45 if both groups were exposed to thioridazine?",
+    "choices": [
+      "(A) smaller diameter head",
+      "(B) Insufficient information to answer the question",
+      "(C) square head",
+      "(D) hypopigmentation",
+      "(E) misshapen eyes"
+    ],
+    "response": "The morphological defect more prevalent in a small group (n=100) of *Xenopus laevis* embryos compared to a large group (n=300) at NF stage 45 when exposed to thioridazine is a square head shape. Studies have shown that smaller groups exhibit significantly higher incidences of square head morphology (40.7%) compared to larger groups (22.7%) under identical teratogenic conditions. This difference is attributed to the lack of robust inter-embryo signaling mechanisms in smaller cohorts, which reduces their collective resistance to teratogen-induced defects. The protective effect observed in larger groups is mediated by calcium and ATP/P2 receptor signaling, which facilitate collective morphogenetic assistance (CEMA) (tung2024embryosassistmorphogenesis pages 2-3; tung2024embryosassistmorphogenesis pages 3-5).\n\nAdditionally, smaller groups also display higher rates of hyperpigmentation (54.2% versus 37.8% in larger groups), further indicating the vulnerability of smaller cohorts to morpholog...",
+    "correct_answer": "C",
+    "unsure_option": "B",
+    "selected_answer": "C"
+  },
+  {
+    "question": "Which of the following accurately describes the effect histidine has on fuel conversion of diamidophosphate and trimetaphosphate?",
+    "choices": [
+      "(A) Histidine increases diamidophosphate conversion",
+      "(B) Histidine increases trimetaphosphate conversion",
+      "(C) Insufficient information to answer the question",
+      "(D) Histidine decreases diamidophosphate conversion",
+      "(E) Histidine decreases trimetaphosphate conversion"
+    ],
+    "response": "Histidine significantly increases the conversion of diamidophosphate (DAP) by acting as a catalyst for its hydrolysis. In the presence of 75 mM histidine, the half-life of DAP is reduced to 12 \u00b1 0.3 hours compared to 190 \u00b1 50 hours without histidine, demonstrating a substantial acceleration of its conversion (poprawa2024activedropletsthrough pages 2-3). However, histidine does not have a notable effect on the conversion of trimetaphosphate (TMP), as no substantial conversion of TMP was observed over an 80-hour period in the presence of histidine (poprawa2024activedropletsthrough pages 2-3).\n\nTherefore, the correct answer is (A) Histidine increases diamidophosphate conversion.",
+    "correct_answer": "A",
+    "unsure_option": "C",
+    "selected_answer": "A"
+  },
+  {
+    "question": "Which of the following domains of ByeA is not essential for VirB/VirD4-dependent translocation of YopJ family effector proteins?",
+    "choices": [
+      "(A) aa 45-63",
+      "(B) Insufficient information to answer the question",
+      "(C) aa 1-44",
+      "(D) aa 301-309",
+      "(E) aa 292-300"
+    ],
+    "response": "The domain of ByeA that is not essential for VirB/VirD4-dependent translocation is the N-terminal region comprising amino acids (aa) 1-44. This region is dispensable for translocation and may even inhibit the process. In contrast, the N-terminal region spanning aa 45-63 and the C-terminal region from aa 292-309 are required for efficient translocation through the VirB/VirD4 type-IV secretion system (T4SS). These regions correspond to conserved regulatory sequences critical for the translocation of ByeA, a YopJ family effector protein in *Bartonella taylorii* (Fromm2024 pages 5-6; Fromm2024 pages 1-1). \n\nThe unstructured and less conserved N-terminal region, including aa 1-44, contains a translocation signal specific to type-III secretion systems (T3SS) in other YopJ family effectors but is not involved in T4SS-dependent translocation of ByeA. In contrast, the essential N- and C-terminal helices of ByeA are part of conserved binding sites for inositol hexakisphosphate (IP6) and acetyl-C...",
+    "correct_answer": "C",
+    "unsure_option": "B",
+    "selected_answer": "C"
+  },
+  {
+    "question": "Which of the following exhibits the strongest affinity for NIPBLin activated B cells?",
+    "choices": [
+      "(A) N terminus of BRD4",
+      "(B) N terminus of BRD2",
+      "(C) Insufficient information to answer the question",
+      "(D) C terminus of BRD4",
+      "(E) C terminus of BRD2"
+    ],
+    "response": "The C terminus of BRD2 exhibits the strongest affinity for NIPBL in activated B cells. Studies have demonstrated that the interaction between BRD2 and NIPBL is significantly stronger compared to the interaction between BRD4 and NIPBL. The ET domain and C terminus of BRD2 are critical for this interaction, as deletion of these regions in BRD2 mutants completely disrupts the interaction (gothwal2024brd2promotesantibody pages 11-11). Furthermore, immunoprecipitation and Western blot analyses confirm that BRD2 interacts with NIPBL through its ET and BD domains, with a functional reliance on these regions for facilitating DNA repair during antibody class switch recombination (CSR) (gothwal2024brd2promotesantibody pages 12-12). \n\nIn contrast, BRD4 does not demonstrate a similarly strong interaction with NIPBL, and its knockdown does not significantly affect NIPBL occupancy at recombining switch (S) regions, unlike BRD2 knockdown, which leads to a substantial reduction in NIPBL binding (gothw...",
+    "correct_answer": "E",
+    "unsure_option": "C",
+    "selected_answer": "C"
+  },
+  {
+    "question": "Which of the following features are shared among Orc1 orthologs?",
+    "choices": [
+      "(A) Insufficient information to answer the question",
+      "(B) amino acid composition with basic pI",
+      "(C) length of intrinsically disordered region",
+      "(D) Amino acid composition with acidic pI",
+      "(E) amino acid sequence similarity"
+    ],
+    "response": "Orc1 orthologs share several conserved features, particularly in their intrinsically disordered regions (IDRs). These IDRs exhibit a conserved amino acid composition with a basic isoelectric point (pI), despite lacking significant sequence similarity due to rapid evolution over approximately 800 million years (adiji2024theoriginrecognition pages 11-11). The IDRs show compositional homology comparable to the conserved AAA+ domains, which are integral to the ORC core complex (adiji2024theoriginrecognition pages 11-11). \n\nThe length of the IDRs varies significantly among species, ranging from 90 amino acids in Placozoa to nearly 500 amino acids in Echinodermata, but this variability does not affect their conserved functional properties, such as DNA and chromatin binding (adiji2024theoriginrecognition pages 11-11; adiji2024theoriginrecognition pages 12-13). Additionally, the IDRs of some orthologs contain AT-hook motifs, which enable specific binding to AT-rich DNA sequences, further suppo...",
+    "correct_answer": "B",
+    "unsure_option": "A",
+    "selected_answer": "B"
+  },
+  {
+    "question": "Which of the following functional classes of genes is most commonly found mutated in patients with MDS?",
+    "choices": [
+      "(A) Tyrosine kinase receptor signaling",
+      "(B) RNA splicing",
+      "(C) Cell cycle regulation.",
+      "(D) Insufficient information to answer the question",
+      "(E) DNA methylation"
+    ],
+    "response": "The most commonly mutated functional class of genes in patients with Myelodysplastic Syndromes (MDS) is those involved in DNA methylation and chromatin modifications. Key genes in this category include *TET2*, *DNMT3A*, *ASXL1*, and *EZH2*. Mutations in these genes disrupt epigenetic regulation, leading to altered self-renewal and differentiation of hematopoietic stem cells, contributing to the pathogenesis and progression of MDS. Among these, *TET2* mutations are the most frequent, occurring in 22\u201335% of cases, while *DNMT3A* mutations are less common, affecting fewer than 10% of patients. Mutations in chromatin modification-associated genes, such as *ASXL1* and *EZH2*, are also prevalent, with *ASXL1* mutations observed in 15\u201321% of higher-risk MDS cases and *EZH2* mutations in approximately 6% of cases (casalin2024decipheringsignalingpathways pages 3-3; casalin2024decipheringsignalingpathways pages 3-4; casalin2024decipheringsignalingpathways pages 5-6).\n\nIn contrast, mutations in o...",
+    "correct_answer": "E",
+    "unsure_option": "D",
+    "selected_answer": "E"
+  },
+  {
+    "question": "Which of the following gene pairs represents a pair of PARX/PARY gene homologs according to the Mouse Genome Informatics database build 39??",
+    "choices": [
+      "(A) PKC",
+      "(B) Insufficient information to answer the question",
+      "(C) FKPB5",
+      "(D) G530011O06Rik",
+      "(E) FKBP4",
+      "(F) PIP2",
+      "(G) PIPB",
+      "(H) PIPA",
+      "(I) G530011O06Rikx, G530011O06Riky",
+      "(J) Gm21860",
+      "(K) PKA",
+      "(L) PIP3"
+    ],
+    "response": "The Mouse Genome Informatics (MGI) database build 39 identifies specific pairs of pseudoautosomal region (PAR) homologs on the X and Y chromosomes (PARX and PARY). Among these, the gene pair *G530011O06Rikx* and *G530011O06Riky* is explicitly noted as a PARX/PARY homolog. These homologs are characterized by nearly identical sequences and have gene models supported by either NCBI or Ensembl (baldarelli2024mousegenomeinformatics pages 9-10). \n\nThe database utilizes a consistent nomenclature convention to distinguish these homologous pairs, appending \"x\" for X chromosome genes and \"y\" for Y chromosome genes (baldarelli2024mousegenomeinformatics pages 7-8). This approach facilitates the identification of homologous relationships between PARX and PARY genes. \n\nWhile the database includes additional PARX/PARY homologs, such as *Erdr1x* and *Erdr1y*, no other gene pairs listed in the provided options are recognized as homologs in build 39. Therefore, the correct answer is *G530011O06Rikx* and...",
+    "correct_answer": "I",
+    "unsure_option": "B",
+    "selected_answer": "I"
+  },
+  {
+    "question": "Which of the following genes was more upregulated in tropical drosophilia melanogaster embryos compared to Vermont embryos when both groups were exposed to heat shocks?",
+    "choices": [
+      "(A) Mekk1",
+      "(B) Insufficient information to answer the question",
+      "(C) Rut",
+      "(D) Sod3",
+      "(E) Ucp4A"
+    ],
+    "response": "The gene **Ucp4A** was more upregulated in tropical *Drosophila melanogaster* embryos compared to Vermont embryos when both groups were exposed to heat shocks. Ucp4A is involved in preventing reactive oxygen species (ROS) formation, which contributes to maintaining redox homeostasis under heat stress conditions. This upregulation is part of a broader physiological adaptation in tropical embryos that enhances their heat tolerance by focusing on oxidative stress prevention rather than proteostasis. In contrast, canonical heat shock genes showed similar expression levels in both tropical and Vermont embryos, highlighting the unique role of oxidative stress response genes in tropical populations (mikucki2024heattoleranceoxidative pages 14-15, mikucki2024heattoleranceoxidative pages 13-14).\n\nAdditionally, tropical embryos exhibited higher expression of other genes involved in oxidative stress response, such as those encoding ROS-scavenging proteins, including Sod3. However, the specific men...",
+    "correct_answer": "E",
+    "unsure_option": "B",
+    "selected_answer": "E"
+  },
+  {
+    "question": "Which of the following is not upregulated in HER2 positive breast cancer cells compared to control cells?",
+    "choices": [
+      "(A) SREBF1/SREBP1c",
+      "(B) NR1H2",
+      "(C) FASN",
+      "(D) Insufficient information to answer the question",
+      "(E) ACLY",
+      "(F) ABCA1"
+    ],
+    "response": "SREBF1/SREBP1c, FASN, and ACLY are upregulated in HER2-positive breast cancer cells compared to control cells. SREBF1/SREBP1c and FASN are specifically identified as being overexpressed in HER2-positive breast cancer patient samples relative to normal tissues (premaratne2024liverxreceptor pages 12-13). ACLY is also mentioned as upregulated in HER2-positive samples (premaratne2024liverxreceptor pages 12-13). \n\nIn contrast, NR1H2 (LXR\u03b2) does not show differences in transcript levels between HER2-positive cancer cells and normal tissues (premaratne2024liverxreceptor pages 12-13). ABCA1 is not explicitly discussed in terms of its expression status in HER2-positive breast cancer cells compared to controls, and the context provides insufficient information to determine its regulation (premaratne2024liverxreceptor pages 12-13, premaratne2024liverxreceptor pages 13-14, premaratne2024liverxreceptor pages 6-7, premaratne2024liverxreceptor pages 7-8, premaratne2024liverxreceptor pages 9-9).\n\nTher...",
+    "correct_answer": "B",
+    "unsure_option": "D",
+    "selected_answer": "B"
+  },
+  {
+    "question": "Which of the following mucin-degrading bacteria would you expect to be enriched in the mouse gut microbiome in fiber-free conditions compared to fiber-rich conditions?",
+    "choices": [
+      "(A) B. intestinihominis",
+      "(B) B. thetaiotaomicron",
+      "(C) C. symbiosum",
+      "(D) Insufficient information to answer the question",
+      "(E) A. muciniphila"
+    ],
+    "response": "In fiber-free (FF) dietary conditions, the mucin-degrading bacterium *Akkermansia muciniphila* is enriched in the mouse gut microbiome compared to fiber-rich conditions. This bacterium thrives in the absence of dietary fiber by degrading the colonic mucus layer, an activity that contributes to increased pathogen susceptibility, such as to *Citrobacter rodentium* infections (wolter2024dietdrivendifferentialresponse pages 1-1, 11-11). Similarly, *Bacteroides caccae*, another mucin-degrading bacterium, is also favored under FF conditions (wolter2024dietdrivendifferentialresponse pages 1-2). \n\nIn contrast, other mucin-degrading bacteria, such as *Bacteroides thetaiotaomicron* and *Barnesiella intestinihominis*, are outcompeted and exhibit lower abundance in FF conditions (wolter2024dietdrivendifferentialresponse pages 1-2). Non-mucin-degrading bacteria like *Clostridium symbiosum* also thrive under FF conditions, but this is likely due to metabolites released by primary mucin degraders rat...",
+    "correct_answer": "E",
+    "unsure_option": "D",
+    "selected_answer": "E"
+  },
+  {
+    "question": "Which of the following nephron segments showed reduction in ATP levels following phloretin treatment as demonstrated in an ATP imaging system of an ex-vivo kidney slice culture?",
+    "choices": [
+      "(A) Insufficient information to answer the question",
+      "(B) Principal Cells",
+      "(C) Distal Tubules",
+      "(D) Podocytes",
+      "(E) Proximal Tubules"
+    ],
+    "response": "Podocytes demonstrated a significant reduction in ATP levels following phloretin treatment in an ATP imaging system of an ex-vivo kidney slice culture. The study quantified a 56.1% reduction in ATP levels in podocytes, indicating their reliance on glucose uptake via glucose transporters (GLUTs) and both oxidative phosphorylation (OXPHOS) and glycolysis for ATP synthesis (yamamoto2024visualizationofintracellular pages 9-12). \n\nIn contrast, distal tubules (DTs) and proximal convoluted tubules (PCs) did not exhibit a significant reduction in ATP levels under the same conditions. These nephron segments maintained ATP levels for 60 minutes post-phloretin treatment, suggesting compensatory mechanisms between OXPHOS and glycolysis when one pathway was inhibited (yamamoto2024visualizationofintracellular pages 20-21). \n\nThe effects of phloretin treatment on principal cells (PCs) and proximal tubules (PTs) were analyzed, but the provided context does not specifically confirm a significant reduct...",
+    "correct_answer": "D",
+    "unsure_option": "A",
+    "selected_answer": "D"
+  },
+  {
+    "question": "Which of the following nucleotide repeats within the RFC1 gene definitively do not result in the formation of H-DNA triplex formation?",
+    "choices": [
+      "(A) (A3GAG)n",
+      "(B) (A4G2)n",
+      "(C) (A2G)n",
+      "(D) Insufficient information to answer the question",
+      "(E) (A2G3)n"
+    ],
+    "response": "The nucleotide repeat (A4G)n within the RFC1 gene definitively does not result in the formation of H-DNA triplex structures. Studies have shown that nonpathogenic (A4G)60 repeats fail to form triplex DNA structures, as evidenced by minimal DNA polymerization stalling in vitro and the absence of replication fork stalling when these repeats are present in the lagging strand template. This conclusion is further supported by experimental data indicating that (A4G)10 repeats exhibit minimal interference with DNA replication processes, confirming their inability to form H-DNA triplexes (hisey2024pathogeniccanvas(aaggg)n pages 9-10).\n\nIn contrast, pathogenic (A2G3)n repeats are known to form H-DNA triplex structures that stall DNA replication in an orientation-dependent manner, contributing to genome instability and replication fork stalling in yeast and human cells (hisey2024pathogeniccanvas(aaggg)n pages 1-1, 9-10, 12-12). Additionally, the pathogenicity and structural propensity of these r...",
+    "correct_answer": "B",
+    "unsure_option": "D",
+    "selected_answer": "D"
+  },
+  {
+    "question": "Which of the following proteins is less abundant in human intestinal epithelial cells grown in vitro than in intestinal epithelial cells sampled from a human?",
+    "choices": [
+      "(A) MKI67",
+      "(B) Insufficient information to answer the question",
+      "(C) OLFM4",
+      "(D) SOX9",
+      "(E) CA1",
+      "(F) PTK7"
+    ],
+    "response": "CA1 is less abundant in human intestinal epithelial cells (IECs) grown in vitro compared to IECs sampled from a human colon. CA1 is a protein involved in ion transport and water homeostasis and is identified as being underrepresented in IECs grown under in vitro conditions. This reduced abundance contributes to the lower functional profile of in vitro IECs, particularly in ion transport and water absorption regulation (post2024deepvisualproteomics pages 7-8; post2024deepvisualproteomics pages 10-11).\n\nThere is insufficient information in the provided context to determine whether MKI67, OLFM4, SOX9, or PTK7 are less abundant in IECs grown in vitro compared to those in vivo. The context mentions OLFM4 and SOX9 in relation to epithelial cell markers and protein intensity differences but does not specifically state that they are less abundant in vitro. Similarly, no data is provided regarding the abundance of MKI67 or PTK7 in these conditions (post2024deepvisualproteomics pages 20-20; post...",
+    "correct_answer": "E",
+    "unsure_option": "B",
+    "selected_answer": "E"
+  },
+  {
+    "question": "Which of the following residues is essential for proton antiport in the serotonin transporter?",
+    "choices": [
+      "(A) F335",
+      "(B) S438",
+      "(C) D437",
+      "(D) D98",
+      "(E) Insufficient information to answer the question"
+    ],
+    "response": "Asp437 (D437) is essential for proton (H+) antiport in the serotonin transporter (SERT). Asp437 serves as a binding site for protons, with its protonation state being critical for H+-driven serotonin uptake. Mutations at Asp437 disrupt this process, underscoring its indispensable role in H+ antiport. This residue is conserved across other monoamine transporters, such as the norepinephrine transporter (NET) and dopamine transporter (DAT), further highlighting its functional importance (hellsberg2024identificationofthe pages 7-7; hellsberg2024identificationofthe pages 7-8).\n\nIn contrast, Ser438 (S438) is not required for H+ antiport, as evidenced by the retention of pH-dependent transport features in the S438A mutant. However, Ser438 does contribute to potassium (K+) antiport, indicating distinct roles for these residues in the transport mechanism (hellsberg2024identificationofthe pages 7-7; hellsberg2024identificationofthe pages 7-8). Additionally, Asp98 (D98) is implicated in proton tr...",
+    "correct_answer": "C",
+    "unsure_option": "E",
+    "selected_answer": "C"
+  },
+  {
+    "question": "Which of the following tRNAs is enriched in extracellular vesicles as opposed to within the cell in the lymphoblastoidRN cell line?",
+    "choices": [
+      "(A) tRNA-ArgACG",
+      "(B) tRNA-ValAAC",
+      "(C) tRNA-ArgCCG",
+      "(D) Insufficient information to answer the question",
+      "(E) tRNA-ProAGG",
+      "(F) tRNA-TyrGTA"
+    ],
+    "response": "tRNA-ValAAC is enriched in extracellular vesicles (EVs) compared to its cellular counterparts in the lymphoblastoid RN cell line. The study demonstrated significant enrichment of tRNA-ValAAC, along with tRNA-ValCAC, in EVs, with a false discovery rate (FDR) of less than 0.01, indicating selective sorting of these tRNAs into EVs. In contrast, other tRNAs such as tRNA-ArgACG, tRNA-ArgCCG, tRNA-ProAGG, and tRNA-TyrGTA were more abundant within cells rather than in EVs, suggesting that these tRNAs are not preferentially incorporated into EVs (scheepbouwer2024fulllengthtrnaslacking pages 6-8).\n\nThe selective sorting mechanism for tRNAs into EVs appears to favor specific valine tRNAs, including tRNA-ValAAC, which are enriched in EVs compared to their functional, intact counterparts in cells. This sorting process underscores the potential role of EVs in packaging and transporting specific RNA species, especially non-functional or truncated tRNAs, which may have implications for intercellular ...",
+    "correct_answer": "B",
+    "unsure_option": "D",
+    "selected_answer": "B"
+  },
+  {
+    "question": "Which of the following treatments elicit dsRNA helicase DHX9 positive stress granules through relocation of DHX9 from the nucleus to the cytosol?",
+    "choices": [
+      "(A) Insufficient information to answer the question",
+      "(B) UVA light",
+      "(C) etoposide",
+      "(D) 12-dimethylbenz[a]anthracene (DMBA)",
+      "(E) 7",
+      "(F) camptothecin",
+      "(G) UVC light",
+      "(H) hydroxyurea"
+    ],
+    "response": "The treatments that elicit dsRNA helicase DHX9-positive stress granules (SGs) through the relocation of DHX9 from the nucleus to the cytosol include UVA and UVC light. Specifically, the combination of 4-thiouridine (4sU) with UVA stress induces the formation of DHX9-positive SGs, as does UVC irradiation. These SGs are distinct from classical SGs and are enriched in damaged intronic RNA. The relocation of DHX9 to the cytosol is a protective mechanism against RNA crosslinking damage and dsRNA stress. Confocal and live-cell imaging confirmed the presence of DHX9 in stress granules marked by G3BP1 under these conditions (zhou2024rnadamagecompartmentalization pages 1-2, 2-4, 8-8, 10-12).\n\nIn contrast, other stress treatments, such as etoposide, 12-dimethylbenz[a]anthracene (DMBA), camptothecin, and hydroxyurea, do not trigger the formation of DHX9-positive SGs. These treatments, along with other stressors like arsenite, heat shock, osmosis, and starvation, fail to induce DHX9 relocation fro...",
+    "correct_answer": "G",
+    "unsure_option": "A",
+    "selected_answer": "B"
+  },
+  {
+    "question": "Within the CTnano-cnt construct, which of the following best describes the effect a N55D mutation in the bacteriophage MS2 coat protein has on NLuc protein production?",
+    "choices": [
+      "(A) Insufficient information to answer the question",
+      "(B) Enhanced binding to the TR hairpin",
+      "(C) No change in the level of NLuC translation",
+      "(D) Inability to block initiation of NLuC translation",
+      "(E) Increased NLuc translation"
+    ],
+    "response": "Within the CTnano-cnt construct, the N55D mutation in the bacteriophage MS2 coat protein eliminates the protein's ability to bind to the TR stem-loop. This prevents the coat protein from repressing NLuc translation by blocking ribosome initiation at the NLuc start codon, resulting in increased NLuc protein production. Experimental data indicate that CTnano-cnt mRNA with the N55D mutation produces 6.8 times more NLuc protein compared to the wild-type coat protein construct, demonstrating the mutation's significant effect on relieving translational repression (dykeman2024designofa pages 6-6). \n\nHowever, the mutation also introduces a complication. The CTnano-cnt mRNA forms a more stable alternative hairpin structure, which reduces ribosome access to the NLuc start codon. This structural change leads to a 25-fold reduction in NLuc production compared to the wild-type construct under certain conditions (dykeman2024designofa pages 7-8). Despite this, simulations suggest that the N55D mutati...",
+    "correct_answer": "D",
+    "unsure_option": "A",
+    "selected_answer": "E"
+  },
+  {
+    "question": "dimt-1 knockdown in C. elegans has been shown to cause upregulation of genes in which of the following pathways?",
+    "choices": [
+      "(A) FOXO signaling",
+      "(B) WNT signaling",
+      "(C) mTOR signaling",
+      "(D) Insufficient information to answer the question",
+      "(E) ribosome biogenesis"
+    ],
+    "response": "Dimt-1 knockdown in *Caenorhabditis elegans* has been shown to cause the upregulation of genes involved in several pathways, including WNT signaling. Pathway analysis of transcriptional changes following dimt-1 knockdown revealed significant upregulation of 3,700 genes, with enrichment in pathways such as WNT signaling, TGF-\u03b2 signaling, MAPK signaling, and degradation pathways like proteasome, peroxisome, and autophagy (rothi2024the18srrna pages 5-7). Additionally, dimt-1 depletion altered ribosomal binding to mRNAs involved in longevity regulation, degradation pathways, oxidative phosphorylation, and glutathione metabolism (rothi2024the18srrna pages 7-8). \n\nHowever, there is no evidence in the provided context indicating the upregulation of genes in the FOXO signaling or mTOR signaling pathways. While dimt-1 knockdown influences lifespan through the FOXO pathway, as indicated by its dependency on daf-16 for lifespan extension, this does not confirm transcriptional upregulation of FOXO...",
+    "correct_answer": "B",
+    "unsure_option": "D",
+    "selected_answer": "B"
+  }
+]
