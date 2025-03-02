@@ -1,0 +1,15 @@
+[
+  {
+    "question": "What effect does bone marrow stromal cell-conditioned media have on the expression of the CD8a receptor in cultured OT-1 T cells?",
+    "choices": [
+      "(A) No effect",
+      "(B) Insufficient information to answer the question",
+      "(C) Decrease",
+      "(D) Increase"
+    ],
+    "response": "Bone marrow stromal cell-conditioned media (SCM) does not significantly alter the expression of the CD8\u03b1 receptor in cultured OT-1 T cells. Studies indicate that there is no significant difference in CD8\u03b1 expression between OT-1 T cells treated with SCM and those treated with unconditioned medium (UCM) or adipocyte-conditioned medium (ACM). Statistical analysis shows that the p-values for these comparisons are all above 0.05, suggesting a lack of significant effect (kellner2024thetcellniche pages 3-5).\n\nFurthermore, while SCM does not negatively impact CD8\u03b1 expression, it also does not enhance it significantly. In contrast, a trend towards increased CD8\u03b1 expression was observed in T cells cultured in ACM, indicating that SCM maintains CD8\u03b1 levels without promoting an increase (kellner2024thetcellniche pages 5-6). Overall, the evidence suggests that SCM has no effect on CD8\u03b1 receptor expression in OT-1 T cells, supporting the conclusion that the correct answer is (A) No effect (kellner2...",
+    "correct_answer": "A",
+    "unsure_option": "B",
+    "selected_answer": "A"
+  }
+]

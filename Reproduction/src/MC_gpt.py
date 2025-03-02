@@ -19,7 +19,7 @@ class ScientificQAEvaluator:
         self,
         model_name: str = "gpt-4o-mini",
         temperature: float = 0.2,
-        results_dir: str = "evaluation_results_49MCs"
+        results_dir: str = "evaluation_results_49MCs_gpt4o"
     ):
         """
         Initialize the evaluator.
