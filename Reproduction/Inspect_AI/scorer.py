@@ -20,41 +20,45 @@ def precision_choice(no_answer: str | None = None) -> Scorer:
         choices = state.choices
         explanation = state.output.completion
 
+        model_output = state.output.completion.strip()
+
         # compute the target positions
         target_positions = [
             ord(target_character.upper()) - ord("A") for target_character in target.text
         ]
-
+        generated_selected_choices = []
         # compute the answers
-        choice_positions = [
-            i for i, choice in enumerate(choices) if choice.correct is True
-        ]
-        answers = [chr(ord("A") + choice) for choice in choice_positions]
-
-        # the choices the model selected
-        generated_selected_choices = [
-            i for i, choice in enumerate(choices) if choice.correct is True
-        ]
-
+        correct_choices = [i for i, choice in enumerate(choices) if getattr(choice, "correct", False) is True]
+        if correct_choices:
+            generated_selected_choices = correct_choices
+        elif len(model_output) == 1 and 'A' <= model_output.upper() <= 'Z':
+            letter_index = ord(model_output.upper()) - ord('A')
+            if 0 <= letter_index < len(choices):
+                generated_selected_choices = [letter_index]
+        elif hasattr(state, "metadata") and "choice_correct" in state.metadata:
+            index = state.metadata["choice_correct"]
+            if isinstance(index, int) and 0 <= index < len(choices):
+                generated_selected_choices = [index]
+    
+        answers = [chr(ord("A") + choice) for choice in generated_selected_choices]
+        
         if no_answer is not None:
-            # Look for a no-answer choice and use that if present
             no_answer_choices = [
-                i
-                for i, choice in enumerate(choices)
+                i for i, choice in enumerate(choices)
                 if choice.value == no_answer and choice.correct is True
             ]
 
-            if len(no_answer_choices) == 1:
+            if no_answer_choices:
                 return Score(
-                    value=NOANSWER,
+                    value=NOANSWER,  # Special status for "Insufficient information"
                     answer=", ".join(answers),
                     explanation=explanation,
                 )
-
-        target_matches_choices = generated_selected_choices == sorted(target_positions)
+        
+        target_matches_choices = set(generated_selected_choices) == set(target_positions)
         return Score(
             value=CORRECT if target_matches_choices else INCORRECT,
-            answer=", ".join(answers),
+            answer=", ".join(answers) if answers else model_output,
             explanation=explanation,
         )
 
