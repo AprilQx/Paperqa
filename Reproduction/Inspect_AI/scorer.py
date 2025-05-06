@@ -11,11 +11,13 @@ from inspect_ai.scorer import (
 )
 from inspect_ai.solver import TaskState
 
-from metrics import coverage, precision,accuracy
+from metrics import coverage, precision, accuracy
 
+# Define constant for the "Insufficient information" answer choice
+UNCERTAIN_ANSWER_CHOICE = "Insufficient information to answer the question."
 
 @scorer(metrics=[accuracy(), precision(), coverage(), stderr()])
-def precision_choice(no_answer: str | None = None) -> Scorer:
+def precision_choice(no_answer: str | None = UNCERTAIN_ANSWER_CHOICE) -> Scorer:
     async def score(state: TaskState, target: Target) -> Score:
         choices = state.choices
         explanation = state.output.completion
@@ -42,6 +44,7 @@ def precision_choice(no_answer: str | None = None) -> Scorer:
     
         answers = [chr(ord("A") + choice) for choice in generated_selected_choices]
         
+        # Check if the "Insufficient information" option was selected
         if no_answer is not None:
             no_answer_choices = [
                 i for i, choice in enumerate(choices)
@@ -50,8 +53,8 @@ def precision_choice(no_answer: str | None = None) -> Scorer:
 
             if no_answer_choices:
                 return Score(
-                    value=NOANSWER,  # Special status for "Insufficient information"
-                    answer=", ".join(answers),
+                    value=NOANSWER,  # Mark as NOANSWER so it's excluded from precision calculation
+                    answer=", ".join(answers) if answers else no_answer,
                     explanation=explanation,
                 )
         

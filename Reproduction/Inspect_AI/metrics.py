@@ -36,15 +36,31 @@ def precision_value_to_float(
 
 @metric
 def precision(to_float: ValueToFloat = precision_value_to_float()) -> Metric:
+    """Compute the fraction of questions answered correctly when a response is provided.
+    
+    Precision = correct / answered
+    Where 'answered' excludes questions marked as "Insufficient information"
+    
+    Args:
+        to_float: Function for mapping `Value` to float for computing
+            metrics. Must return -1 for NOANSWER values to exclude them.
+            
+    Returns:
+        Precision metric
+    """
     def metric(scores: list[SampleScore]) -> float:
+        # Filter out unanswered questions (NOANSWER)
         answered = [item for item in scores if to_float(item.score.value) != -1]
         if len(answered) == 0:
             return 0.0
 
+        # Calculate total correct among answered questions
         total = 0.0
         for item in answered:
             total += to_float(item.score.value)
-        return total / float(len(answered))  # Divide by ANSWERED questions
+        
+        # Divide by number of ANSWERED questions
+        return total / float(len(answered))
 
     return metric
 
@@ -77,18 +93,31 @@ def coverage(to_float: ValueToFloat = precision_value_to_float()) -> Metric:
 
 @metric
 def accuracy(to_float: ValueToFloat = precision_value_to_float()) -> Metric:
+    """Compute the fraction of correct answers over all questions.
+    
+    Accuracy = correct / total
+    Where 'total' includes all questions, even those marked as "Insufficient information"
+    
+    Args:
+        to_float: Function for mapping `Value` to float for computing
+            metrics. Must return -1 for NOANSWER values to identify them.
+            
+    Returns:
+        Accuracy metric
+    """
     def metric(scores: list[SampleScore]) -> float:
         if len(scores) == 0:
             return 0.0
             
-        # Filter to find answered questions (excluding NOANSWER)
+        # Find answered questions (excluding NOANSWER)
         answered = [item for item in scores if to_float(item.score.value) != -1]
         
+        # Calculate total correct among answered questions
         correct = 0.0
         for item in answered:
             correct += to_float(item.score.value)
             
-        # Divide by TOTAL questions
-        return correct / float(len(scores))  # This is the key difference!
+        # Divide by TOTAL questions (including unanswered)
+        return correct / float(len(scores))
 
     return metric
