@@ -132,8 +132,8 @@ def paperqa2_agent():
         },
     },
     answer=AnswerSettings(
-        evidence_k=30, #top_k
-        answer_max_sources=5,#max_cut_off in the figure
+        evidence_k=1, #top_k
+        answer_max_sources=15,#max_cut_off in the figure
         evidence_skip_summary=False),
     agent=AgentSettings(
         agent_llm="gpt-4o-mini",
@@ -228,8 +228,9 @@ def paperqa2_agent():
                 Do not include explanations, punctuation, or any other text.""",
                 llm_config = {
             "model": "gpt-4o-mini",
-            "temperature": 0.1
-            }
+            "temperature": 0.1,
+            "functions": [{"name": "answer", "parameters": MCAnswer.model_json_schema()}],
+            "function_call": {"name": "answer"}}
             )
 
             user_proxy = UserProxyAgent(
@@ -287,11 +288,28 @@ def paperqa2_agent():
             
             # Extract the answer
             last_message = researcher.last_message()
-            content = last_message["content"]
-
+            if "function_call" in last_message:
+                # Extract from function call
+                function_call = last_message["function_call"]
+                if function_call.get("name") == "answer":
+                    try:
+                        args = json.loads(function_call.get("arguments", "{}"))
+                        if "answer_letter" in args:
+                            answer_letter = args["answer_letter"].upper()
+                            letter_index = ord(answer_letter) - ord('A')
+                            
+                            transcript().info(f"Extracted answer from function call: {answer_letter}")
+                            return {
+                                "output": answer_letter,
+                                "choice_correct": letter_index
+                            }
+                    except json.JSONDecodeError:
+                        transcript().info("Failed to parse function arguments as JSON")
+            
+            # Get content (might be None)
+            content = last_message.get("content")
             transcript().info(f"Last message content type: {type(content)}")
             transcript().info(f"Last message content: {content}")
-            
             # Check if we got a structured response
             if isinstance(content, MCAnswer):
                 answer_letter = content.answer_letter.upper()
@@ -330,15 +348,15 @@ def paperqa2_agent():
     
 @task(parameters={
     "model": "gpt-4o-mini",
-    "evidence_k": 30,
-    "max_sources": 5,
+    "evidence_k": 1,
+    "max_sources": 15,
     "skip_summary": False,
     "dataset": "train"
 })
 def evaluate_paperqa2_custom(
     model: str = "gpt-4o-mini",
-    evidence_k: int = 30,
-    max_sources: int = 5,
+    evidence_k: int = 1,
+    max_sources: int = 15,
     skip_summary: bool = False,
     dataset: str = "train"
 ):
