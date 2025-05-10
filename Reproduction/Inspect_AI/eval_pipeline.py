@@ -41,8 +41,8 @@ os.environ["AUTOGEN_USE_DOCKER"] = "False"
 #change the path of papers
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
-PAPERS_DIR = os.path.join(PROJECT_ROOT, 'LitQA2_pdfs')
-QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'Reproduction', 'Questions', 'formatted_questions', 'questions.jsonl')
+PAPERS_DIR = os.path.join(PROJECT_ROOT, 'data', 'LitQA2_pdfs')
+QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'data', 'Questions', 'formatted_questions', 'questions.jsonl')
 #Multiple choice template for multiple choice in Instect AI
 
 MULTIPLE_CHOICE_TEMPLATE = """
@@ -132,7 +132,7 @@ def paperqa2_agent():
         },
     },
     answer=AnswerSettings(
-        evidence_k=1, #top_k
+        evidence_k=5, #top_k
         answer_max_sources=15,#max_cut_off in the figure
         evidence_skip_summary=False),
     agent=AgentSettings(
@@ -163,6 +163,13 @@ def paperqa2_agent():
                     "sync_with_paper_directory": True,
                     "recurse_subdirectories": True
                 }})
+         # Check if directory exists
+            if not os.path.exists(PAPERS_DIR):
+                transcript().error(f"Papers directory not found: {PAPERS_DIR}")
+                raise FileNotFoundError(f"Papers directory not found: {PAPERS_DIR}")
+                
+            # Print files in directory (for debugging)
+            transcript().info(f"Files in {PAPERS_DIR}: {os.listdir(PAPERS_DIR)[:5]}")
             
             built_index = await get_directory_index(settings=settings)
 
@@ -348,14 +355,14 @@ def paperqa2_agent():
     
 @task(parameters={
     "model": "gpt-4o-mini",
-    "evidence_k": 1,
+    "evidence_k": 5,
     "max_sources": 15,
     "skip_summary": False,
     "dataset": "train"
 })
 def evaluate_paperqa2_custom(
     model: str = "gpt-4o-mini",
-    evidence_k: int = 1,
+    evidence_k: int = 5,
     max_sources: int = 15,
     skip_summary: bool = False,
     dataset: str = "train"
