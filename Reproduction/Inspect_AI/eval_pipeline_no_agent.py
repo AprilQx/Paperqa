@@ -28,12 +28,20 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import autogen
 from autogen import UserProxyAgent,AssistantAgent
 
+from paperqa.settings import AnswerSettings
+
+import datetime
 
 from pydantic import BaseModel, Field
 
 import os
 # Set environment variable to disable Docker
 os.environ["AUTOGEN_USE_DOCKER"] = "False"
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
+PAPERS_DIR = os.path.join(PROJECT_ROOT, 'papers')
+QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'Reproduction', 'Questions', 'formatted_questions_test', 'questions.jsonl')
 
 # Define structured output models
 class Evidence(BaseModel):
@@ -65,7 +73,7 @@ class PaperQAClient:
     
     def __init__(self, settings: Optional[Settings] = None):
         # Set up the settings
-        self.paper_directory = '/Users/apple/Documents/GitLab_Projects/master_project/xx823/papers'
+        self.paper_directory = PAPERS_DIR
         if settings is None:
             self.settings = Settings(
                 temperature=0.1,
@@ -148,7 +156,7 @@ def record_to_sample(record: dict[str, Any]) -> Sample:
 
 
 
-UNCERTAIN_ANSWER_CHOICE = "Insufficient information to answer the question."
+UNSURE= "Insufficient information to answer the question"
 
 
 
@@ -161,13 +169,45 @@ def paperqa2_agent():
 
         """Agent function for PaperQA2 using the Bridge pattern"""
         pqa_client = PaperQAClient(
-            settings=Settings(
-                llm="gpt-4o-mini",
-                temperature=0.1,
-                paper_directory="/Users/apple/Documents/GitLab_Projects/master_project/xx823/papers",
-                summary_llm="gpt-4o-mini"
+            settings = Settings(
+        llm="gpt-4o-mini",
+        llm_config={
+            "model_list": [
+                {
+                    "model_name": "gpt-4o-mini",
+                    "litellm_params": {
+                        "model": "gpt-4o-mini",
+                        "temperature": 0.1,
+                        "max_tokens": 4096,
+                    },
+                }
+            ],
+            "rate_limit": {
+                "gpt-4o-mini": "30000 per 1 minute",
+            },
+        },
+        summary_llm="gpt-4o-mini",
+        summary_llm_config={
+            "rate_limit": {
+                "gpt-4o-mini": "30000 per 1 minute",
+            },
+        },
+        answer=AnswerSettings(
+            evidence_k=30, #top_k
+            answer_max_sources=15,#max_cut_off in the figure
+            evidence_skip_summary=True),
+        agent=AgentSettings(
+            agent_llm="gpt-4o-mini",
+            agent_llm_config={
+                "rate_limit": {
+                    "gpt-4o-mini": "30000 per 1 minute",
+                },
+            }
+        ),
+        embedding="text-embedding-3-small",
+        temperature=0.5,  # Keep deterministic
+        paper_directory=PAPERS_DIR)
             )
-        )
 
         # Extract question and choices from the input messages
         user_message = next((msg["content"] for msg in sample["messages"] if msg["role"] == "user"), "")
@@ -188,7 +228,29 @@ def paperqa2_agent():
              # Create AG2 agents
             researcher = AssistantAgent(
                 name="researcher",
-                system_message="You are an expert on multiple-choice questions. Analyze the evidence and question, then respond with just a single letter indicating the correct answer (A, B, C, D, etc.).",
+                system_message="""Your task is to analyze PaperQA2 responses to multiple-choice questions and determine which answer option 
+                is being selected by the model. Be precise and objective.
+
+                You will receive:
+                1. A question with multiple-choice options
+                2. The model's response
+
+                For each response, you must:
+                1. Analyze the content carefully
+                2. Determine which option the response is selecting
+                3. Return ONLY the single letter of the selected option (A, B, C, D, etc.)
+                4. If the model is indicating it doesn't have enough information, select the "Insufficient information" option
+
+                IMPORTANT: Your response must contain EXACTLY ONE LETTER, nothing else. 
+
+                IMPORTANT RULES FOR NUMERICAL QUESTIONS:
+            - When the question involves numerical values, pay attention to significant figures
+            - If PaperQA2's response contains a numeric value with higher precision than the options (e.g., 45.67% vs 46%), 
+            round to the same number of significant figures as in the options
+            - Match to the closest option after appropriate rounding
+            - If two options are equally close after rounding, choose the one that appears in the response
+            - If the response is significantly different from all options, select the "Insufficient information" option
+                Do not include explanations, punctuation, or any other text.""",
                 # Simpler configuration without structured output initially
                 llm_config = {
             "model": "gpt-4o-mini",
@@ -282,16 +344,32 @@ def paperqa2_agent():
     return run
 
     
-@task
-def evaluate_paperqa2_custom():
+@task( parameters={
+    "model": "gpt-4o-mini",
+    "evidence_k": 30,
+    "max_sources": 15,
+    "skip_summary": True,
+    "dataset": "test"
+})
+def evaluate_paperqa2_custom(
+    model: str = "gpt-4o-mini",
+    evidence_k: int = 30,
+    max_sources: int = 15,
+    skip_summary: bool = True,
+    dataset: str = "test"
+):
     """Task to evaluate PaperQA2 on multiple choice biology questions"""
-    dataset = json_dataset("/Users/apple/Documents/GitLab_Projects/master_project/xx823/Reproduction/Questions/formatted_questions_test/questions.jsonl", record_to_sample)
+    dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d")
+    experiment_name = f"paperqa2_{model}_evK{evidence_k}_maxS{max_sources}_skip{skip_summary}_dataset{dataset}_{timestamp}"
     
     return Task(
         dataset=dataset,
         solver=bridge(paperqa2_agent()),
-        scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
+        scorer=precision_choice(no_answer=UNSURE),
         epochs=Epochs(1, "mode"),
+        metadata={"experiment_name": experiment_name}
     )
 
 # # Keep the built-in multiple_choice solver task for comparison

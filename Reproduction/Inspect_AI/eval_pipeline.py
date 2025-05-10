@@ -18,6 +18,7 @@ from paperqa import  ask
 from paperqa.agents.main import agent_query
 from paperqa.agents.search import get_directory_index
 from paperqa.settings import Settings, AgentSettings
+from paperqa.settings import AnswerSettings
 
 import json
 import nest_asyncio
@@ -27,13 +28,41 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 # Import AutoGen components
 import autogen
 from autogen import UserProxyAgent,AssistantAgent
-
+import datetime
 
 from pydantic import BaseModel, Field
+
 
 import os
 # Set environment variable to disable Docker
 os.environ["AUTOGEN_USE_DOCKER"] = "False"
+
+
+#change the path of papers
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
+PAPERS_DIR = os.path.join(PROJECT_ROOT, 'LitQA2_pdfs')
+QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'Reproduction', 'Questions', 'formatted_questions', 'questions.jsonl')
+#Multiple choice template for multiple choice in Instect AI
+
+MULTIPLE_CHOICE_TEMPLATE = """
+The following is a multiple choice question about biology.
+Answer the following multiple choice question about biology with ONLY the letter of the correct answer.
+
+Think step by step.
+Think step by step about the information in the scientific papers available to you.
+Use the provided paper content to determine the answer.
+
+Question: {question}
+Options:
+{choices}
+
+Your entire response must consist of exactly the format 'ANSWER: $LETTER' where $LETTER is the single correct option letter.
+Your entire response must consist of exactly the format 'LETTER' where LETTER is the single correct option letter.
+Do not include any explanations, reasoning, or additional text before or after.
+Respond with ONLY 'ANSWER: A' or 'ANSWER: B' or 'ANSWER: C', etc.
+Respond with ONLY 'A' or 'B' or 'C', etc.
+"""
 
 # Define structured output models
 class Evidence(BaseModel):
@@ -72,7 +101,7 @@ def record_to_sample(record: dict[str, Any]) -> Sample:
 
 
 
-UNCERTAIN_ANSWER_CHOICE = "Insufficient information to answer the question."
+UNCERTAIN_ANSWER_CHOICE = "Insufficient information to answer the question"
 
 
 
@@ -102,6 +131,10 @@ def paperqa2_agent():
             "gpt-4o-mini": "30000 per 1 minute",
         },
     },
+    answer=AnswerSettings(
+        evidence_k=30, #top_k
+        answer_max_sources=5,#max_cut_off in the figure
+        evidence_skip_summary=False),
     agent=AgentSettings(
         agent_llm="gpt-4o-mini",
         agent_llm_config={
@@ -112,7 +145,7 @@ def paperqa2_agent():
     ),
     embedding="text-embedding-3-small",
     temperature=0.5,  # Keep deterministic
-    paper_directory="/Users/apple/Documents/GitLab_Projects/master_project/xx823/papers" )
+    paper_directory=PAPERS_DIR)
 
     
     index_built = False
@@ -125,7 +158,7 @@ def paperqa2_agent():
             transcript().info("Building PaperQA2 document index...")
             
             settings = Settings(
-                paper_directory='/Users/apple/Documents/GitLab_Projects/master_project/xx823/papers',
+                paper_directory=PAPERS_DIR,
                 agent={"index": {
                     "sync_with_paper_directory": True,
                     "recurse_subdirectories": True
@@ -170,8 +203,29 @@ def paperqa2_agent():
              # Create AG2 agents
             researcher = AssistantAgent(
                 name="researcher",
-                system_message="You are an expert on multiple-choice questions. Analyze the evidence and question, then respond with just a single letter indicating the correct answer (A, B, C, D, etc.).",
-                # Simpler configuration without structured output initially
+                system_message="""Your task is to analyze PaperQA2 responses to multiple-choice questions and determine which answer option 
+                is being selected by the model. Be precise and objective.
+
+                You will receive:
+                1. A question with multiple-choice options
+                2. The model's response
+
+                For each response, you must:
+                1. Analyze the content carefully
+                2. Determine which option the response is selecting
+                3. Return ONLY the single letter of the selected option (A, B, C, D, etc.)
+                4. If the model is indicating it doesn't have enough information, select the "Insufficient information" option
+
+                IMPORTANT: Your response must contain EXACTLY ONE LETTER, nothing else. 
+
+                IMPORTANT RULES FOR NUMERICAL QUESTIONS:
+            - When the question involves numerical values, pay attention to significant figures
+            - If PaperQA2's response contains a numeric value with higher precision than the options (e.g., 45.67% vs 46%), 
+            round to the same number of significant figures as in the options
+            - Match to the closest option after appropriate rounding
+            - If two options are equally close after rounding, choose the one that appears in the response
+            - If the response is significantly different from all options, select the "Insufficient information" option
+                Do not include explanations, punctuation, or any other text.""",
                 llm_config = {
             "model": "gpt-4o-mini",
             "temperature": 0.1
@@ -253,10 +307,11 @@ def paperqa2_agent():
                 answer_text = str(content)
                 match = re.search(r"([A-Z])", answer_text, re.IGNORECASE)
                 
+                
                 if match:
                     answer_letter = match.group(1).upper()
                     letter_index = ord(answer_letter) - ord('A')
-                    
+                               
                     transcript().info(f"Extracted answer: {answer_letter}")
                     return {
                         "output": answer_letter,
@@ -273,24 +328,42 @@ def paperqa2_agent():
     return run
 
     
-@task
-def evaluate_paperqa2_custom():
+@task(parameters={
+    "model": "gpt-4o-mini",
+    "evidence_k": 30,
+    "max_sources": 5,
+    "skip_summary": False,
+    "dataset": "train"
+})
+def evaluate_paperqa2_custom(
+    model: str = "gpt-4o-mini",
+    evidence_k: int = 30,
+    max_sources: int = 5,
+    skip_summary: bool = False,
+    dataset: str = "train"
+):
     """Task to evaluate PaperQA2 on multiple choice biology questions"""
-    dataset = json_dataset("/Users/apple/Documents/GitLab_Projects/master_project/xx823/Reproduction/Questions/formatted_questions_test/questions.jsonl", record_to_sample)
+    dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
+
+    timestamp = datetime.datetime.now().strftime("%Y%m%d")
+    experiment_name = f"paperqa2_{model}_evK{evidence_k}_maxS{max_sources}_skip{skip_summary}_dataset{dataset}_{timestamp}"
+    # Add file to store results
+
     
     return Task(
         dataset=dataset,
         solver=bridge(paperqa2_agent()),
         scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
         epochs=Epochs(1, "mode"),
+        metadata={"experiment_name": experiment_name}
     )
 
-# # Keep the built-in multiple_choice solver task for comparison
+# # # Keep the built-in multiple_choice solver task for comparison
 # @task
 # def evaluate_paperqa2_mc():
 #     """Alternative task using built-in multiple_choice solver"""
 #     dataset = json_dataset("/Users/apple/Documents/GitLab_Projects/master_project/xx823/Reproduction/Questions/formatted_questions_test/questions.jsonl", record_to_sample)
-    
+
 #     return Task(
 #         dataset=dataset,
 #         solver=[multiple_choice(template=MULTIPLE_CHOICE_TEMPLATE, cot=True)],
