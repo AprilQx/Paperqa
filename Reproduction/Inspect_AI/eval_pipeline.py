@@ -132,9 +132,9 @@ def paperqa2_agent():
         },
     },
     answer=AnswerSettings(
-        evidence_k=5, #top_k
+        evidence_k=30, #top_k
         answer_max_sources=15,#max_cut_off in the figure
-        evidence_skip_summary=False),
+        evidence_skip_summary=True),
     agent=AgentSettings(
         agent_llm="gpt-4o-mini",
         agent_llm_config={
@@ -177,8 +177,6 @@ def paperqa2_agent():
             transcript().info(f"Using index: {settings.get_index_name()}")
             index_files = await built_index.index_files
             transcript().info(f"Indexed {len(index_files)} files")
-
-                
             index_built = True
         return built_index
     
@@ -353,45 +351,45 @@ def paperqa2_agent():
     return run
 
     
-@task(parameters={
-    "model": "gpt-4o-mini",
-    "evidence_k": 5,
-    "max_sources": 15,
-    "skip_summary": False,
-    "dataset": "train"
-})
-def evaluate_paperqa2_custom(
-    model: str = "gpt-4o-mini",
-    evidence_k: int = 5,
-    max_sources: int = 15,
-    skip_summary: bool = False,
-    dataset: str = "train"
-):
-    """Task to evaluate PaperQA2 on multiple choice biology questions"""
-    dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
+# @task(parameters={
+#     "model": "gpt-4o-mini",
+#     "evidence_k": 30,
+#     "max_sources": 15,
+#     "skip_summary": True,
+#     "dataset": "train"
+# })
+# def evaluate_paperqa2_custom(
+#     model: str = "gpt-4o-mini",
+#     evidence_k: int = 30,
+#     max_sources: int = 15,
+#     skip_summary: bool = True,
+#     dataset: str = "train"
+# ):
+#     """Task to evaluate PaperQA2 on multiple choice biology questions"""
+#     dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
 
-    timestamp = datetime.datetime.now().strftime("%Y%m%d")
-    experiment_name = f"paperqa2_{model}_evK{evidence_k}_maxS{max_sources}_skip{skip_summary}_dataset{dataset}_{timestamp}"
-    # Add file to store results
+#     timestamp = datetime.datetime.now().strftime("%Y%m%d")
+#     experiment_name = f"paperqa2_{model}_evK{evidence_k}_maxS{max_sources}_skip{skip_summary}_dataset{dataset}_{timestamp}"
+#     # Add file to store results
 
     
-    return Task(
-        dataset=dataset,
-        solver=bridge(paperqa2_agent()),
-        scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
-        epochs=Epochs(1, "mode"),
-        metadata={"experiment_name": experiment_name}
-    )
-
-# # # Keep the built-in multiple_choice solver task for comparison
-# @task
-# def evaluate_paperqa2_mc():
-#     """Alternative task using built-in multiple_choice solver"""
-#     dataset = json_dataset("/Users/apple/Documents/GitLab_Projects/master_project/xx823/Reproduction/Questions/formatted_questions_test/questions.jsonl", record_to_sample)
-
 #     return Task(
 #         dataset=dataset,
-#         solver=[multiple_choice(template=MULTIPLE_CHOICE_TEMPLATE, cot=True)],
+#         solver=bridge(paperqa2_agent()),
 #         scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
 #         epochs=Epochs(1, "mode"),
+#         metadata={"experiment_name": experiment_name}
 #     )
+
+# # # Keep the built-in multiple_choice solver task for comparison
+@task
+def evaluate_paperqa2_mc():
+    """Alternative task using built-in multiple_choice solver"""
+    dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
+
+    return Task(
+        dataset=dataset,
+        solver=[multiple_choice(template=MULTIPLE_CHOICE_TEMPLATE, cot=True)],
+        scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
+        epochs=Epochs(1, "mode"),
+    )

@@ -40,8 +40,8 @@ os.environ["AUTOGEN_USE_DOCKER"] = "False"
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
-PAPERS_DIR = os.path.join(PROJECT_ROOT, 'papers')
-QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'Reproduction', 'Questions', 'formatted_questions_test', 'questions.jsonl')
+PAPERS_DIR = os.path.join(PROJECT_ROOT, 'data','LitQA2_pdfs')
+QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'data', 'Questions', 'formatted_questions', 'questions.jsonl')
 
 # Define structured output models
 class Evidence(BaseModel):
@@ -373,14 +373,14 @@ def evaluate_paperqa2_custom(
     )
 
 # # Keep the built-in multiple_choice solver task for comparison
-# @task
-# def evaluate_paperqa2_mc():
-#     """Alternative task using built-in multiple_choice solver"""
-#     dataset = json_dataset("/Users/apple/Documents/GitLab_Projects/master_project/xx823/Reproduction/Questions/formatted_questions_test/questions.jsonl", record_to_sample)
+@task
+def evaluate_paperqa2_mc():
+    """Alternative task using built-in multiple_choice solver"""
+    dataset = json_dataset("/Users/apple/Documents/GitLab_Projects/master_project/xx823/Reproduction/Questions/formatted_questions_test/questions.jsonl", record_to_sample)
     
-#     return Task(
-#         dataset=dataset,
-#         solver=[multiple_choice(template=MULTIPLE_CHOICE_TEMPLATE, cot=True)],
-#         scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
-#         epochs=Epochs(1, "mode"),
-#     )
+    return Task(
+        dataset=dataset,
+        solver=[multiple_choice(template=MULTIPLE_CHOICE_TEMPLATE, cot=True)],
+        scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
+        epochs=Epochs(1, "mode"),
+    )
