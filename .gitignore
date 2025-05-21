@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Environment variables
 .env
 .env.*
@@ -14,7 +13,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
-=======
 # Swap
 [._]*.s[a-v][a-z]
 !*.svg  # comment out if you don't need vector files
@@ -158,7 +156,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
->>>>>>> 4e8a86eac510c13f40b9edf6c185a81fdbc01c5b
 .Python
 build/
 develop-eggs/
@@ -172,7 +169,6 @@ parts/
 sdist/
 var/
 wheels/
-<<<<<<< HEAD
 *.egg-info/
 .installed.cfg
 *.egg
@@ -193,7 +189,7 @@ Thumbs.db
 # Project specific
 *.log
 logs/
-data/
+
 output/
 results/
 tmp/
@@ -355,4 +351,3 @@ cython_debug/
 
 # Version files made by setuptools_scm
 **/version.py
->>>>>>> 4e8a86eac510c13f40b9edf6c185a81fdbc01c5b

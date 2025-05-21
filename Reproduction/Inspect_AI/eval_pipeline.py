@@ -41,8 +41,8 @@ os.environ["AUTOGEN_USE_DOCKER"] = "False"
 #change the path of papers
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
-PAPERS_DIR = os.path.join(PROJECT_ROOT, 'data', 'LitQA2_pdfs')
-QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'data', 'Questions', 'formatted_questions', 'questions.jsonl')
+PAPERS_DIR = os.path.join(PROJECT_ROOT, 'data', 'papers')
+QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'data', 'Questions', 'formatted_questions_test', 'questions.jsonl')
 #Multiple choice template for multiple choice in Instect AI
 
 MULTIPLE_CHOICE_TEMPLATE = """
@@ -120,10 +120,10 @@ def paperqa2_agent():
                     "max_tokens": 4096,
                 },
             }
-        ],
-        "rate_limit": {
-            "gpt-4o-mini": "30000 per 1 minute",
-        },
+        ]
+        # "rate_limit": {
+        #     "gpt-4o-mini": "30000 per 1 minute",
+        # },
     },
     summary_llm="gpt-4o-mini",
     summary_llm_config={
@@ -134,7 +134,7 @@ def paperqa2_agent():
     answer=AnswerSettings(
         evidence_k=30, #top_k
         answer_max_sources=15,#max_cut_off in the figure
-        evidence_skip_summary=True),
+        evidence_skip_summary=False),
     agent=AgentSettings(
         agent_llm="gpt-4o-mini",
         agent_llm_config={
@@ -143,7 +143,7 @@ def paperqa2_agent():
             },
         }
     ),
-    embedding="text-embedding-3-small",
+    embedding="text-embedding-3-large",
     temperature=0.5,  # Keep deterministic
     paper_directory=PAPERS_DIR)
 
@@ -351,45 +351,45 @@ def paperqa2_agent():
     return run
 
     
-# @task(parameters={
-#     "model": "gpt-4o-mini",
-#     "evidence_k": 30,
-#     "max_sources": 15,
-#     "skip_summary": True,
-#     "dataset": "train"
-# })
-# def evaluate_paperqa2_custom(
-#     model: str = "gpt-4o-mini",
-#     evidence_k: int = 30,
-#     max_sources: int = 15,
-#     skip_summary: bool = True,
-#     dataset: str = "train"
-# ):
-#     """Task to evaluate PaperQA2 on multiple choice biology questions"""
-#     dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
-
-#     timestamp = datetime.datetime.now().strftime("%Y%m%d")
-#     experiment_name = f"paperqa2_{model}_evK{evidence_k}_maxS{max_sources}_skip{skip_summary}_dataset{dataset}_{timestamp}"
-#     # Add file to store results
-
-    
-#     return Task(
-#         dataset=dataset,
-#         solver=bridge(paperqa2_agent()),
-#         scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
-#         epochs=Epochs(1, "mode"),
-#         metadata={"experiment_name": experiment_name}
-#     )
-
-# # # Keep the built-in multiple_choice solver task for comparison
-@task
-def evaluate_paperqa2_mc():
-    """Alternative task using built-in multiple_choice solver"""
+@task(parameters={
+    "model": "gpt-4o-mini",
+    "evidence_k": 30,
+    "max_sources": 15,
+    "skip_summary": False,
+    "dataset": "test"
+})
+def evaluate_paperqa2_custom(
+    model: str = "gpt-4o-mini",
+    evidence_k: int = 30,
+    max_sources: int = 15,
+    skip_summary: bool = False,
+    dataset: str = "test"
+):
+    """Task to evaluate PaperQA2 on multiple choice biology questions"""
     dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
 
+    timestamp = datetime.datetime.now().strftime("%Y%m%d")
+    experiment_name = f"paperqa2_{model}_evK{evidence_k}_maxS{max_sources}_skip{skip_summary}_dataset{dataset}_{timestamp}"
+    # Add file to store results
+
+    
     return Task(
         dataset=dataset,
-        solver=[multiple_choice(template=MULTIPLE_CHOICE_TEMPLATE, cot=True)],
+        solver=bridge(paperqa2_agent()),
         scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
         epochs=Epochs(1, "mode"),
+        metadata={"experiment_name": experiment_name}
     )
+
+# # # Keep the built-in multiple_choice solver task for comparison
+# @task
+# def evaluate_paperqa2_mc():
+#     """Alternative task using built-in multiple_choice solver"""
+#     dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
+
+#     return Task(
+#         dataset=dataset,
+#         solver=[multiple_choice(template=MULTIPLE_CHOICE_TEMPLATE, cot=True)],
+#         scorer=precision_choice(no_answer=UNCERTAIN_ANSWER_CHOICE),
+#         epochs=Epochs(1, "mode"),
+#     )
