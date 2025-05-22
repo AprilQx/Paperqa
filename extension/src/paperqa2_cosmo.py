@@ -67,7 +67,8 @@ def record_to_sample(record: dict[str, Any]) -> Sample:
         metadata={
             "citations": record.get("citations", ""),
             "ideal": record["ideal"],
-            "key_passage": record.get("key_passage", None)
+            "key_passage": record.get("key_passage", None),
+            "source_file": record.get("source_file", None)
         }
     )
 
@@ -167,7 +168,7 @@ def paperqa2_summary_agent():
             transcript().warning("No target/ideal answer found for this question!")
         citations = sample.get("metadata", {}).get("citations", "")
         key_passage = sample.get("metadata", {}).get("key_passage", None)
-    
+        source_file = sample.get("metadata", {}).get("source_file", None)
         transcript().info(f"Processing question: {question[:50]}...")
         
         try:
@@ -308,6 +309,7 @@ def paperqa2_summary_agent():
                 "paperqa2_answer": answer,
                 "ideal_answer": target,
                 "expected_citations": citations,
+                "source_file": source_file,
                 "key_passage": key_passage,
                 "evaluation": evaluation_result,
                 "timestamp": datetime.datetime.now().isoformat()
