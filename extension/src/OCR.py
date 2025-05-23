@@ -166,9 +166,9 @@ class MistralOCRProcessor:
             output_path: Path to save the JSON file
         """
         try:
-            with open(OCR_OUTPUT_DIR, 'w', encoding='utf-8') as f:
+            with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False)
-            logger.info(f"Saved JSON output to {OCR_OUTPUT_DIR}")
+            logger.info(f"Saved JSON output to {output_path}")
         except Exception as e:
             logger.error(f"Error saving JSON output: {str(e)}")
             raise
@@ -191,6 +191,9 @@ def process_all_pdfs() -> List[str]:
     # Find all PDF files in the directory
     pdf_files = [f for f in os.listdir(PAPERS_DIR) if f.lower().endswith('.pdf')]
     
+    # URL mapping
+    url_map = {}  # filename -> url
+    
     for pdf_file in pdf_files:
         pdf_path = os.path.join(PAPERS_DIR, pdf_file)
         output_filename = f"{os.path.splitext(pdf_file)[0]}_ocr.json"
@@ -211,10 +214,23 @@ def process_all_pdfs() -> List[str]:
             processor.save_to_json(structured_content, output_path)
             output_files.append(output_path)
             
+            # Get the URL for the processed PDF
+            url = processor.client.files.get_signed_url(file_id=structured_content["filename"]).url
+            url_map[pdf_file] = url
+            
             # Sleep to avoid rate limiting
             time.sleep(1)
         except Exception as e:
             logger.error(f"Error processing {pdf_file}: {str(e)}")
+    
+    # Save the mapping to a JSON file
+    try:
+        url_json_path = os.path.join(OCR_OUTPUT_DIR, 'ocr_pdf_urls.json')
+        with open(url_json_path, 'w', encoding='utf-8') as f:
+            json.dump(url_map, f, indent=2, ensure_ascii=False)
+        logger.info(f"Saved URL mapping to {url_json_path}")
+    except Exception as e:
+        logger.error(f"Error saving URL mapping: {str(e)}")
     
     return output_files
 

@@ -6,6 +6,7 @@ import nest_asyncio
 from shortuuid import uuid
 from typing import Any, Dict, List, Optional, Tuple, Union
 import datetime
+import logging
 
 from inspect_ai import Task, task, Epochs
 from inspect_ai.dataset import Dataset, Sample
@@ -32,10 +33,15 @@ os.environ["AUTOGEN_USE_DOCKER"] = "False"
 
 # Path configurations
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..', '..'))
-PAPERS_DIR = os.path.join(PROJECT_ROOT, 'data', 'cosmopaperqa_paper')
+PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, '..','..'))
+OCR_OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'data', 'ocr_output')
 QUESTIONS_FILE = os.path.join(PROJECT_ROOT, 'data', 'formatted_summary_questions', 'summary_questions.jsonl')
-RESULTS_DIR = os.path.join(PROJECT_ROOT, 'extension','results', 'summary_evaluations_paperqa2')
+RESULTS_DIR = os.path.join(PROJECT_ROOT, 'extension', 'results', 'summary_evaluations_paperqa2_ocr')
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, 
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("PaperQA2_OCR")
 
 # Ensure results directory exists
 os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -44,16 +50,16 @@ os.makedirs(RESULTS_DIR, exist_ok=True)
 class SummaryEvaluation(BaseModel):
     """Structured evaluation of a scientific summary"""
     conciseness_score: int = Field(
-        description="Conciseness score (0-5), where 5 is optimally concise without missing important information", 
-        ge=0, le=5
+        description="Conciseness score (1-5), where 5 is optimally concise without missing important information", 
+        ge=1, le=5
     )
     accuracy_score: int = Field(
-        description="Factual accuracy score (0-90), where 90 means perfectly matching the ideal answer", 
-        ge=0, le=90
+        description="Factual accuracy score (1-90), where 90 means perfectly matching the ideal answer", 
+        ge=1, le=90
     )
     citation_score: int = Field(
-        description="Citation quality score (0-5), where 5 means all claims are properly cited to reliable sources", 
-        ge=0, le=5
+        description="Citation quality score (1-5), where 5 means all claims are properly cited to reliable sources", 
+        ge=1, le=5
     )
     rationale: str = Field(
         description="Brief explanation of the evaluation scores and comparison with ideal answer"
@@ -72,8 +78,8 @@ def record_to_sample(record: dict[str, Any]) -> Sample:
         }
     )
 
-def paperqa2_summary_agent():
-    """Agent function for PaperQA2 that generates and evaluates summaries"""
+def paperqa2_ocr_summary_agent():
+    """Agent function for PaperQA2 that generates and evaluates summaries using OCR-processed documents"""
     # Initialize settings and state
     settings = Settings(
         llm="gpt-4o-mini",
@@ -106,30 +112,34 @@ def paperqa2_summary_agent():
         ),
         embedding="text-embedding-3-small",
         temperature=0.5,  # Keep deterministic
-        paper_directory=PAPERS_DIR
+        paper_directory=OCR_OUTPUT_DIR  # Using OCR output directory instead of original papers
     )
     
     index_built = False
     
     async def build_index():
-        """Build PaperQA2 document index"""
+        """Build PaperQA2 document index for OCR-processed files"""
         nonlocal index_built
         if not index_built:
-            transcript().info("Building PaperQA2 document index...")
+            transcript().info("Building PaperQA2 document index for OCR-processed files...")
             
             index_settings = Settings(
-                paper_directory=PAPERS_DIR,
+                paper_directory=OCR_OUTPUT_DIR,
                 agent={"index": {
                     "sync_with_paper_directory": True,
                     "recurse_subdirectories": True
                 }}
             )
             
-            if not os.path.exists(PAPERS_DIR):
-                transcript().error(f"Papers directory not found: {PAPERS_DIR}")
-                raise FileNotFoundError(f"Papers directory not found: {PAPERS_DIR}")
+            if not os.path.exists(OCR_OUTPUT_DIR):
+                transcript().error(f"OCR output directory not found: {OCR_OUTPUT_DIR}")
+                raise FileNotFoundError(f"OCR output directory not found: {OCR_OUTPUT_DIR}")
                 
-            transcript().info(f"Files in {PAPERS_DIR}: {os.listdir(PAPERS_DIR)[:5]}")
+            # List all txt files in OCR output directory
+            txt_files = [f for f in os.listdir(OCR_OUTPUT_DIR) if f.endswith('.txt')]
+            transcript().info(f"Found {len(txt_files)} text files in {OCR_OUTPUT_DIR}")
+            if txt_files:
+                transcript().info(f"Sample files: {txt_files[:5]}")
             
             built_index = await get_directory_index(settings=index_settings)
             transcript().info(f"Using index: {index_settings.get_index_name()}")
@@ -152,7 +162,6 @@ def paperqa2_summary_agent():
         question = question_match.group(1).strip() if question_match else user_message
         
         # Get target (ideal answer) and metadata
-        # More robust way to get the target answer
         target = ""
         if "target" in sample and sample["target"]:
             target = sample["target"]
@@ -227,14 +236,14 @@ def paperqa2_summary_agent():
             )
             
             async def query_paperqa(query: str) -> str:
-                """Query PaperQA2 for scientific evidence"""
-                transcript().info(f"Searching papers for: {query[:50]}...")
+                """Query PaperQA2 for scientific evidence using OCR-processed documents"""
+                transcript().info(f"Searching OCR-processed papers for: {query[:50]}...")
                 nest_asyncio.apply()
                 response = ask(query, settings=settings)
                 return response.dict()['session']['answer']
             
-            # Get PaperQA2 answer
-            transcript().info("Getting answer from PaperQA2...")
+            # Get PaperQA2 answer using OCR-processed documents
+            transcript().info("Getting answer from PaperQA2 using OCR documents...")
             ai_judge.register_function(function_map={"query_paperqa": query_paperqa})
             evidence_query = f"Just answer from scientific papers about: {question}, and be concise. No other information is needed to provide except the brief evidence from the paper. Try to return the chapter and section number of the paper if possible."
             answer = await query_paperqa(evidence_query)
@@ -253,7 +262,7 @@ def paperqa2_summary_agent():
 
             QUESTION: {question}
 
-            PAPERQA2 ANSWER:
+            PAPERQA2 OCR-BASED ANSWER:
             {answer}
 
             IDEAL ANSWER:
@@ -265,12 +274,12 @@ def paperqa2_summary_agent():
             {key_passage_text}
 
             Evaluate based on:
-            1. Conciseness (0-5)
-            2. Accuracy compared to ideal answer (0-90)
-            3. Citation quality (0-5)
+            1. Conciseness (1-5)
+            2. Accuracy compared to ideal answer (1-90)
+            3. Citation quality (1-5)
 
             Provide detailed rationale for your scores."""
-            # Register the function to query PaperQA2        
+            
             # Reset agents for evaluation
             user_proxy.reset()
             ai_judge.reset()
@@ -298,12 +307,12 @@ def paperqa2_summary_agent():
                         transcript().info("Failed to parse evaluation function arguments")
             
             # Save results to file
-            result_id = f"summary_{uuid()[:8]}"
+            result_id = f"ocr_summary_{uuid()[:8]}"
             result_file = os.path.join(RESULTS_DIR, f"{result_id}.json")
             
             result_data = {
                 "question": question,
-                "paperqa2_answer": answer,
+                "paperqa2_ocr_answer": answer,
                 "ideal_answer": target,
                 "expected_citations": citations,
                 "source_file": source_file,
@@ -323,7 +332,7 @@ def paperqa2_summary_agent():
                 conciseness_score = evaluation_result.get('conciseness_score', 0)
                 citation_score = evaluation_result.get('citation_score', 0) 
                 # Normalize to 0-1 range for compatibility with Inspect-AI scoring
-                normalized_score = (accuracy_score + conciseness_score + citation_score) / 15.0
+                normalized_score = (accuracy_score + conciseness_score + citation_score) / 100.0
                 
                 return {
                     "output": answer,
@@ -340,7 +349,7 @@ def paperqa2_summary_agent():
         
                 
         except Exception as e:
-            transcript().error(f"Error in PaperQA2 summary evaluation: {str(e)}")
+            transcript().error(f"Error in PaperQA2 OCR summary evaluation: {str(e)}")
             import traceback
             transcript().error(f"Traceback: {traceback.format_exc()}")
             return {"output": str(e), "score": 0.0}
@@ -348,23 +357,40 @@ def paperqa2_summary_agent():
     return run
 
 @task
-def evaluate_summary_answers(
+def evaluate_ocr_summary_answers(
     model: str = "gpt-4o-mini",
     evidence_k: int = 30,
     max_sources: int = 15,
     skip_summary: bool = False,
     accuracy_threshold: float = 0.5
 ):
-    """Task to evaluate PaperQA2's cosmology summaries against ideal answers"""
+    """Task to evaluate PaperQA2's cosmology summaries using OCR-processed documents against ideal answers"""
     dataset = json_dataset(QUESTIONS_FILE, record_to_sample)
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    experiment_name = f"paperqa2_summary_eval_{model}_evK{evidence_k}_maxS{max_sources}_{timestamp}"
+    experiment_name = f"paperqa2_ocr_summary_eval_{model}_evK{evidence_k}_maxS{max_sources}_{timestamp}"
     
     return Task(
         dataset=dataset,
-        solver=bridge(paperqa2_summary_agent()),
+        solver=bridge(paperqa2_ocr_summary_agent()),
         scorer=summary_quality_scorer(accuracy_threshold=accuracy_threshold),
         epochs=Epochs(1, "mode"),
         metadata={"experiment_name": experiment_name}
     )
+
+if __name__ == "__main__":
+    logger.info(f"Starting PaperQA2 OCR evaluation script")
+    logger.info(f"OCR output directory: {OCR_OUTPUT_DIR}")
+    
+    # Check if OCR output directory exists and count text files
+    if not os.path.exists(OCR_OUTPUT_DIR):
+        logger.error(f"OCR output directory not found: {OCR_OUTPUT_DIR}")
+        exit(1)
+    
+    txt_files = [f for f in os.listdir(OCR_OUTPUT_DIR) if f.endswith('.txt')]
+    logger.info(f"Found {len(txt_files)} text files in OCR output directory")
+    
+    # Run the evaluation task
+    logger.info("Running OCR-based summary evaluation task...")
+    task_instance = evaluate_ocr_summary_answers()
+    # Note: The actual execution would be handled by the Inspect-AI framework
