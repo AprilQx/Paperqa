@@ -16,7 +16,7 @@ from inspect_ai.agent import bridge
 from inspect_ai.dataset import Sample, json_dataset
 from inspect_ai.model import ModelOutput, StopReason
 
-from paperqa import ask
+from paperqa.agents import ask
 from paperqa.agents.main import agent_query
 from paperqa.agents.search import get_directory_index
 from paperqa.settings import Settings, AgentSettings
@@ -70,6 +70,45 @@ def record_to_sample(record: dict[str, Any]) -> Sample:
             "key_passage": record.get("key_passage", None),
             "source_file": record.get("source_file", None)
         }
+    )
+def create_ai_judge_agent():
+    """Create and return an AI judge agent for summary evaluation."""
+    system_message = """You are an expert scientific evaluator assessing the quality of scientific summaries against reference answers.
+
+Your task is to evaluate responses using three critical criteria on a numerical scale:
+
+1. CONCISENESS (0-5):
+- 5: Perfectly concise with complete key information
+- 2-4: Generally good but contains some unnecessary details or slightly lacking
+- 0-2: Extremely wordy or missing most critical information
+
+2. ACCURACY (0-90):
+-70-90: Excellent accuracy (80-90: minor issues, 70-79: virtually perfect)
+-50-69: Moderate accuracy with notable errors or omissions
+-20-49: Significant factual problems or misunderstandings
+-0-19: Fundamentally flawed or contradicts reference answer
+
+3. CITATION QUALITY (0-5):
+- 5: Exemplary citation practice (specific, relevant, comprehensive)
+- 2-5: Adequate citation with room for improvement
+- 0-2: Severely lacking or inappropriate citations
+
+EVALUATION GUIDELINES:
+- Focus on factual alignment rather than exact wording or phrasing
+- For mathematical content, verify formula correctness including LaTeX syntax and notation
+- Citation formats may vary (e.g., "p6; sec2.2.1" or "Smith et al., 2023, p.45")
+"""
+    return AssistantAgent(
+        name="ai_judge",
+        system_message=system_message,
+        llm_config={
+                    "model": "gpt-4o",
+                    "temperature": 0.1,
+                    "functions": [
+                        {"name": "evaluate_summary", "parameters": SummaryEvaluation.model_json_schema()}
+                    ],
+                    "function_call": {"name": "evaluate_summary"}
+                }
     )
 
 def paperqa2_summary_agent():
@@ -172,59 +211,60 @@ def paperqa2_summary_agent():
         transcript().info(f"Processing question: {question[:50]}...")
         
         try:
-            # Create AI agents for evaluation
-            ai_judge = AssistantAgent(
-                name="ai_judge",
-                system_message="""You are an expert scientific evaluator assessing the quality of scientific summaries against reference answers.
+            # # Create AI agents for evaluation
+            # ai_judge = create_ai_judge_agent()
+            # # ai_judge = AssistantAgent(
+            # #     name="ai_judge",
+            # #     system_message="""You are an expert scientific evaluator assessing the quality of scientific summaries against reference answers.
 
-                Your task is to evaluate responses using three critical criteria on a numerical scale:
+            # #     Your task is to evaluate responses using three critical criteria on a numerical scale:
 
-                1. CONCISENESS (0-5):
-                - 5: Perfectly concise with complete key information
-                - 2-4: Generally good but contains some unnecessary details or slightly lacking
-                - 0-2: Extremely wordy or missing most critical information
+            # #     1. CONCISENESS (0-5):
+            # #     - 5: Perfectly concise with complete key information
+            # #     - 2-4: Generally good but contains some unnecessary details or slightly lacking
+            # #     - 0-2: Extremely wordy or missing most critical information
                 
-                2. ACCURACY (0-90):
-                -70-90: Excellent accuracy (80-90: minor issues, 70-79: virtually perfect)
-                -50-69: Moderate accuracy with notable errors or omissions
-                -20-49: Significant factual problems or misunderstandings
-                -0-19: Fundamentally flawed or contradicts reference answer
-                3. CITATION QUALITY (0-5):
-                - 5: Exemplary citation practice (specific, relevant, comprehensive)
-                - 2-5: Adequate citation with room for improvement
-                - 0-2: Severely lacking or inappropriate citations
+            # #     2. ACCURACY (0-90):
+            # #     -70-90: Excellent accuracy (80-90: minor issues, 70-79: virtually perfect)
+            # #     -50-69: Moderate accuracy with notable errors or omissions
+            # #     -20-49: Significant factual problems or misunderstandings
+            # #     -0-19: Fundamentally flawed or contradicts reference answer
+            # #     3. CITATION QUALITY (0-5):
+            # #     - 5: Exemplary citation practice (specific, relevant, comprehensive)
+            # #     - 2-5: Adequate citation with room for improvement
+            # #     - 0-2: Severely lacking or inappropriate citations
 
-                EVALUATION GUIDELINES:
-                - Focus on factual alignment rather than exact wording or phrasing
-                - For mathematical content, verify formula correctness including LaTeX syntax and notation
-                - Citation formats may vary (e.g., "p6; sec2.2.1" or "Smith et al., 2023, p.45")
-                - Consider partial credit when citations are present but incomplete
-                - When key passages are specified, ensure the evaluation emphasizes coverage of that material
-                - Balance technical accuracy with accessibility of explanation
+            # #     EVALUATION GUIDELINES:
+            # #     - Focus on factual alignment rather than exact wording or phrasing
+            # #     - For mathematical content, verify formula correctness including LaTeX syntax and notation
+            # #     - Citation formats may vary (e.g., "p6; sec2.2.1" or "Smith et al., 2023, p.45")
+            # #     - Consider partial credit when citations are present but incomplete
+            # #     - When key passages are specified, ensure the evaluation emphasizes coverage of that material
+            # #     - Balance technical accuracy with accessibility of explanation
 
-                For each criterion, provide:
-                1. A numerical score within the specified range
-                2. A brief rationale (2-3 sentences) explaining your reasoning
-                3. At least one specific example from the text supporting your assessment.
+            # #     For each criterion, provide:
+            # #     1. A numerical score within the specified range
+            # #     2. A brief rationale (2-3 sentences) explaining your reasoning
+            # #     3. At least one specific example from the text supporting your assessment.
 
-                """,
-                llm_config={
-                    "model": "gpt-4o",
-                    "temperature": 0.1,
-                    "functions": [
-                        {"name": "evaluate_summary", "parameters": SummaryEvaluation.model_json_schema()}
-                    ],
-                    "function_call": {"name": "evaluate_summary"}
-                }
-            )
+            # #     """,
+            # #     llm_config={
+            # #         "model": "gpt-4o",
+            # #         "temperature": 0.1,
+            # #         "functions": [
+            # #             {"name": "evaluate_summary", "parameters": SummaryEvaluation.model_json_schema()}
+            # #         ],
+            # #         "function_call": {"name": "evaluate_summary"}
+            # #     }
+            # # )
             
-            user_proxy = UserProxyAgent(
-                name="user",
-                human_input_mode="NEVER",
-                max_consecutive_auto_reply=10,
-                is_termination_msg=lambda x: True if "TERMINATE" in x.get("content", "") else False,
-                code_execution_config={"use_docker": False}
-            )
+            # user_proxy = UserProxyAgent(
+            #     name="user",
+            #     human_input_mode="NEVER",
+            #     max_consecutive_auto_reply=10,
+            #     is_termination_msg=lambda x: True if "TERMINATE" in x.get("content", "") else False,
+            #     code_execution_config={"use_docker": False}
+            # )
             
             async def query_paperqa(query: str) -> str:
                 """Query PaperQA2 for scientific evidence"""
@@ -235,67 +275,67 @@ def paperqa2_summary_agent():
             
             # Get PaperQA2 answer
             transcript().info("Getting answer from PaperQA2...")
-            ai_judge.register_function(function_map={"query_paperqa": query_paperqa})
+            # ai_judge.register_function(function_map={"query_paperqa": query_paperqa})
             evidence_query = f"Just answer from scientific papers about: {question}, and be concise. No other information is needed to provide except the brief evidence from the paper. Try to return the chapter and section number of the paper if possible."
             answer = await query_paperqa(evidence_query)
     
             transcript().info(f"PaperQA2 answer received ({len(answer)} chars)")
             
-            # Now have the AI judge evaluate the answer
-            transcript().info("AI judge evaluating answer quality...")
+            # # Now have the AI judge evaluate the answer
+            # transcript().info("AI judge evaluating answer quality...")
             
-            # Format the evaluation task
-            key_passage_text = f"KEY PASSAGE FROM SOURCE:\n{key_passage}" if key_passage else "No specific key passage provided."
+            # # Format the evaluation task
+            # key_passage_text = f"KEY PASSAGE FROM SOURCE:\n{key_passage}" if key_passage else "No specific key passage provided."
 
-            # Then use it in your f-string:
-            evaluation_task = f"""
-            Please evaluate this scientific answer against the ideal answer:
+            # # Then use it in f-string:
+            # evaluation_task = f"""
+            # Please evaluate this scientific answer against the ideal answer:
 
-            QUESTION: {question}
+            # QUESTION: {question}
 
-            PAPERQA2 ANSWER:
-            {answer}
+            # PAPERQA2 ANSWER:
+            # {answer}
 
-            IDEAL ANSWER:
-            {target}
+            # IDEAL ANSWER:
+            # {target}
 
-            EXPECTED CITATIONS:
-            {citations}
+            # EXPECTED CITATIONS:
+            # {citations}
 
-            {key_passage_text}
+            # {key_passage_text}
 
-            Evaluate based on:
-            1. Conciseness (0-5)
-            2. Accuracy compared to ideal answer (0-90)
-            3. Citation quality (0-5)
+            # Evaluate based on:
+            # 1. Conciseness (0-5)
+            # 2. Accuracy compared to ideal answer (0-90)
+            # 3. Citation quality (0-5)
 
-            Provide detailed rationale for your scores."""
-            # Register the function to query PaperQA2        
-            # Reset agents for evaluation
-            user_proxy.reset()
-            ai_judge.reset()
+            # Provide detailed rationale for your scores."""
+            # # Register the function to query PaperQA2        
+            # # Reset agents for evaluation
+            # user_proxy.reset()
+            # ai_judge.reset()
             
-            # Get AI judge evaluation
-            user_proxy.initiate_chat(
-                ai_judge,
-                message=evaluation_task,
-                max_turns=1
-            )
-            transcript().info(f"Chat completed successfully")
-            # Extract evaluation results
-            last_message = ai_judge.last_message()
+            # # Get AI judge evaluation
+            # user_proxy.initiate_chat(
+            #     ai_judge,
+            #     message=evaluation_task,
+            #     max_turns=1
+            # )
+            # transcript().info(f"Chat completed successfully")
+            # # Extract evaluation results
+            # last_message = ai_judge.last_message()
             
-            evaluation_result = None
-            if "function_call" in last_message:
-                function_call = last_message["function_call"]
-                if function_call.get("name") == "evaluate_summary":
-                    try:
-                        evaluation_result = json.loads(function_call.get("arguments", "{}"))
-                        transcript().info(f"Evaluation scores: Conciseness={evaluation_result.get('conciseness_score')}, "
-                                         f"Accuracy={evaluation_result.get('accuracy_score')}, "
-                                         f"Citations={evaluation_result.get('citation_score')}")
-                    except json.JSONDecodeError:
-                        transcript().info("Failed to parse evaluation function arguments")
+            # evaluation_result = None
+            # if "function_call" in last_message:
+            #     function_call = last_message["function_call"]
+            #     if function_call.get("name") == "evaluate_summary":
+            #         try:
+            #             evaluation_result = json.loads(function_call.get("arguments", "{}"))
+            #             transcript().info(f"Evaluation scores: Conciseness={evaluation_result.get('conciseness_score')}, "
+            #                              f"Accuracy={evaluation_result.get('accuracy_score')}, "
+            #                              f"Citations={evaluation_result.get('citation_score')}")
+            #         except json.JSONDecodeError:
+            #             transcript().info("Failed to parse evaluation function arguments")
             
             # Save results to file
             result_id = f"summary_{uuid()[:8]}"
@@ -303,13 +343,13 @@ def paperqa2_summary_agent():
             
             result_data = {
                 "question": question,
-                "paperqa2_answer": answer,
+                "generated_answer": answer,
                 "ideal_answer": target,
                 "expected_citations": citations,
                 "source_file": source_file,
-                "key_passage": key_passage,
-                "evaluation": evaluation_result,
-                "timestamp": datetime.datetime.now().isoformat()
+                "key_passage": key_passage
+                # "evaluation": evaluation_result,
+                #"timestamp": datetime.datetime.now().isoformat()
             }
             
             with open(result_file, 'w') as f:
@@ -317,26 +357,26 @@ def paperqa2_summary_agent():
                 
             transcript().info(f"Saved evaluation results to {result_file}")
 
-            # Return results for Inspect-AI
-            if evaluation_result:
-                accuracy_score = evaluation_result.get('accuracy_score', 0)
-                conciseness_score = evaluation_result.get('conciseness_score', 0)
-                citation_score = evaluation_result.get('citation_score', 0) 
-                # Normalize to 0-1 range for compatibility with Inspect-AI scoring
-                normalized_score = (accuracy_score + conciseness_score + citation_score) / 15.0
+            # # Return results for Inspect-AI
+            # if evaluation_result:
+            #     accuracy_score = evaluation_result.get('accuracy_score', 0)
+            #     conciseness_score = evaluation_result.get('conciseness_score', 0)
+            #     citation_score = evaluation_result.get('citation_score', 0) 
+            #     # Normalize to 0-1 range for compatibility with Inspect-AI scoring
+            #     normalized_score = (accuracy_score + conciseness_score + citation_score) / 15.0
                 
-                return {
-                    "output": answer,
-                    "evaluation": evaluation_result,
-                    "metadata": {
-                        "accuracy_score": accuracy_score,
-                        "conciseness_score": conciseness_score,
-                        "citation_score": citation_score,
-                        "normalized_score": normalized_score
-                    }
-                }
-            else:
-                return {"output": answer}
+            #     return {
+            #         "output": answer,
+            #         "evaluation": evaluation_result,
+            #         "metadata": {
+            #             "accuracy_score": accuracy_score,
+            #             "conciseness_score": conciseness_score,
+            #             "citation_score": citation_score,
+            #             "normalized_score": normalized_score
+            #         }
+            #     }
+            # else:
+            return {"output": answer}
         
                 
         except Exception as e:

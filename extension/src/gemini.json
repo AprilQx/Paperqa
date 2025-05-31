@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "camels-453517",
+  "private_key_id": "83355929bf48d8cd2a20709f5a35b1a6efe58ef0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCfVmtqW5sy6Rd+\nR0lGurMz2tlw2C2mNzmvxly7WL10ddzQisqUzkhD+X/nCKZm9kYOk3DQB71yCp2F\nXTJb1JjCCr+j9bOLLFHUlt1pIr39nAVGb+BqhNa+tu0624oAn4QZ7zAb04V1ymtC\n7RGmOy7K6ZaGcjz76pqkZ8wINVXSQv/4vjVt58dXOcfkWnJjCGd6BXpQGiN92tlP\n1fpOCin8+4DxRw5PRSL7cfVOWYdYDwSOGxE+b8fqzIQ7ToDdMmY8Fq0mXT/MlZdU\nsD983bRqWEbd/VnGQSSiMkRZPrcAfOWRn0IZfNlVMowShciRga57D6PZXB6FxT6g\nBwoeNJIlAgMBAAECggEABj3CmIiCOwYzLSIE3lrMT6+Wx6s0GI1pD/f3ZGrssDM4\nr8jWor8KHh2CXiNHhK4eCY6gGIn2aKaT9n1zePI00e74BD0I0slXjY9OQ21rXz59\nXL209D8uporwSRdV38Hf0Qs+iWx+5GGw02Q0BjH4b9V4Al1XAwV0wr6tGN+L9HUq\n+wnqXLk8XOMWny1Bhuid0uO2axuw31GpcRj7covErnwJPi8cftnCNiQ/mElZeOyY\n3wv1/F8+rrpzu9793ksPG9OMIi0Q63kDe7uuxQJkwJJUIscZePBeZFxDQU+XUoAZ\nXmjRCJgu/p+Uc37HQY6z7PTi+92CRzN9YVzmKQmiaQKBgQDg+IYUwssD+IQ06phP\nmYiHUxSQV6e4kq5NMq3DfjgbQk1jP6DAHyf/TpMUcTaWHzfFLCbKCdfNaT5BipJG\nM01lV8lEfwtc+fdH+S7ILNqHo1eC4nZLArWCSIc9PCAXLi2SIVbh3dxtcRKm+MSV\nu9kPgmw+43xTb5efCfoqRyBLXQKBgQC1UHUm6YekYpQVI5JQgsOjzUTVlAOPRoBQ\ngL046VhSVWN9zDUXpqbvacblZdSbrmzYhP/AYOgErjw7oKpfDRgQTWM+ezSOvj+C\nkOqVUZM5pS4ei9rNCrbjxXZx75HCU0LMdhK65Ba8NHHk2AN9cdBlXVyWganDBXKd\nsqBp8Hq9aQKBgFT9rvHy8W2rmo6/PhF8aHbvbSpm4yc4yv7BMaJUce/iaYggRqOu\nYZbzYV9ssfmfC5vC5ViYxV2F8A4kwsQgp5Gsy43EDU/v43reac0YHOr3S51X3ubR\nvC7fJbB9oYYAXRkC3WbxQVBbUnegLex/ji5s0GYl3RdMZlSgGVGVk17FAoGAPqyn\nMmI7LwmcYoo/Q3FQK0kDaEiXymj2Zd16izet/hfiIlP6bkh/H/cSd61xhrcOjPG8\nbkWRLj0EOSBahCzEiq4Vhj2Ud1swHPP3AtKF78E3Zfu2EHaJrcZOIShM3D1ns8GE\ny/GYIkqGrDI3Up+LB97z6Fq90doKOpTKepRT+TECgYB0/NypDs7vn07f45jVdmNT\nHZt03w/z9e6k1KWQI/teJ7nxE25DO2W6J7CS30G4qrSrXDe44RP9ePuRem9cjPDR\nNNDhjpXTLNMo9/o8lB08XEAbRl6t7p1ebkpp0Jr4Bmj0JhTTVbYFgc7rPkwVvkyU\nQjFdnEwnQWbTSmRUDlGBgQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "camels@camels-453517.iam.gserviceaccount.com",
+  "client_id": "110649935661187278441",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/camels%40camels-453517.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
