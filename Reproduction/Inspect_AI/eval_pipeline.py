@@ -18,7 +18,7 @@ from paperqa import  ask
 from paperqa.agents.main import agent_query
 from paperqa.agents.search import get_directory_index
 from paperqa.settings import Settings, AgentSettings
-from paperqa.settings import AnswerSettings
+from paperqa.settings import AnswerSettings,ParsingSettings
 
 import json
 import nest_asyncio
@@ -143,8 +143,12 @@ def paperqa2_agent():
             },
         }
     ),
-    embedding="text-embedding-3-large",
-    temperature=0.5,  # Keep deterministic
+    chunking=ParsingSettings(
+        chunk_size=5000,
+        overlap=50
+    ),
+    embedding="text-embedding-3-small",  # Use a smaller embedding model for efficiency
+    temperature=0.1,  # Keep deterministic
     paper_directory=PAPERS_DIR)
 
     
@@ -162,6 +166,7 @@ def paperqa2_agent():
                 agent={"index": {
                     "sync_with_paper_directory": True,
                     "recurse_subdirectories": True
+                    #  "concurrency": 1, 
                 }})
          # Check if directory exists
             if not os.path.exists(PAPERS_DIR):
@@ -249,8 +254,8 @@ def paperqa2_agent():
                 """Query PaperQA2 for scientific evidence"""
                 transcript().info(f"Searching papers for: {query[:50]}...")
                 nest_asyncio.apply()
-                response = ask(query, settings=settings)
-                return response.dict()['session']['answer']
+                response = await ask(query, settings=settings)
+                return response.model_dump()['session']['answer']
     
             researcher.register_function(
                 function_map={"query_papers": query_papers}
