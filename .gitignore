@@ -204,7 +204,6 @@ token.json
 
 *.xlsx
 *.xls
-*.pdf
 # Uncomment if you want to track specific data files
 # !data/specific_file.csv
 =======
@@ -351,3 +350,4 @@ cython_debug/
 
 # Version files made by setuptools_scm
 **/version.py
+data/*
