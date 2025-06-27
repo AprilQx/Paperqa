@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scirag"
+version = "0.0.0"
+description = "A short description of your project."
+readme = "README.md"
+requires-python = ">=3.7"
+license = { file = "LICENSE" }
+authors = [{ name = "Your Name", email = "you@example.com" }]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/CMBAgents/scirag"
