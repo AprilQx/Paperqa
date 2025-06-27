@@ -5,6 +5,11 @@ A comprehensive research framework for evaluating Retrieval-Augmented Generation
 ##  Overview
 SciRAG is a comprehensive retrieval-augmented generation (RAG) system specifically designed for scientific research tasks. It combines multiple AI backends with sophisticated document processing and evaluation capabilities to provide accurate, well-sourced answers to scientific questions.
 
+<div align="center">
+  <img src="notebooks/scirag.png" alt="" width="800">
+  <p><em>Scirag Overview</em></p>
+</div>
+
 ### Key Features
 * **Multiple AI Backends**: OpenAI GPT-4, Google Gemini, Vertex AI, Perplexity, and more
 * **Advanced Document Processing**: Support for PDFs, scientific papers, and various document formats
@@ -67,6 +72,7 @@ Gemini RAG System
 ```
 import os
 from dotenv import load_dotenv
+from scirag import SciRagDataSet
 load_dotenv()
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gemini.json"
 
@@ -75,14 +81,23 @@ scirag = SciRagHybrid(
     google_api_key=os.environ.get("GOOGLE_API_KEY")
 )
 
+# Load dataset and ask questions
+dataset = SciRagDataSet()
+qa = dataset.load_dataset()
+
 # Create vector database and query
 scirag.create_vector_db()
-response = scirag.get_response("Your question here")
+# Ask a question
+qid = 4
+question = qa['question'].iloc[qid]
+response = scirag.get_response(question)
+print(response)
 ```
 Vertex AI
 ```
 from scirag import SciRagVertexAI
 scirag = SciRagVertexAI()
+from scirag import SciRagDataSet
 
 # Enhanced query processing
 question = "How large is the impact of beam window functions on the 2018 spectra?"
@@ -93,6 +108,14 @@ PaperQA2 Integration
 ```
 from scirag import SciRagPaperQA2
 paperqa = SciRagPaperQA2()
+
+# Load dataset and ask questions
+dataset = SciRagDataSet()
+qa = dataset.load_dataset()
+
+#ask a question
+qid = 4
+question = qa['question'].iloc[qid]
 
 # Process with timing
 import time
@@ -112,9 +135,16 @@ load_dotenv()
 perplexity = PerplexityAgent(
     api_key=os.environ.get("PERPLEXITY_API_KEY")
 )
+# Load dataset and ask questions
+dataset = SciRagDataSet()
+qa = dataset.load_dataset()
+
+#ask a question
+qid = 4
+question = qa['question'].iloc[qid]
 
 # Get web-enhanced response
-response = perplexity.get_response("Latest developments in quantum computing")
+response = perplexity.get_response(question)
 print(response)
 ```
 
