@@ -191,7 +191,6 @@ Thumbs.db
 logs/
 
 output/
-results/
 tmp/
 
 # API Keys and Secrets
