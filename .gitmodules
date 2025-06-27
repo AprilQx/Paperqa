@@ -1,0 +1,3 @@
+[submodule "scirag"]
+	path = scirag
+	url = https://github.com/CMBAgents/scirag.git
