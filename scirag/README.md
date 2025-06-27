@@ -3,7 +3,7 @@
 A comprehensive research framework for evaluating Retrieval-Augmented Generation (RAG) systems on scientific literature, with particular focus on cosmology and astrophysics papers. This project compares multiple RAG approaches including traditional PDF processing, OCR-enhanced text extraction, and various AI platforms.
 
 ##  Overview
-SciRAG is a comprehensive retrieval-augmented generation (RAG) system specifically designed for scientific research tasks. It combines multiple AI backends with sophisticated document processing and evaluation capabilities to provide accurate, well-sourced answers to scientific questions.
+SciRAG is a comprehensive retrieval-augmented generation (RAG) system specifically designed for scientific research tasks. It combines multiple AI backends with sophisticated document processing and evaluation capabilities to provide accurate, well-sourced answers to scientific questions. We have submitted the work on Scirag to ICML Astrophysics Workshop, and waiting for their response.
 
 <div align="center">
   <img src="notebooks/scirag.png" alt="" width="800">
