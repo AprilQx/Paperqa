@@ -360,6 +360,12 @@ Extension to Astronomy
 3. Multi-System Evaluation: 8 distinct RAG configurations
 4. Domain Expert Assessment: 945 expert evaluations (9 systems × 105 questions)
 
+## Documentation
+Our project includes comprehensive documentation built with Sphinx, covering all aspects of the SciRAG framework and PaperQA2 reproduction study.
+``` bash
+sphinx-build -b html docs docs/_build/html
+open docs/_build/html/index.html 
+```
 ## Contributing
 We welcome contributions! Please see our Contributing Guidelines for details.
 
