@@ -5,6 +5,10 @@ A comprehensive research framework for evaluating Retrieval-Augmented Generation
 ##  Overview
 SciRAG is a comprehensive retrieval-augmented generation (RAG) system specifically designed for scientific research tasks. It combines multiple AI backends with sophisticated document processing and evaluation capabilities to provide accurate, well-sourced answers to scientific questions. We have submitted the work on Scirag to ICML Astrophysics Workshop, and waiting for their response. This astronomical extension work has been accepted at the ICML 2025 Workshop on Machine Learning for Astrophysics. 
 
+
+## AI Declaration
+GitHub Copilot was used during development to assist with code completion, function documentation, debugging, and refactoring suggestions. All AI-generated code underwent thorough review to ensure correctness, adherence to project requirements, and proper error handling. The core algorithms and methodological decisions remain my intellectual contribution, with Copilot serving only as a productivity tool for implementing standard techniques and reducing time spent on repetitive coding tasks.
+
 <div align="center">
   <img src="notebooks/scirag.png" alt="" width="800">
   <p><em>Scirag Overview</em></p>
