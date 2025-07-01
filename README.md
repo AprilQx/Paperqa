@@ -10,6 +10,11 @@ Our research addresses a fundamental question: Can AI achievements in scientific
 * **Domain-specific optimization** is crucial: Commercial systems (OpenAI Assistant: 91.4%, VertexAI: 86.7%) significantly outperformed PaperQA2 (81.9%) on astronomical tasks
 * **Cost-performance insights**: VertexAI optimal for cost-conscious applications (13.3× cost advantage)
 
+###  Research Impact & Recognition
+
+* ** ICML 2025 Workshop Acceptance**: This extension work has been accepted for presentation at the **ICML 2025 Workshop on Machine Learning for Astrophysics**, demonstrating its significant contribution to the intersection of AI and astronomical research
+
+
 <div align="center">
   <img src="notebooks/results/paperqa2_performance_on_test.png" alt="PaperQA2 Performance on Test" width="800">
   <p><em>PaperQA2 Performance on Test Dataset</em></p>
